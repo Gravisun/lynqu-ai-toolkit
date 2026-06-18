@@ -3,7 +3,7 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## [1.0.0] - 2026-06-18
 
 ### Added
 - Initial public release of the Lynqu AI Toolkit.
@@ -20,4 +20,4 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - `lynqu-card-studio` — create & update digital business cards conversationally.
 - Prompt library in `examples/prompts.md`.
 
-[Unreleased]: https://github.com/Gravisun/lynqu-ai-toolkit
+[1.0.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.0.0
