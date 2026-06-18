@@ -1,0 +1,9 @@
+{
+  "// note": "Claude Desktop / Claude Code. Prefer the built-in custom connector UI (Settings -> Connectors) which handles OAuth natively. This file is the fallback for config-based setups: it bridges the remote HTTPS server to stdio via mcp-remote, which opens the Lynqu OAuth page on first use. Swap /mcp/v2 for /mcp/me for the personal server.",
+  "mcpServers": {
+    "lynqu": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://api.lynqu.com/mcp/v2"]
+    }
+  }
+}

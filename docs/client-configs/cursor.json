@@ -1,0 +1,8 @@
+{
+  "// note": "Cursor. Place at ~/.cursor/mcp.json (global) or .cursor/mcp.json (per-project). Cursor speaks remote HTTP MCP directly and runs the OAuth sign-in on first use. Swap /mcp/v2 for /mcp/me for the personal server.",
+  "mcpServers": {
+    "lynqu": {
+      "url": "https://api.lynqu.com/mcp/v2"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "// note": "VS Code (GitHub Copilot). Place at .vscode/mcp.json in your workspace. VS Code speaks remote HTTP MCP and runs the OAuth sign-in on first use. Swap /mcp/v2 for /mcp/me for the personal server.",
+  "servers": {
+    "lynqu": {
+      "type": "http",
+      "url": "https://api.lynqu.com/mcp/v2"
+    }
+  }
+}

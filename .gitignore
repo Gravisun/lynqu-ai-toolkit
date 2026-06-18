@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/*
+!.vscode/mcp.json
+*.swp
+
+# Node (only if tooling is added later)
+node_modules/
+npm-debug.log*
+
+# Local env / secrets — never commit
+.env
+.env.*
+*.local
+
+# Scratch
+tmp/
+*.log
