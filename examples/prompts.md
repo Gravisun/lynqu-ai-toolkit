@@ -75,6 +75,22 @@ good starting points.
 > "Update my card's website link and swap the template to something more
 > minimal."
 
+## Deal desk → `lynqu-deal-desk`
+
+> "Acme wants 25 Business seats plus the onboarding package, 10% off
+> onboarding. Put that on their deal and tell me the new total."
+
+> "What's actually in the Northwind quote — line by line — and what's it worth?"
+
+> "Draft a quote on the Contoso deal, valid 30 days, with our standard terms.
+> I'll send it myself."
+
+> "Add 'Premium Support' to the price book at €99/month, then show me
+> everything we sell in euros."
+
+Note the assistant will draft a quote but never send, accept or decline one —
+those stay with you, and it will hand off rather than pretend otherwise.
+
 ## Chaining skills
 
 > "Research 10 fintech targets in London, create leads for the good ones, set
@@ -82,3 +98,8 @@ good starting points.
 
 This naturally walks `lynqu-lead-research` → `lynqu-lead-management` →
 `lynqu-sales-followup`.
+
+> "Pull everything we captured at the summit, qualify the ones with 5+ seats,
+> price the two that asked for a proposal, and draft their quotes."
+
+`lynqu-event-blitz` → `lynqu-lead-management` → `lynqu-deal-desk`.

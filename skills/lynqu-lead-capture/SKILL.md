@@ -40,7 +40,7 @@ deduped leads.
    name/company) before creating. If a match exists, prefer adding context to
    the existing lead (`add-lead-note`) over creating a duplicate. Show the user
    any near-matches and let them decide merge vs. new.
-3. **Pick the destination.** Call `list-lead-environments` and
+3. **Pick the destination.** Call `list-lead-pipelines` and
    `get-pipeline-stages` to choose the right kanban tab + entry stage. Default
    to the org's default environment's first stage unless the user says
    otherwise.
@@ -55,7 +55,7 @@ deduped leads.
 
 ## Tools used
 
-`search-contacts`, `list-contacts`, `list-leads`, `list-lead-environments`,
+`search-contacts`, `list-contacts`, `list-leads`, `list-lead-pipelines`,
 `get-pipeline-stages`, `create-lead`, `add-lead-note`,
 `attach-leads-to-campaign`, `bulk-update-leads`.
 

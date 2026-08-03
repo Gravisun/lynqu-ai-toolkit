@@ -3,6 +3,37 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] - 2026-08-03
+
+### Fixed
+- **Four skills referenced MCP tools that do not exist.** The pipeline tools are
+  named `list-lead-pipelines` / `create-lead-pipeline` / `move-lead-pipeline`;
+  the catalog and `lynqu-lead-capture`, `lynqu-lead-management`,
+  `lynqu-event-blitz` and `lynqu-pipeline-report` all used an older
+  `-environment` spelling, so those steps would have errored at call time.
+  `scripts/validate_skills.py` catches this class of drift and now passes.
+
+### Added
+- `lynqu-deal-desk` skill — browse the price book, put priced lines on a deal,
+  and draft the quote. Documents the two things that trip people up: deal value
+  is the sum of its lines (never set directly), and a price-book item may only
+  be used on a deal in the same currency.
+- Prompt library entries for the deal desk, plus a second skill-chaining
+  example (event blitz → lead management → deal desk).
+- `docs/mcp/authentication.md` now documents the gates that are stricter than
+  the role table: compensation (admin-only to write, admin-or-self to read),
+  add-on-gated categories and their `ADDON_REQUIRED` error, and the actions
+  that have **no tool at all** by design.
+
+### Changed
+- **Tool catalog regenerated from the live server: 55 → 129 organization tools,
+  8 → 9 personal.** v1.0.0 documented roughly 40% of the surface. Whole
+  categories were absent — booking, companies, deals and quotes, the price
+  book, team performance, automation, lead scoring, enrichment, dashboards,
+  file library, access domains, contact points, lead documents and saved views.
+
+[1.1.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.1.0
+
 ## [1.0.0] - 2026-06-18
 
 ### Added

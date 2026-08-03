@@ -23,12 +23,12 @@ right stage, right owner, right tags, no rot.
 ## Prerequisites
 
 - Lynqu MCP connected (`/mcp/v2`). See `../../docs/mcp/connect.md`.
-- AI-tier plan. Note: `assign-lead` and `move-lead-environment` need
+- AI-tier plan. Note: `assign-lead` and `move-lead-pipeline` need
   **manager+**; stage moves and notes are employee-level.
 
 ## Workflow
 
-1. **Map the pipeline.** Call `list-lead-environments` and
+1. **Map the pipeline.** Call `list-lead-pipelines` and
    `get-pipeline-stages` to learn the tabs and columns. Call
    `list-team-members` to get owners (and both `user_id` /
    `organization_user_id`).
@@ -41,7 +41,7 @@ right stage, right owner, right tags, no rot.
 4. **Act, with confirmation.**
    - Advance/correct stage → `update-lead-stage`.
    - Assign/reassign owner → `assign-lead` (uses `user_id`).
-   - Move to a different kanban tab → `move-lead-environment`.
+   - Move to a different kanban tab → `move-lead-pipeline`.
    - Re-tag / set temperature / score in batches → `bulk-update-leads`
      (≤ 100 per call).
    - Log context → `add-lead-note`.
@@ -50,9 +50,9 @@ right stage, right owner, right tags, no rot.
 
 ## Tools used
 
-`list-lead-environments`, `get-pipeline-stages`, `list-team-members`,
+`list-lead-pipelines`, `get-pipeline-stages`, `list-team-members`,
 `list-leads`, `get-lead`, `update-lead-stage`, `assign-lead`,
-`move-lead-environment`, `bulk-update-leads`, `add-lead-note`.
+`move-lead-pipeline`, `bulk-update-leads`, `add-lead-note`.
 
 ## Guardrails
 

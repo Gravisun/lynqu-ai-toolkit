@@ -29,7 +29,7 @@ Run your entire networking-to-revenue motion — *capture → engage → manage 
 This repository is the **official, open-source toolkit for operating Lynqu through AI assistants**. It gives you two things:
 
 1. **MCP connection** — everything you need to connect your AI assistant to the hosted **Lynqu MCP server** (OAuth 2.1, no API keys to copy): connection guides per client, the full tool catalog, an auth explainer, and troubleshooting.
-2. **Agent Skills** — purpose-built [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) that turn the raw MCP tools into complete, repeatable workflows: find leads, capture them, manage the pipeline, send follow-ups, run an event blitz, and report on what's working.
+2. **Agent Skills** — purpose-built [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) that turn the raw MCP tools into complete, repeatable workflows: find leads, capture them, manage the pipeline, send follow-ups, run an event blitz, price a deal and draft its quote, and report on what's working.
 
 > **The MCP server is hosted by Lynqu.** You don't run a server — you connect to `https://api.lynqu.com/mcp/v2` and authenticate with your Lynqu account. This repo is the *client-side* toolkit (docs + skills). No secrets, no infrastructure.
 
@@ -46,6 +46,7 @@ This repository is the **official, open-source toolkit for operating Lynqu throu
 | Run a full event: capture → tag → attach to a campaign → follow up | [`lynqu-event-blitz`](skills/lynqu-event-blitz) |
 | Get a weekly pipeline / dashboard summary with insights | [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) |
 | Create and update digital business cards conversationally | [`lynqu-card-studio`](skills/lynqu-card-studio) |
+| Price a deal from the price book and draft the quote | [`lynqu-deal-desk`](skills/lynqu-deal-desk) |
 
 ---
 
@@ -119,10 +120,10 @@ lynqu-ai-toolkit/
 │   ├── mcp/
 │   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Cursor · VS Code)
 │   │   ├── authentication.md    # OAuth 2.1 flow + plan tiers, explained
-│   │   ├── tool-catalog.md      # All 55 org tools + 8 personal tools, by category
+│   │   ├── tool-catalog.md      # All 129 org tools + 9 personal tools, by category
 │   │   └── troubleshooting.md   # Common connection errors and fixes
 │   └── client-configs/          # Copy-paste config snippets per client
-├── skills/                      # The 7 Lynqu Agent Skills
+├── skills/                      # The 8 Lynqu Agent Skills
 └── examples/prompts.md          # Prompt library
 ```
 
@@ -136,6 +137,7 @@ lynqu-ai-toolkit/
 - **The full Lynqu MCP tool reference** → [`docs/mcp/tool-catalog.md`](docs/mcp/tool-catalog.md)
 - **A sales follow-up automation skill** → [`lynqu-sales-followup`](skills/lynqu-sales-followup)
 - **Event lead capture for conferences / trade shows** → [`lynqu-event-blitz`](skills/lynqu-event-blitz)
+- **Quoting and deal pricing with AI** → [`lynqu-deal-desk`](skills/lynqu-deal-desk)
 
 ---
 
