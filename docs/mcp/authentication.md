@@ -59,11 +59,35 @@ implicit admin. A tool runs only if your role meets its minimum:
 | Minimum role | Example tools |
 | --- | --- |
 | **employee** (default) | list/read tools, `create-lead`, `add-lead-note`, `update-lead-stage`, `send-followup-now` |
-| **manager** | `create-campaign`, `update-campaign-status`, `add-campaign-member`, `assign-lead`, `create-event`, `update-event-lifecycle`, `link-event-to-campaign`, `create-department`, `assign-user-to-department`, `create-followup-template`, `move-lead-environment` |
-| **admin** | `create-lead-environment`, `create-pipeline-stage`, `create-employee`, `update-employee`, `remove-employee`, `bulk-import-employees` |
+| **manager** | `create-campaign`, `update-campaign-status`, `add-campaign-member`, `assign-lead`, `create-event`, `update-event-lifecycle`, `link-event-to-campaign`, `create-department`, `assign-user-to-department`, `create-followup-template`, `move-lead-pipeline` |
+| **admin** | `create-lead-pipeline`, `create-pipeline-stage`, `create-employee`, `update-employee`, `remove-employee`, `bulk-import-employees`, `manage-catalog-item`, `manage-comp-plan`, `decide-join-request` |
 
 The personal server (`/mcp/me`) has **no org or role gate** — every tool there
 is scoped to you.
+
+`docs/mcp/tool-catalog.md` lists the minimum role for every tool.
+
+### Stricter than role alone
+
+Two things are gated beyond the role table:
+
+- **Compensation.** `get-comp-plan` and `list-comp-statements` are admin **or
+  the member themselves**; `manage-comp-plan` is admin **only**. This is one
+  band tighter than the rest of team performance on purpose — a manager can see
+  a rep's numbers but not their pay, and nobody sets their own.
+- **Add-on-gated categories.** Some tools need a paid add-on regardless of
+  role (team performance needs Advanced User Management, automation needs
+  Workflow Automation, dashboards need Analytics). Calling one without it
+  returns an `ADDON_REQUIRED` error naming the add-on key, so the assistant can
+  point you at the right purchase page.
+
+### Actions with no tool at all
+
+A few things are reachable in the app but deliberately have **no MCP tool**, so
+no role unlocks them: sending, accepting or declining a quote; validating an
+event ticket. These either reach a customer or change a real-world record, and
+an assistant being talked into one is worse than the convenience is worth. See
+the guardrails in `skills/lynqu-deal-desk/SKILL.md`.
 
 ## Security notes
 

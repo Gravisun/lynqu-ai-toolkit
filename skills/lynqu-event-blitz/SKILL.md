@@ -34,7 +34,7 @@ The all-in-one for events: before, during, and after. It chains setup → captur
 2. **Create the event** (`create-event`, manager+) and link it with
    `link-event-to-campaign`. Use an open-ended event if dates are loose.
 3. **Prep the destination.** Confirm or create the kanban tab/stage for event
-   leads (`list-lead-environments`, `get-pipeline-stages`). Pick a follow-up
+   leads (`list-lead-pipelines`, `get-pipeline-stages`). Pick a follow-up
    template (`list-followup-templates`) or create one.
 
 ### During / after the event
@@ -54,7 +54,7 @@ The all-in-one for events: before, during, and after. It chains setup → captur
 ## Tools used
 
 `create-campaign`, `list-campaign-goals`, `create-event`,
-`link-event-to-campaign`, `update-event-lifecycle`, `list-lead-environments`,
+`link-event-to-campaign`, `update-event-lifecycle`, `list-lead-pipelines`,
 `get-pipeline-stages`, `search-contacts`, `create-lead`,
 `attach-leads-to-campaign`, `bulk-update-leads`, `list-followup-templates`,
 `send-followup-now`, `get-campaign`, `get-dashboard-summary`.
