@@ -72,7 +72,7 @@ cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/
 There's no `~/.claude/skills` folder in the web app — each skill is uploaded as its own ZIP.
 
 1. Turn on **Settings → Capabilities → Code execution and file creation** (without it the Skills section does nothing).
-2. Zip each skill folder — the folder itself must be the root of the archive, not the loose files and not a wrapper directory:
+2. Grab the ready-made ZIPs from the [latest release](https://github.com/Gravisun/lynqu-ai-toolkit/releases/latest) — or build them yourself. The skill folder must be the root of the archive, not the loose files and not a wrapper directory:
 
    ```bash
    git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
