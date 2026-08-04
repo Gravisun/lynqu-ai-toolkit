@@ -3,6 +3,31 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.0] - 2026-08-04
+
+### Added
+- **`lynqu` — one command instead of fifteen.** Describe the situation ("we got
+  back from SaaStr with 200 badges") and it composes a plan across whichever
+  skills the situation needs, grounded in what the account already contains,
+  confirming before every write and asking explicitly before any email.
+- **Seven new skills**, giving the suite parity with a full sales motion:
+  `lynqu-prospect` (single-account audit), `lynqu-qualify` (BANT + MEDDIC),
+  `lynqu-contacts` (buying committee), `lynqu-icp` (built from your own wins
+  *and* losses, encoded as scoring rules), `lynqu-competitors` (battlecards),
+  `lynqu-outreach` (first-touch sequences), `lynqu-prep` (meeting briefs).
+
+### Changed
+- **Every skill rewritten to the same depth**: numbered steps, explicit output
+  format, rules and constraints, error handling, and cross-skill routing.
+- **Every skill now ends by writing to Lynqu** — a scored lead, a dated task, a
+  note the next rep inherits. Analysis that stays in the chat window changes
+  nothing; that is the difference between this and a generic sales assistant.
+- Skill names may now be the bare `lynqu` (the orchestrator) as well as
+  `lynqu-<name>`; the validator was widened to match.
+- README leads with the plain-language entry point rather than the command list,
+  and the install commands glob `lynqu*` so the orchestrator is included.
+- Fixed a stale MCP tool badge (55+8 → 129+9) left over from v1.1.0.
+
 ## [1.1.2] - 2026-08-04
 
 ### Fixed
@@ -12,6 +37,8 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Claude Code install. 200 remains as a house limit, on its own merits.
 - README said Claude Desktop reads `~/.claude/skills`. It doesn't — that path is
   Claude Code only; the desktop app is claude.ai and takes ZIP uploads.
+
+[1.2.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.2.0
 
 [1.1.2]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.1.2
 

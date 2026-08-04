@@ -3,62 +3,174 @@ name: lynqu-lead-management
 description: Keep the Lynqu pipeline moving — stage moves, lead routing and owner assignment, scoring, tags, bulk hygiene and stalled deals. Requires the Lynqu MCP server connected.
 ---
 
-# Lynqu Lead Management
+# Lynqu Pipeline Hygiene
 
-The pipeline only tells the truth if it's maintained. This skill grooms it:
-right stage, right owner, right tags, no rot.
+You keep the board honest. A pipeline lies in predictable ways: deals sit in
+stages they left months ago, leads are assigned to people who no longer work
+here, the same person exists three times, and every forecast built on top of it
+is fiction.
 
-## When to use this
+You fix that — in bulk, safely, with the user's approval at each destructive
+step. The output is a board a manager can trust and a rep can work top-down.
 
-- Weekly pipeline grooming / hygiene.
-- Reassigning leads after a territory or staffing change.
-- Bulk-moving or re-tagging a set of leads.
-- Finding and unsticking stalled deals.
+## Invocation
 
-## Prerequisites
+```
+/lynqu pipeline [board | segment | "what's stalled" | "reassign Sara's leads"]
+```
 
-- Lynqu MCP connected (`/mcp/v2`). See `../../docs/mcp/connect.md`.
-- AI-tier plan. Note: `assign-lead` and `move-lead-pipeline` need
-  **manager+**; stage moves and notes are employee-level.
+## Step 1: Take the pipeline's temperature
 
-## Workflow
+- **`get-org-summary`** — the shape of the book
+- **`list-lead-pipelines`** and **`get-pipeline-stages`** — the boards and their
+  columns. Everything downstream is per-board; there is no global stage list
+- **`list-leads`** per board with stage and updated dates — the raw material
+- **`list-lead-duplicates`** — the hygiene problem that corrupts every other number
+- **`list-team-members`** — who's active, and who has left but still owns leads
+- **`list-lead-views`** — the org's saved views already encode what it watches
 
-1. **Map the pipeline.** Call `list-lead-pipelines` and
-   `get-pipeline-stages` to learn the tabs and columns. Call
-   `list-team-members` to get owners (and both `user_id` /
-   `organization_user_id`).
-2. **Pull the working set.** `list-leads` filtered to the scope the user cares
-   about (an environment, an owner, a stage, a tag). `get-lead` for detail and
-   the activity timeline where needed.
-3. **Diagnose.** Identify: leads with no owner, leads stalled in a stage past a
-   threshold (use timeline timestamps), mis-staged leads, missing tags/score.
-   Present findings as a short list before changing anything.
-4. **Act, with confirmation.**
-   - Advance/correct stage → `update-lead-stage`.
-   - Assign/reassign owner → `assign-lead` (uses `user_id`).
-   - Move to a different kanban tab → `move-lead-pipeline`.
-   - Re-tag / set temperature / score in batches → `bulk-update-leads`
-     (≤ 100 per call).
-   - Log context → `add-lead-note`.
-5. **Report.** Summarize what changed and what needs a human decision (e.g.
-   "3 deals stalled 21+ days in Demo — recommend follow-up or close-lost").
+## Step 2: Diagnose before you touch anything
 
-## Tools used
+Six checks, in this order. Report all of them before fixing any of them — a
+manager needs the shape of the problem, not a running commentary of edits.
 
-`list-lead-pipelines`, `get-pipeline-stages`, `list-team-members`,
-`list-leads`, `get-lead`, `update-lead-stage`, `assign-lead`,
-`move-lead-pipeline`, `bulk-update-leads`, `add-lead-note`.
+| Check | How to spot it | Why it matters |
+|-------|----------------|----------------|
+| **Stalled** | Days in current stage > 2× the board's median | The main source of forecast error |
+| **Untouched** | No activity and no completed contact point since creation | Leads that were captured and abandoned |
+| **Orphaned** | Assigned to a removed or suspended member | Nobody is working these, and nobody knows |
+| **Duplicates** | `list-lead-duplicates` | Splits history and double-counts value |
+| **Taskless** | Open lead, no open contact point | An open lead with no next step is a wish |
+| **Miscategorized** | Won/lost leads still sitting in an open stage | Silently inflates the pipeline |
 
-## Guardrails
+Quantify each: *"41 stalled (median 9 days, these are 30+), 12 orphaned from
+Sara's departure, 6 duplicate pairs, 88 with no open task."*
 
-- **Confirm bulk actions** with a count and a sample before executing.
-- Use the **right identifier**: `assign-lead` takes `user_id`, not
-  `organization_user_id` — `list-team-members` gives you both.
-- `bulk-update-leads` is capped at 100 — chunk and report progress.
-- Don't auto-close deals; flag close-lost candidates for human sign-off.
+## Step 3: Stalled deals — decide, don't just report
+
+Every stalled lead gets one of three verdicts, and the user picks in bulk:
+
+1. **Revive** — there's a real reason to re-engage → task + `lynqu-sales-followup`
+2. **Nurture** — real fit, wrong timing → move to a nurture stage, set a dated
+   task at the trigger, stop spending attention now
+3. **Close as lost** — with a **reason**. This is the important one. A lost lead
+   with a reason feeds `lynqu-icp`; a lead left open forever feeds nothing and
+   corrupts the forecast
+
+Nobody wants to close deals, which is exactly why the pipeline fills up. Make the
+recommendation explicit and let the human decide.
+
+## Step 4: Fix it
+
+Show the full plan with counts, get approval, then work in this order — the
+sequence matters, because merging after reassigning means doing the work twice.
+
+1. **Duplicates first.** `merge-leads` — pick the survivor deliberately (the one
+   with the richer history and the correct owner) and show what reparents:
+   notes, tasks, documents, activity, campaign links. Merges are hard to undo, so
+   this gets its own confirmation, not a batch one
+2. **Ownership.** `assign-lead` for orphans and rebalancing. Takes the **user
+   id**; `list-team-members` returns both that and the `organization_user_id`
+   (which is what campaign membership and department assignment want)
+3. **Stage moves.** `update-lead-stage` per the verdicts. `move-lead-pipeline`
+   when a lead is on the wrong board entirely — a different board is a different
+   process, not a different column
+4. **Scores, tags, temperature.** `bulk-update-leads`, ≤ 100 per call
+5. **Tasks.** `add-lead-contact-point` on everything that stays open, and
+   `update-lead-contact-point` to close out what's already done. A board where
+   every open lead has a dated next step is the definition of "working"
+6. **Notes.** `add-lead-note` on anything whose state you changed for a
+   non-obvious reason. Six weeks later, "why is this in nurture?" needs an answer
+
+## Step 5: Make it stick
+
+A one-off cleanup decays in a month. Before you finish:
+
+- Propose a **saved view** for the checks that mattered ("stalled > 30 days",
+  "no open task") so this becomes a filter, not a memory
+- Where the org has the workflow automation add-on, propose an
+  `create-automation-rule` for the recurring cases — auto-task on stage entry,
+  auto-flag on inactivity. Propose; don't create silently. Rules fire on
+  everything afterwards
+- Recommend a cadence. Weekly for a busy board, monthly for a slow one
+
+## Output format
+
+```markdown
+# Pipeline Hygiene — {board}
+
+{n} open leads · median {n} days in stage · {n} need attention
+
+## Diagnosis
+| Issue | Count | Worst example |
+|-------|-------|---------------|
+| Stalled > 30d | 41 | Acme, 94 days in Evaluation |
+| Orphaned | 12 | all from Sara (removed 3 weeks ago) |
+
+## Proposed actions
+| Action | Count | Detail |
+|--------|-------|--------|
+| Merge duplicate pairs | 6 | survivor shown per pair |
+| Reassign orphans | 12 | → round-robin across {names} |
+| Close as lost | 18 | reason required per lead |
+
+## Applied
+- {n} merged · {n} reassigned · {n} stages moved · {n} tasks opened
+- Held back: {n} ({reason})
+
+## To keep it clean
+Saved view proposed · cadence: weekly
+```
+
+## Rules and constraints
+
+- **Never merge without showing what reparents**, and never merge on a fuzzy
+  name match. Duplicates that are actually two people are much worse than
+  duplicates.
+- **Never close a lead as lost without a reason.**
+- **Don't move stages to look busy.** A stage change is a claim about reality.
+- **Bulk cap is 100** per `bulk-update-leads` call — chunk and report.
+- **`assign-lead` takes `user_id`; campaigns and departments take
+  `organization_user_id`.** Read `list-team-members`; don't guess.
+- **Stages are per-pipeline.** Always resolve them against the lead's own board.
+- **Show counts before acting, every time.** "This will move 41 leads" is the
+  sentence that prevents the bad afternoon.
+- **Never reassign another manager's team's leads** without saying so explicitly.
+
+## Error handling
+
+- **Merge fails** → usually a race with another edit, or one side is already
+  merged. Re-read both with `get-lead` and re-confirm; never retry blind.
+- **Assignee no longer a member** → `list-team-members` to confirm removal, then
+  propose a reassignment target. Report orphans even if you can't fix them.
+- **Stage not found** → you're on the wrong board. `get-pipeline-stages` for the
+  lead's pipeline.
+- **Partial bulk failure** → report exactly which ids succeeded and which failed,
+  then retry only the failures.
+- **Permission denied** → employees can move and update their own leads;
+  reassignment across a team and pipeline structure are manager+. Deliver the
+  plan and name who can run it.
+- **Board is empty or brand new** → skip the diagnosis theatre. Say the board is
+  new and suggest `lynqu-lead-capture` or `lynqu-lead-research`.
+
+## Cross-skill integration
+
+- Duplicates found anywhere in the suite → here for the merge
+- Stalled and worth reviving → `lynqu-sales-followup`
+- Stalled because of an incumbent's contract → `lynqu-competitors` for the
+  timing trigger, then nurture to that date
+- Unscored leads → `lynqu-qualify`
+- Loss reasons accumulate → `lynqu-icp` (this is where the anti-profile comes from)
+- After the sweep → `lynqu-pipeline-report`, so the manager sees the clean number
 
 ## Example
 
-> "Groom the Inbound pipeline: list anything unassigned, round-robin it across
-> the active SDRs, flag deals stuck in Qualified for 14+ days, and bulk-set
-> temperature to cold for anything untouched in 30 days."
+> "/lynqu pipeline — Sara left last month and I think the board is a mess."
+
+The run: reads three boards · finds 12 leads still assigned to Sara, 41 stalled
+beyond 30 days (median in-stage is 9), 6 duplicate pairs from the same event
+captured by two reps, and 88 open leads with no next step · proposes: merge the 6
+pairs (survivor shown for each), round-robin Sara's 12 across the two reps in her
+region, close 18 as lost with reasons, move 9 to nurture with dated triggers, and
+open a first task on the remaining 61 · applies on approval, then proposes a
+"stalled > 30d" saved view and a weekly cadence.

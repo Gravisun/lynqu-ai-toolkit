@@ -9,8 +9,8 @@
 Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + [MCP](https://modelcontextprotocol.io) for AI lead capture, lead research, sales follow-up, and pipeline management — powered by [Lynqu](https://lynqu.com).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-8-7C3AED.svg)](skills)
-[![MCP tools](https://img.shields.io/badge/MCP%20tools-55%2B8-7C3AED.svg)](docs/mcp/tool-catalog.md)
+[![Skills](https://img.shields.io/badge/skills-16-7C3AED.svg)](skills)
+[![MCP tools](https://img.shields.io/badge/MCP%20tools-129%2B9-7C3AED.svg)](docs/mcp/tool-catalog.md)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-ready-1f1147.svg)](https://modelcontextprotocol.io)
 
 <br/>
@@ -62,7 +62,7 @@ Paste the URL into your client's connector settings, sign in, approve. Full per-
 
 ```bash
 git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
-cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/
+cp -r lynqu-ai-toolkit/skills/lynqu* ~/.claude/skills/
 ```
 </details>
 
@@ -77,7 +77,7 @@ cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/
    ```bash
    git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
    cd lynqu-ai-toolkit/skills
-   for s in lynqu-*; do zip -r "../$s.zip" "$s"; done
+   for s in lynqu*; do zip -r "../$s.zip" "$s"; done
    ```
 3. **Settings → Customize → Skills → Add** and upload the ZIPs one at a time.
 </details>
@@ -96,18 +96,39 @@ That's it. See [`examples/prompts.md`](examples/prompts.md) for a full prompt li
 
 ## 🛠️ The skills
 
-Eight purpose-built workflows. Drop in the ones you need — they compose.
+Sixteen skills covering the whole motion. **You don't need to learn them.** Say
+what's going on and [`lynqu`](skills/lynqu) works out which ones to run, in what
+order.
 
-| Skill | What it does for you | Key MCP tools |
+```
+/lynqu we just got back from SaaStr with 200 badges and I don't know where anything is
+```
+> Routes to `event` → `capture` → `qualify` → `outreach`, confirming before each write.
+
+Or drive them directly:
+
+| Command | Skill | What lands in Lynqu |
 | --- | --- | --- |
-| 🔎 [`lynqu-lead-research`](skills/lynqu-lead-research) | Find & qualify target accounts and decision-makers, score the fit, and create the best as leads | `create-lead`, `add-lead-note`, `attach-leads-to-campaign` |
-| ➕ [`lynqu-lead-capture`](skills/lynqu-lead-capture) | Turn scanned badges / pasted lists into clean, **deduped**, routed leads | `search-contacts`, `create-lead`, `bulk-update-leads` |
-| 🗂️ [`lynqu-lead-management`](skills/lynqu-lead-management) | Keep the pipeline honest — stage moves, owner assignment, tags, bulk hygiene, stalled-deal alerts | `update-lead-stage`, `assign-lead`, `bulk-update-leads` |
-| ✉️ [`lynqu-sales-followup`](skills/lynqu-sales-followup) | Draft & send on-brand follow-ups via your templates, logged to each lead | `list-followup-templates`, `send-followup-now` |
-| 🎪 [`lynqu-event-blitz`](skills/lynqu-event-blitz) | Run a whole event end-to-end: campaign + event setup → capture → attribute → follow up | `create-campaign`, `create-event`, `link-event-to-campaign` |
-| 📊 [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) | A weekly briefing: what moved, what's stalling, campaign/event ROI, recommended actions | `get-dashboard-summary`, `get-campaign`, `list-leads` |
-| 🪪 [`lynqu-card-studio`](skills/lynqu-card-studio) | Create & update digital business cards by conversation, and check how they're performing | `create-card`, `update-card`, `get-card-stats` |
-| 🧾 [`lynqu-deal-desk`](skills/lynqu-deal-desk) | Price a deal from your price book and draft the quote — you stay the one who sends it | `list-catalog-items`, `manage-deal-line-item`, `manage-quote` |
+| `/lynqu` *(anything)* | 🧭 [`lynqu`](skills/lynqu) | Composes the right skills for the situation |
+| `/lynqu prospect` | 🔬 [`lynqu-prospect`](skills/lynqu-prospect) | Full account audit → lead, company, score, notes, first task |
+| `/lynqu research` | 🔎 [`lynqu-lead-research`](skills/lynqu-lead-research) | Ranked target list → leads with the fit rationale attached |
+| `/lynqu qualify` | ✅ [`lynqu-qualify`](skills/lynqu-qualify) | BANT + MEDDIC → score, temperature, stage, a task per gap |
+| `/lynqu contacts` | 👥 [`lynqu-contacts`](skills/lynqu-contacts) | Buying committee → contacts, participants, one primary |
+| `/lynqu icp` | 🎯 [`lynqu-icp`](skills/lynqu-icp) | ICP mined from your own wins **and losses** → scoring rules |
+| `/lynqu competitors` | ⚔️ [`lynqu-competitors`](skills/lynqu-competitors) | Battlecard → objections and honest answers, saved to the lead |
+| `/lynqu capture` | ➕ [`lynqu-lead-capture`](skills/lynqu-lead-capture) | Badges and pasted lists → **deduped**, routed, tagged leads |
+| `/lynqu outreach` | 📤 [`lynqu-outreach`](skills/lynqu-outreach) | First-touch sequence → template, sent only on your yes |
+| `/lynqu followup` | ✉️ [`lynqu-sales-followup`](skills/lynqu-sales-followup) | Post-meeting and re-engagement → sends + scheduled next steps |
+| `/lynqu prep` | 📋 [`lynqu-prep`](skills/lynqu-prep) | Meeting brief → agenda, open threads, the questions that matter |
+| `/lynqu proposal` | 🧾 [`lynqu-deal-desk`](skills/lynqu-deal-desk) | Priced line items → a **draft** quote; you stay the one who sends |
+| `/lynqu event` | 🎪 [`lynqu-event-blitz`](skills/lynqu-event-blitz) | Event + campaign → capture → attribution → ROI you can answer |
+| `/lynqu pipeline` | 🗂️ [`lynqu-lead-management`](skills/lynqu-lead-management) | Stage moves, owners, merges, stalled sweep |
+| `/lynqu report` | 📊 [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) | Weekly briefing — movement, risk, ROI. **Read-only** |
+| `/lynqu card` | 🪪 [`lynqu-card-studio`](skills/lynqu-card-studio) | Cards created, updated, and read for engagement |
+
+Every skill ends by **writing to Lynqu** — a scored lead, a dated task, a note
+the next rep inherits. A brief nobody acts on is a document; a lead in the right
+stage with a next step is a pipeline.
 
 ---
 
@@ -229,7 +250,7 @@ lynqu-ai-toolkit/
 │   │   ├── tool-catalog.md      # All 129 org tools + 9 personal tools, by category
 │   │   └── troubleshooting.md   # Common connection errors and fixes
 │   └── client-configs/          # Copy-paste config snippets per client
-├── skills/                      # The 8 Lynqu Agent Skills
+├── skills/                      # The 16 Lynqu Agent Skills
 ├── examples/prompts.md          # Prompt library
 └── scripts/validate_skills.py   # Frontmatter + tool-reference validator (runs in CI)
 ```
@@ -246,12 +267,21 @@ lynqu-ai-toolkit/
 
 ## 🔎 Looking for…
 
+- **I don't want to learn commands** → [`lynqu`](skills/lynqu) — describe the situation, it composes the rest
 - **A Claude skill for lead capture** → [`lynqu-lead-capture`](skills/lynqu-lead-capture)
 - **AI lead research / lead generation with Claude** → [`lynqu-lead-research`](skills/lynqu-lead-research)
+- **Prospect research / account audit with Claude** → [`lynqu-prospect`](skills/lynqu-prospect)
+- **BANT / MEDDIC lead qualification** → [`lynqu-qualify`](skills/lynqu-qualify)
+- **Finding the decision maker / buying committee** → [`lynqu-contacts`](skills/lynqu-contacts)
+- **Building an ICP from your own win/loss data** → [`lynqu-icp`](skills/lynqu-icp)
+- **Competitive battlecards & objection handling** → [`lynqu-competitors`](skills/lynqu-competitors)
+- **Cold outreach sequences** → [`lynqu-outreach`](skills/lynqu-outreach)
+- **A sales follow-up automation skill** → [`lynqu-sales-followup`](skills/lynqu-sales-followup)
+- **Meeting preparation briefs** → [`lynqu-prep`](skills/lynqu-prep)
+- **Quotes & price-book proposals** → [`lynqu-deal-desk`](skills/lynqu-deal-desk)
+- **Event / trade-show lead capture** → [`lynqu-event-blitz`](skills/lynqu-event-blitz)
 - **Connect Lynqu MCP to ChatGPT / Cursor / Claude** → [`docs/mcp/connect.md`](docs/mcp/connect.md)
 - **The full Lynqu MCP tool reference** → [`docs/mcp/tool-catalog.md`](docs/mcp/tool-catalog.md)
-- **A sales follow-up automation skill** → [`lynqu-sales-followup`](skills/lynqu-sales-followup)
-- **Event / trade-show lead capture** → [`lynqu-event-blitz`](skills/lynqu-event-blitz)
 
 ---
 

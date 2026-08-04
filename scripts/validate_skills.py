@@ -23,7 +23,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
 CATALOG = ROOT / "docs" / "mcp" / "tool-catalog.md"
 
-NAME_RE = re.compile(r"^lynqu-[a-z0-9]+(?:-[a-z0-9]+)*$")
+# The orchestrator is bare `lynqu`; every specialist is `lynqu-<something>`.
+NAME_RE = re.compile(r"^lynqu(?:-[a-z0-9]+)*$")
 # House limit. Anthropic's documented maximum is 1024, but a description is
 # permanently in context and is the text Claude matches requests against, so we
 # keep ours tight — and short descriptions upload cleanly everywhere.
@@ -80,7 +81,7 @@ def main() -> int:
             errors.append(f"{d.name}: frontmatter missing `name`")
         else:
             if not NAME_RE.match(name):
-                errors.append(f"{d.name}: name '{name}' must be kebab-case, prefixed lynqu-")
+                errors.append(f"{d.name}: name '{name}' must be `lynqu` or kebab-case prefixed lynqu-")
             if name != d.name:
                 errors.append(f"{d.name}: name '{name}' must match folder name")
         if not desc:
