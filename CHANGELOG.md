@@ -3,6 +3,18 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.2] - 2026-08-04
+
+### Fixed
+- v1.1.1 claimed claude.ai enforces a 200-character `description` limit and that
+  this was why uploads failed. Anthropic documents a 1024-character maximum, so
+  that cause was wrong — the real gap was a README that only ever explained the
+  Claude Code install. 200 remains as a house limit, on its own merits.
+- README said Claude Desktop reads `~/.claude/skills`. It doesn't — that path is
+  Claude Code only; the desktop app is claude.ai and takes ZIP uploads.
+
+[1.1.2]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.1.2
+
 ## [1.1.1] - 2026-08-04
 
 ### Fixed
