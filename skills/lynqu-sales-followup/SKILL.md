@@ -1,11 +1,6 @@
 ---
 name: lynqu-sales-followup
-description: >-
-  Draft and send on-brand sales follow-up emails to Lynqu leads using your
-  follow-up templates, and log them to the lead timeline. Use for sales
-  follow-up, post-event outreach, "follow up with these leads", nurture
-  sequences, or "what should I say to this prospect". Requires the Lynqu MCP
-  server connected (https://api.lynqu.com/mcp/v2).
+description: Draft and send on-brand sales follow-up emails to Lynqu leads from your follow-up templates, logged to the lead timeline. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Sales Follow-up

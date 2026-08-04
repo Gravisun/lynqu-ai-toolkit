@@ -1,11 +1,6 @@
 ---
 name: lynqu-pipeline-report
-description: >-
-  Generate a pipeline and performance report from Lynqu — what moved, what's
-  stalling, campaign and event ROI, card engagement, and who needs attention.
-  Use for weekly pipeline review, sales reporting, "how's the pipeline looking",
-  campaign performance, lead/card analytics, or a stand-up summary. Read-only.
-  Requires the Lynqu MCP server connected (https://api.lynqu.com/mcp/v2).
+description: Weekly Lynqu pipeline and sales report — what moved, what's stalling, campaign and event ROI, card engagement, who needs attention. Read-only. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Pipeline Report

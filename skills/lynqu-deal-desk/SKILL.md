@@ -1,11 +1,6 @@
 ---
 name: lynqu-deal-desk
-description: >-
-  Price a Lynqu deal and draft the quote — browse the price book, put priced
-  lines on a deal, and produce a draft quote for a human to send. Use for
-  quoting, pricing a deal, "how much is this deal worth", building a proposal,
-  adding seats or add-ons to an opportunity, or maintaining the price book.
-  Requires the Lynqu MCP server connected (https://api.lynqu.com/mcp/v2).
+description: Price a Lynqu deal and draft the quote — browse the price book, put priced lines on a deal, then produce a draft quote for a human to send. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Deal Desk

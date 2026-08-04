@@ -1,11 +1,6 @@
 ---
 name: lynqu-lead-research
-description: >-
-  Find and qualify target accounts and decision-makers before an event or
-  outbound campaign, then create them as leads in Lynqu. Use for AI lead
-  research, lead generation, prospecting, building a target account list, or
-  "who should we talk to" — especially before a conference, trade show, or
-  campaign. Requires the Lynqu MCP server connected (https://api.lynqu.com/mcp/v2).
+description: AI lead research and prospecting — find and qualify target accounts and decision-makers before an event or campaign, then create the best as leads in Lynqu. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Lead Research

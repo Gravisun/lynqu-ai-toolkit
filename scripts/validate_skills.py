@@ -4,7 +4,10 @@
 Checks, for every skills/*/SKILL.md:
   1. YAML frontmatter exists with non-empty `name` and `description`.
   2. `name` is kebab-case and prefixed `lynqu-`, and matches its folder name.
-  3. Every MCP tool the skill references (backtick `tool-name`) is documented in
+  3. `description` fits the claude.ai skill-upload limit (200 chars). Claude Code
+     never enforces this, so a repo that passes locally can still be rejected on
+     upload to the web app.
+  4. Every MCP tool the skill references (backtick `tool-name`) is documented in
      docs/mcp/tool-catalog.md — so a skill can't call a tool that will error.
 
 Exit code is non-zero if any check fails. No third-party dependencies.
@@ -20,6 +23,9 @@ SKILLS_DIR = ROOT / "skills"
 CATALOG = ROOT / "docs" / "mcp" / "tool-catalog.md"
 
 NAME_RE = re.compile(r"^lynqu-[a-z0-9]+(?:-[a-z0-9]+)*$")
+# claude.ai (web/mobile) rejects a skill whose frontmatter description exceeds
+# this. Claude Code has no such limit — hence the check.
+MAX_DESC = 200
 # A backticked token that looks like an MCP tool id: all lowercase, hyphenated,
 # at least one hyphen (e.g. `create-lead`). Excludes paths and prose.
 TOOL_TOKEN_RE = re.compile(r"`([a-z][a-z0-9]*(?:-[a-z0-9]+)+)`")
@@ -77,6 +83,11 @@ def main() -> int:
                 errors.append(f"{d.name}: name '{name}' must match folder name")
         if not desc:
             errors.append(f"{d.name}: frontmatter missing `description`")
+        elif len(desc) > MAX_DESC:
+            errors.append(
+                f"{d.name}: description is {len(desc)} chars, max {MAX_DESC} "
+                "(claude.ai rejects the upload above this)"
+            )
 
         referenced = set(TOOL_TOKEN_RE.findall(text))
         # Only treat tokens that appear in a "Tools used" context or look like

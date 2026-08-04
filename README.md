@@ -9,7 +9,7 @@
 Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + [MCP](https://modelcontextprotocol.io) for AI lead capture, lead research, sales follow-up, and pipeline management — powered by [Lynqu](https://lynqu.com).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-7-7C3AED.svg)](skills)
+[![Skills](https://img.shields.io/badge/skills-8-7C3AED.svg)](skills)
 [![MCP tools](https://img.shields.io/badge/MCP%20tools-55%2B8-7C3AED.svg)](docs/mcp/tool-catalog.md)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-ready-1f1147.svg)](https://modelcontextprotocol.io)
 
@@ -55,12 +55,34 @@ That whole flow is one sentence to you — and a chain of audited Lynqu actions 
 
 Paste the URL into your client's connector settings, sign in, approve. Full per-client steps → [`docs/mcp/connect.md`](docs/mcp/connect.md). There's also a one-click setup in the Lynqu app under **Settings → AI / MCP**.
 
-**2. Install the skills:**
+**2. Install the skills** — the method depends on where you use Claude:
+
+<details open>
+<summary><b>Claude Code / Claude Desktop</b> (copy the folders)</summary>
 
 ```bash
 git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
-cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/   # Claude Code / Desktop
+cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/
 ```
+</details>
+
+<details>
+<summary><b>claude.ai web &amp; mobile</b> (upload one ZIP per skill)</summary>
+
+There's no `~/.claude/skills` folder in the web app — each skill is uploaded as its own ZIP.
+
+1. Turn on **Settings → Capabilities → Code execution and file creation** (without it the Skills section does nothing).
+2. Zip each skill folder — the folder itself must be the root of the archive, not the loose files and not a wrapper directory:
+
+   ```bash
+   git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
+   cd lynqu-ai-toolkit/skills
+   for s in lynqu-*; do zip -r "../$s.zip" "$s"; done
+   ```
+3. **Settings → Customize → Skills → Add** and upload the ZIPs one at a time.
+</details>
+
+> ⚠️ Writing your own skill? Keep `description` under **200 characters** — claude.ai rejects longer ones on upload, while Claude Code accepts them. `python3 scripts/validate_skills.py` checks this.
 
 **3. Just ask:**
 
@@ -74,7 +96,7 @@ That's it. See [`examples/prompts.md`](examples/prompts.md) for a full prompt li
 
 ## 🛠️ The skills
 
-Seven purpose-built workflows. Drop in the ones you need — they compose.
+Eight purpose-built workflows. Drop in the ones you need — they compose.
 
 | Skill | What it does for you | Key MCP tools |
 | --- | --- | --- |

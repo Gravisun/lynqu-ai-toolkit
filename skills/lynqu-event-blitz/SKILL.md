@@ -1,11 +1,6 @@
 ---
 name: lynqu-event-blitz
-description: >-
-  Run a complete event lead-capture workflow in Lynqu end-to-end — set up the
-  event and campaign, capture booth/conference leads, tag and attribute them,
-  then kick off follow-up. Use for conference, trade show, or booth lead
-  capture, "set up our event in Lynqu", event ROI/attribution, or post-event
-  processing. Requires the Lynqu MCP server connected (https://api.lynqu.com/mcp/v2).
+description: Run a conference, trade show or booth end-to-end in Lynqu — set up the event and campaign, capture leads, attribute them, then start follow-up. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Event Blitz

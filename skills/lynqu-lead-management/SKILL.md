@@ -1,11 +1,6 @@
 ---
 name: lynqu-lead-management
-description: >-
-  Keep the Lynqu sales pipeline clean and moving — advance leads through stages,
-  assign owners, score and tag, run bulk hygiene, and surface stalled deals. Use
-  for pipeline management, lead routing, "tidy up my pipeline", reassigning
-  leads, moving deals between stages, or weekly pipeline grooming. Requires the
-  Lynqu MCP server connected (https://api.lynqu.com/mcp/v2).
+description: Keep the Lynqu pipeline moving — stage moves, lead routing and owner assignment, scoring, tags, bulk hygiene and stalled deals. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Lead Management
