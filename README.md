@@ -55,12 +55,34 @@ That whole flow is one sentence to you — and a chain of audited Lynqu actions 
 
 Paste the URL into your client's connector settings, sign in, approve. Full per-client steps → [`docs/mcp/connect.md`](docs/mcp/connect.md). There's also a one-click setup in the Lynqu app under **Settings → AI / MCP**.
 
-**2. Install the skills:**
+**2. Install the skills** — the method depends on where you use Claude:
+
+<details open>
+<summary><b>Claude Code / Claude Desktop</b> (copy the folders)</summary>
 
 ```bash
 git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
-cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/   # Claude Code / Desktop
+cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/
 ```
+</details>
+
+<details>
+<summary><b>claude.ai web &amp; mobile</b> (upload one ZIP per skill)</summary>
+
+There's no `~/.claude/skills` folder in the web app — each skill is uploaded as its own ZIP.
+
+1. Turn on **Settings → Capabilities → Code execution and file creation** (without it the Skills section does nothing).
+2. Zip each skill folder — the folder itself must be the root of the archive, not the loose files and not a wrapper directory:
+
+   ```bash
+   git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
+   cd lynqu-ai-toolkit/skills
+   for s in lynqu-*; do zip -r "../$s.zip" "$s"; done
+   ```
+3. **Settings → Customize → Skills → Add** and upload the ZIPs one at a time.
+</details>
+
+> ⚠️ Writing your own skill? Keep `description` under **200 characters** — claude.ai rejects longer ones on upload, while Claude Code accepts them. `python3 scripts/validate_skills.py` checks this.
 
 **3. Just ask:**
 

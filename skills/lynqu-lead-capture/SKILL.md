@@ -1,12 +1,6 @@
 ---
 name: lynqu-lead-capture
-description: >-
-  Capture new leads into Lynqu — from scanned badges, business cards, event
-  lists, or a paste of names — then dedupe against existing contacts, tag them,
-  and route them into the right pipeline. Use for lead capture, importing
-  contacts, "add these people as leads", post-event data entry, or turning a
-  list into a working pipeline. Requires the Lynqu MCP server connected
-  (https://api.lynqu.com/mcp/v2).
+description: Capture leads into Lynqu from scanned badges, business cards, event lists or a pasted list — deduped against existing contacts, tagged and routed. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Lead Capture

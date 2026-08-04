@@ -1,12 +1,6 @@
 ---
 name: lynqu-card-studio
-description: >-
-  Create and update Lynqu digital business cards conversationally — contact
-  info, social links, services, template, and color palette — and check how a
-  card is performing. Use for "make me a digital business card", editing a card,
-  setting up team cards, or checking card views/scans/shares. Works on the
-  personal server (/mcp/me) and the org server (/mcp/v2). Requires the Lynqu MCP
-  server connected.
+description: Create and update Lynqu digital business cards — contact info, social links, services, template, palette — and check card views, scans and shares. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Card Studio

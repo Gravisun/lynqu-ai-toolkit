@@ -3,6 +3,18 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Fixed
+- All seven skill `description` fields shortened to under 200 characters —
+  claude.ai rejected the uploads above that limit (Claude Code does not enforce
+  it, so the repo validated locally but failed on the web app).
+
+### Added
+- `scripts/validate_skills.py` now fails on a description over 200 characters.
+- README install step covers claude.ai web & mobile (ZIP upload per skill,
+  plus the required "Code execution and file creation" capability).
+
 ## [1.0.0] - 2026-06-18
 
 ### Added
