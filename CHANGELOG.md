@@ -6,15 +6,24 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.1.1] - 2026-08-04
 
 ### Fixed
-- All eight skill `description` fields shortened to under 200 characters —
-  claude.ai rejected the uploads above that limit (Claude Code does not enforce
-  it, so the repo validated locally but failed on the web app).
+- **The README only ever explained the Claude Code install.** Anyone using
+  claude.ai — web, the desktop app, or mobile — followed a `cp -r` into a folder
+  that doesn't exist there, with no hint that skills are uploaded as ZIPs and
+  that code execution has to be on first. The `~/.claude/skills` line also named
+  Claude Desktop, which does not read that folder.
+- All eight skill `description` fields shortened from 336–400 to 162–197
+  characters. One also contained `": "`, which is invalid in an unquoted YAML
+  scalar.
 - Stale skill count in the README badge and skills intro (seven → eight).
 
 ### Added
-- `scripts/validate_skills.py` now fails on a description over 200 characters.
-- README install step covers claude.ai web & mobile (ZIP upload per skill,
-  plus the required "Code execution and file creation" capability).
+- Ready-made per-skill ZIPs attached to the release, so installing on claude.ai
+  needs no terminal.
+- README install step for claude.ai (ZIP per skill, plan requirement, and the
+  "Code execution and file creation" capability).
+- `scripts/validate_skills.py` enforces a 200-character description budget.
+  Anthropic documents 1024; ours is deliberately tighter, since the description
+  is always in context and is what Claude matches requests against.
 
 [1.1.1]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.1.1
 

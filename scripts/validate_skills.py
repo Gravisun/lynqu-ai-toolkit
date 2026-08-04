@@ -4,9 +4,10 @@
 Checks, for every skills/*/SKILL.md:
   1. YAML frontmatter exists with non-empty `name` and `description`.
   2. `name` is kebab-case and prefixed `lynqu-`, and matches its folder name.
-  3. `description` fits the claude.ai skill-upload limit (200 chars). Claude Code
-     never enforces this, so a repo that passes locally can still be rejected on
-     upload to the web app.
+  3. `description` stays under our 200-char house limit. Anthropic documents a
+     1024-char maximum; 200 is a deliberately tighter budget — the description is
+     always in context and is what Claude matches a request against, so a tight
+     one both triggers better and travels safely across every upload surface.
   4. Every MCP tool the skill references (backtick `tool-name`) is documented in
      docs/mcp/tool-catalog.md — so a skill can't call a tool that will error.
 
@@ -23,8 +24,9 @@ SKILLS_DIR = ROOT / "skills"
 CATALOG = ROOT / "docs" / "mcp" / "tool-catalog.md"
 
 NAME_RE = re.compile(r"^lynqu-[a-z0-9]+(?:-[a-z0-9]+)*$")
-# claude.ai (web/mobile) rejects a skill whose frontmatter description exceeds
-# this. Claude Code has no such limit — hence the check.
+# House limit. Anthropic's documented maximum is 1024, but a description is
+# permanently in context and is the text Claude matches requests against, so we
+# keep ours tight — and short descriptions upload cleanly everywhere.
 MAX_DESC = 200
 # A backticked token that looks like an MCP tool id: all lowercase, hyphenated,
 # at least one hyphen (e.g. `create-lead`). Excludes paths and prose.
@@ -86,7 +88,7 @@ def main() -> int:
         elif len(desc) > MAX_DESC:
             errors.append(
                 f"{d.name}: description is {len(desc)} chars, max {MAX_DESC} "
-                "(claude.ai rejects the upload above this)"
+                "(house limit — keep it short and matchable)"
             )
 
         referenced = set(TOOL_TOKEN_RE.findall(text))

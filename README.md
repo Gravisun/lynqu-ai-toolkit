@@ -58,7 +58,7 @@ Paste the URL into your client's connector settings, sign in, approve. Full per-
 **2. Install the skills** — the method depends on where you use Claude:
 
 <details open>
-<summary><b>Claude Code / Claude Desktop</b> (copy the folders)</summary>
+<summary><b>Claude Code</b> (copy the folders)</summary>
 
 ```bash
 git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
@@ -67,9 +67,9 @@ cp -r lynqu-ai-toolkit/skills/lynqu-* ~/.claude/skills/
 </details>
 
 <details>
-<summary><b>claude.ai web &amp; mobile</b> (upload one ZIP per skill)</summary>
+<summary><b>claude.ai — web, desktop app &amp; mobile</b> (upload one ZIP per skill)</summary>
 
-There's no `~/.claude/skills` folder in the web app — each skill is uploaded as its own ZIP.
+`~/.claude/skills` is Claude Code only; everywhere else — including the Claude desktop app — each skill is uploaded as its own ZIP. Needs a Pro, Max, Team or Enterprise plan.
 
 1. Turn on **Settings → Capabilities → Code execution and file creation** (without it the Skills section does nothing).
 2. Grab the ready-made ZIPs from the [latest release](https://github.com/Gravisun/lynqu-ai-toolkit/releases/latest) — or build them yourself. The skill folder must be the root of the archive, not the loose files and not a wrapper directory:
@@ -82,7 +82,7 @@ There's no `~/.claude/skills` folder in the web app — each skill is uploaded a
 3. **Settings → Customize → Skills → Add** and upload the ZIPs one at a time.
 </details>
 
-> ⚠️ Writing your own skill? Keep `description` under **200 characters** — claude.ai rejects longer ones on upload, while Claude Code accepts them. `python3 scripts/validate_skills.py` checks this.
+> ⚠️ Writing your own skill? Keep `description` under **200 characters**. Anthropic's documented ceiling is 1024, but the description sits in context permanently and is the text Claude matches your request against — short and specific triggers better, and uploads cleanly on every surface. `python3 scripts/validate_skills.py` enforces it.
 
 **3. Just ask:**
 
