@@ -26,7 +26,7 @@ on, not a data dump.
    environment, an owner, a campaign).
 2. **Gather.** Pull the inputs:
    - `get-dashboard-summary` — top-line metrics across cards, leads, activity.
-   - `list-lead-environments` + `get-pipeline-stages` — the shape of the funnel.
+   - `list-lead-pipelines` + `get-pipeline-stages` — the shape of the funnel.
    - `list-leads` (+ `get-lead` for notable deals) — current placement,
      ownership, and timeline movement.
    - `list-campaigns` + `get-campaign` — progress against goals
@@ -47,7 +47,7 @@ on, not a data dump.
 
 ## Tools used
 
-`get-dashboard-summary`, `list-lead-environments`, `get-pipeline-stages`,
+`get-dashboard-summary`, `list-lead-pipelines`, `get-pipeline-stages`,
 `list-leads`, `get-lead`, `list-campaigns`, `get-campaign`,
 `list-campaign-goals`, `list-events`, `get-event`, `get-card-stats`,
 `list-capture-forms`, `get-capture-form-stats`.

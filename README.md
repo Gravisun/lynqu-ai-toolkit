@@ -9,7 +9,7 @@
 Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + [MCP](https://modelcontextprotocol.io) for AI lead capture, lead research, sales follow-up, and pipeline management — powered by [Lynqu](https://lynqu.com).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-7-7C3AED.svg)](skills)
+[![Skills](https://img.shields.io/badge/skills-8-7C3AED.svg)](skills)
 [![MCP tools](https://img.shields.io/badge/MCP%20tools-55%2B8-7C3AED.svg)](docs/mcp/tool-catalog.md)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-ready-1f1147.svg)](https://modelcontextprotocol.io)
 
@@ -96,7 +96,7 @@ That's it. See [`examples/prompts.md`](examples/prompts.md) for a full prompt li
 
 ## 🛠️ The skills
 
-Seven purpose-built workflows. Drop in the ones you need — they compose.
+Eight purpose-built workflows. Drop in the ones you need — they compose.
 
 | Skill | What it does for you | Key MCP tools |
 | --- | --- | --- |
@@ -107,6 +107,7 @@ Seven purpose-built workflows. Drop in the ones you need — they compose.
 | 🎪 [`lynqu-event-blitz`](skills/lynqu-event-blitz) | Run a whole event end-to-end: campaign + event setup → capture → attribute → follow up | `create-campaign`, `create-event`, `link-event-to-campaign` |
 | 📊 [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) | A weekly briefing: what moved, what's stalling, campaign/event ROI, recommended actions | `get-dashboard-summary`, `get-campaign`, `list-leads` |
 | 🪪 [`lynqu-card-studio`](skills/lynqu-card-studio) | Create & update digital business cards by conversation, and check how they're performing | `create-card`, `update-card`, `get-card-stats` |
+| 🧾 [`lynqu-deal-desk`](skills/lynqu-deal-desk) | Price a deal from your price book and draft the quote — you stay the one who sends it | `list-catalog-items`, `manage-deal-line-item`, `manage-quote` |
 
 ---
 
@@ -225,10 +226,10 @@ lynqu-ai-toolkit/
 │   ├── mcp/
 │   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Cursor · VS Code)
 │   │   ├── authentication.md    # OAuth 2.1 flow + plan tiers, explained
-│   │   ├── tool-catalog.md      # All 55 org tools + 8 personal tools, by category
+│   │   ├── tool-catalog.md      # All 129 org tools + 9 personal tools, by category
 │   │   └── troubleshooting.md   # Common connection errors and fixes
 │   └── client-configs/          # Copy-paste config snippets per client
-├── skills/                      # The 7 Lynqu Agent Skills
+├── skills/                      # The 8 Lynqu Agent Skills
 ├── examples/prompts.md          # Prompt library
 └── scripts/validate_skills.py   # Frontmatter + tool-reference validator (runs in CI)
 ```
