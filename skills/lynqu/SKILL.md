@@ -108,6 +108,7 @@ generic command list is the least useful possible response to "what can you do".
 | `/lynqu followup <lead>` | `lynqu-sales-followup` | Post-meeting nurture → sends + contact points |
 | `/lynqu prep <booking\|lead>` | `lynqu-prep` | Meeting brief → agenda, notes, next-step task |
 | `/lynqu proposal <deal>` | `lynqu-deal-desk` | Priced line items → draft quote |
+| `/lynqu playbook <folder>` | `lynqu-sales-playbook` | A written playbook → leads, dated tasks, attachments, stage rules |
 | `/lynqu event <name>` | `lynqu-event-blitz` | Event + campaign → capture → attribution |
 | `/lynqu pipeline` | `lynqu-lead-management` | Stage moves, owners, tags, stalled sweep, merges |
 | `/lynqu report` | `lynqu-pipeline-report` | Briefing from dashboards, forecast, portfolio |
@@ -149,6 +150,7 @@ Match on the **outcome**, not the noun. "I have a list of people" is capture;
 | "follow up", "they went quiet", "after the demo" | `lynqu-sales-followup` | There *was* a prior conversation |
 | "I have a call at 2", "prep me", "meeting tomorrow" | `lynqu-prep` | Time-bound, a specific meeting |
 | "how much is this deal", "send pricing", "add seats" | `lynqu-deal-desk` | Pricing and quoting have their own rules |
+| "here's our playbook", "set this plan up", "run this sequence for all of them" | `lynqu-sales-playbook` | A written process exists; the work is making the pipeline execute it |
 | "we're exhibiting at", "our booth", "post-event" | `lynqu-event-blitz` | Owns the whole arc: setup → capture → attribution |
 | "tidy the pipeline", "who's stalled", "reassign" | `lynqu-lead-management` | Leads exist; the work is state and ownership |
 | "how's the pipeline", "weekly review", "forecast", "ROI" | `lynqu-pipeline-report` | Read-only analysis, no writes |

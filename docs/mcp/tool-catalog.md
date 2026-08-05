@@ -5,7 +5,7 @@ server's registered tools — when in doubt, ask the server itself via the
 **`how-can-you-help-me`** tool, which classifies your goal and returns the exact
 tool calls to run.
 
-- **Organization server** (`/mcp/v2`): all categories below — **129 tools**.
+- **Organization server** (`/mcp/v2`): all categories below — **136 tools**.
 - **Personal server** (`/mcp/me`): 9 user-scoped tools — `how-can-you-help-me`,
   `list-cards`, `get-card`, `create-card`, `update-card`, `get-card-stats`,
   `get-dashboard-summary`, `get-profile`, `who-am-i`. No role gate.
@@ -48,6 +48,9 @@ categories are labelled; calling one without the add-on returns an
 | --- | --- | --- |
 | `list-contacts` | employee | List the organization's contacts (address book). |
 | `search-contacts` | employee | Search the organization's contacts by name, email, phone, or company. |
+| `get-contact` | employee | Get one contact, with the leads and deals they are linked to. |
+| `create-contact` ✍️ | employee | Add a person to the organization's shared roster. Member-open on purpose — the people who capture are the people who meet new contacts. |
+| `update-contact` ✍️ | employee | Update a contact's details. Deleting one is manager-only (it is shared data other people's leads point at) and has no tool. |
 
 ## Leads
 
@@ -56,6 +59,8 @@ categories are labelled; calling one without the add-on returns an
 | `list-leads` | employee | List leads for the user's organization. |
 | `get-lead` | employee | Get full detail for a single lead by ID, including pipeline stage, assigned user, source card, current campaign/event attachments, the lead's free-text `notes` field, its multi-note timeline (`notes_t. |
 | `create-lead` ✍️ | manager | Create a new lead in the organization's sales pipeline. |
+| `update-lead` ✍️ | employee | Update a lead's own fields (name, contact details, company, value, currency, tags, custom fields). Stage moves go through `update-lead-stage`, not here. |
+| `manage-lead-participant` ✍️ | employee | Add, remove or promote someone on a lead's buying committee. Max 15 per lead; exactly one may be primary, and promoting someone is what re-points the lead at their contact record. |
 | `add-lead-note` ✍️ | employee | Add a note to a lead's note timeline. |
 | `list-lead-documents` | employee | List the files attached to a lead (PDF / Markdown / Office docs) — the same Documents panel shown in the web Lead detail. |
 | `add-lead-document` ✍️ | employee | Attach a file to a lead (PDF, Markdown, Word, Excel, PowerPoint, CSV, or plain text), stored in the organization's storage and counted against its quota — the same Documents panel shown in the web Lea. |
@@ -146,6 +151,8 @@ categories are labelled; calling one without the add-on returns an
 | `list-opportunities` | employee | List deals (opportunities. |
 | `get-opportunity` | employee | Get full detail for one deal (opportunity): stage, status, value, financials, forecast fields (probability, expected close date), custom fields, company and parent lead. |
 | `create-opportunity` ✍️ | employee | Create a renewal or upsell deal (secondary opportunity) on an existing lead — the person keeps ONE lead row; each concurrent deal is its own opportunity with its own stage, value and owner. |
+| `update-opportunity` ✍️ | employee | Update a secondary deal's own fields. Its `value` is deliberately not settable here — the roll-up owns it, so price a deal with `manage-deal-line-item`. |
+| `move-opportunity-stage` ✍️ | employee | Move a secondary deal to another stage, optionally into a different pipeline. The lead's PRIMARY deal moves with `update-lead-stage` instead; calling this on one returns `use_lead_move_stage`. |
 | `list-quotes` | employee | List quotes with their status, totals and version chain. |
 | `get-quote` | employee | Full detail of one quote: every line item with quantity, unit price and discount, plus subtotal, discount total, tax, notes, terms and the version chain. |
 | `manage-quote` ✍️ | employee | Draft a quote on a deal, edit a draft, or delete one. |
@@ -200,6 +207,26 @@ categories are labelled; calling one without the add-on returns an
 | `update-automation-rule` ✍️ | manager | Update a workflow automation rule. |
 | `delete-automation-rule` ✍️ | manager | Delete a workflow automation rule. |
 | `list-automation-rule-runs` ✍️ | manager | List recent executions of a workflow automation rule: which lead it fired for, per-action outcomes, and completed/partial/failed status. |
+
+A rule is a **trigger** plus 1–5 ordered **actions**. Triggers: `lead_created`,
+`stage_changed`, `score_crossed`, `booking_no_show`, `lead_inactive`,
+`ticket_checked_in`. Actions: `send_template`, `assign`, `move_stage`,
+`add_tag`, `adjust_score`, `fire_webhook`, `notify`, `post_to_slack`,
+`post_to_teams`, and the two playbook actions:
+
+| Action | Shape | Notes |
+| --- | --- | --- |
+| `add_note` | `{type, body}` | Writes onto the lead's shared note timeline. |
+| `add_contact_point` | `{type, title, description?, kind?, priority?, due_in_days?}` | Appends a task to the lead's checklist. |
+
+Both are **idempotent**: re-entering a stage will not add a second copy of the
+same note, nor a second open task with the same title. `due_in_days` is counted
+from the moment the rule fires, not a calendar date — one rule serves every lead
+that reaches the stage, whenever each of them gets there. The task is left
+**unassigned on purpose**, which routes it to whoever owns the lead and keeps it
+following them through a reassignment. `body`, `title`, `description` and the
+Slack/Teams `message_template` all accept the tokens `{{lead_name}}`,
+`{{lead_email}}`, `{{lead_company}}` and `{{rule_name}}`.
 
 ## Departments
 

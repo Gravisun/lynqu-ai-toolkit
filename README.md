@@ -9,8 +9,8 @@
 Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + [MCP](https://modelcontextprotocol.io) for AI lead capture, lead research, sales follow-up, and pipeline management — powered by [Lynqu](https://lynqu.com).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-16-7C3AED.svg)](skills)
-[![MCP tools](https://img.shields.io/badge/MCP%20tools-129%2B9-7C3AED.svg)](docs/mcp/tool-catalog.md)
+[![Skills](https://img.shields.io/badge/skills-17-7C3AED.svg)](skills)
+[![MCP tools](https://img.shields.io/badge/MCP%20tools-136%2B9-7C3AED.svg)](docs/mcp/tool-catalog.md)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-ready-1f1147.svg)](https://modelcontextprotocol.io)
 
 <br/>
@@ -96,7 +96,7 @@ That's it. See [`examples/prompts.md`](examples/prompts.md) for a full prompt li
 
 ## 🛠️ The skills
 
-Sixteen skills covering the whole motion. **You don't need to learn them.** Say
+Seventeen skills covering the whole motion. **You don't need to learn them.** Say
 what's going on and [`lynqu`](skills/lynqu) works out which ones to run, in what
 order.
 
@@ -121,6 +121,7 @@ Or drive them directly:
 | `/lynqu followup` | ✉️ [`lynqu-sales-followup`](skills/lynqu-sales-followup) | Post-meeting and re-engagement → sends + scheduled next steps |
 | `/lynqu prep` | 📋 [`lynqu-prep`](skills/lynqu-prep) | Meeting brief → agenda, open threads, the questions that matter |
 | `/lynqu proposal` | 🧾 [`lynqu-deal-desk`](skills/lynqu-deal-desk) | Priced line items → a **draft** quote; you stay the one who sends |
+| `/lynqu playbook` | 📕 [`lynqu-sales-playbook`](skills/lynqu-sales-playbook) | A written playbook → leads, dated tasks, the doc on the lead, stage rules that deliver the prep |
 | `/lynqu event` | 🎪 [`lynqu-event-blitz`](skills/lynqu-event-blitz) | Event + campaign → capture → attribution → ROI you can answer |
 | `/lynqu pipeline` | 🗂️ [`lynqu-lead-management`](skills/lynqu-lead-management) | Stage moves, owners, merges, stalled sweep |
 | `/lynqu report` | 📊 [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) | Weekly briefing — movement, risk, ROI. **Read-only** |
@@ -247,11 +248,12 @@ lynqu-ai-toolkit/
 │   ├── mcp/
 │   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Cursor · VS Code)
 │   │   ├── authentication.md    # OAuth 2.1 flow + plan tiers, explained
-│   │   ├── tool-catalog.md      # All 129 org tools + 9 personal tools, by category
+│   │   ├── tool-catalog.md      # All 136 org tools + 9 personal tools, by category
 │   │   └── troubleshooting.md   # Common connection errors and fixes
 │   └── client-configs/          # Copy-paste config snippets per client
-├── skills/                      # The 16 Lynqu Agent Skills
+├── skills/                      # The 17 Lynqu Agent Skills
 ├── examples/prompts.md          # Prompt library
+├── examples/playbooks/          # Worked playbook doc set (fictional)
 └── scripts/validate_skills.py   # Frontmatter + tool-reference validator (runs in CI)
 ```
 
@@ -278,6 +280,7 @@ lynqu-ai-toolkit/
 - **Cold outreach sequences** → [`lynqu-outreach`](skills/lynqu-outreach)
 - **A sales follow-up automation skill** → [`lynqu-sales-followup`](skills/lynqu-sales-followup)
 - **Meeting preparation briefs** → [`lynqu-prep`](skills/lynqu-prep)
+- **Turning a sales playbook into a working pipeline** → [`lynqu-sales-playbook`](skills/lynqu-sales-playbook)
 - **Quotes & price-book proposals** → [`lynqu-deal-desk`](skills/lynqu-deal-desk)
 - **Event / trade-show lead capture** → [`lynqu-event-blitz`](skills/lynqu-event-blitz)
 - **Connect Lynqu MCP to ChatGPT / Cursor / Claude** → [`docs/mcp/connect.md`](docs/mcp/connect.md)

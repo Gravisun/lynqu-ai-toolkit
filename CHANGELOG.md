@@ -3,6 +3,33 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.3.0] - 2026-08-05
+
+### Added
+- **`lynqu-sales-playbook`** — turns a written playbook (decision makers, an
+  outreach sequence, meeting prep, a send order) into a live pipeline: leads and
+  buying committees, the sequence as dated tasks, the playbook attached to each
+  lead, and **stage rules that deliver the prep when the deal gets there**. The
+  last part is what makes it a process rather than a one-time import — a rule
+  hangs off the stage, so it also fires for leads created months later.
+- **A worked doc set** in [`examples/playbooks/`](examples/playbooks) — fully
+  fictional, showing the input shape the skill reads.
+- Two new automation actions in the catalog, `add_note` and
+  `add_contact_point`, with their shapes and the three behaviours that decide
+  whether the result is usable: both are idempotent, `due_in_days` is relative
+  to the fire, and the task is deliberately left unassigned so it follows
+  whoever owns the lead.
+
+### Fixed
+- **Seven tools were missing from the catalog** (129 → **136**), so a skill
+  referencing any of them would have failed the validator and, worse, a model
+  reading the catalog would have concluded they don't exist: `create-contact`,
+  `get-contact`, `update-contact`, `manage-lead-participant`, `update-lead`,
+  `update-opportunity`, `move-opportunity-stage`. The first four are the
+  contacts-and-buying-committee surface the new skill is built on.
+
+[1.3.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.3.0
+
 ## [1.2.0] - 2026-08-04
 
 ### Added

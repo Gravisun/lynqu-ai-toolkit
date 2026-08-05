@@ -91,6 +91,24 @@ good starting points.
 Note the assistant will draft a quote but never send, accept or decline one —
 those stay with you, and it will hand off rather than pretend otherwise.
 
+## Sales playbook → `lynqu-sales-playbook`
+
+> "Here's our playbook folder — decision makers, the outreach sequence, meeting
+> prep and the send order. Set it up in the Partnerships pipeline."
+
+> "Take these 13 people, work them as three tracks, and put the six-touch
+> sequence on each one with the right dates."
+
+> "Attach this playbook to every lead it covers, so the rep reads the angle on
+> the lead instead of hunting for the doc."
+
+> "When a lead hits Discovery Booked, drop the meeting-prep briefing on it and
+> create a task to send the agenda the day before."
+
+The last one is a stage rule, not a one-off: it fires for every lead that
+reaches that stage from then on, including ones created months later. See
+[`examples/playbooks/`](playbooks/) for a complete worked doc set.
+
 ## Chaining skills
 
 > "Research 10 fintech targets in London, create leads for the good ones, set
