@@ -25,16 +25,20 @@ Most connection problems fall into a few buckets. Work top to bottom.
 ## Tools appear but every call returns an upgrade prompt
 
 You're connected on a plan without AI-tier access. **Connecting is free;
-running tools needs Pro+AI, Business, or Corporate.** Upgrade in the Lynqu app,
-then retry — no need to reconnect.
+running tools needs Pro+AI, Business+AI or Enterprise.** Plain Business does not
+include the assistant. Upgrade in the Lynqu app, then retry; there is no need to
+reconnect.
 
 ## A specific tool returns "not allowed" / "insufficient role"
 
-- **Role gate.** Some tools need `manager` or `admin`. See the Role column in
-  [`tool-catalog.md`](tool-catalog.md). Ask an admin to run it, or to raise your
-  role.
+- **Role or capability gate.** Some tools need a capability that `manager` or
+  `admin` holds by default. See the Role column in
+  [`tool-catalog.md`](tool-catalog.md). On Enterprise, a custom role may not
+  hold it even though its name sounds senior. Ask an admin to run it, or to
+  grant the capability.
 - **Org policy.** Your admin may have set MCP to **read-only** or restricted it
-  to certain roles. Write tools will be blocked under read-only.
+  to certain roles. Write tools are also blocked while the organization's
+  subscription is in its grace period.
 
 ## "Not an org member" on org tools
 

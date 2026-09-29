@@ -105,8 +105,10 @@ Show the battlecard, get a yes, then:
 4. If the intelligence is account-wide rather than deal-specific,
    **`update-company`** so it survives this particular opportunity
 5. Where the org fights this incumbent repeatedly, propose a reusable
-   **follow-up template** (`create-followup-template`) — but propose it, don't
-   create it silently. Templates are org-wide and manager+ territory
+   **follow-up template** (`create-followup-template`), but propose it, don't
+   create it silently. A team template needs `follow_ups.manage` (admins by
+   default); a rep can save it as a personal template (`scope: mine`) that only
+   their own leads receive
 
 ## Output format
 

@@ -41,6 +41,9 @@ Pull broad first, then drill only where something looks wrong.
 | `get-card-stats` / `list-org-cards` | Card engagement — the top of the funnel |
 | `list-dashboards` + `get-dashboard-data` | The org's own saved widgets (analytics add-on) |
 | `list-lead-duplicates` | Data quality that's distorting every number above |
+| `get-followup-performance` | Which templates, sequences, steps and reps get replies, meetings and wins |
+| `list-outbox` | What actually went out: bounces, server cancellations, and the replies that came back |
+| `list-handoffs` | Work AI employees handed back that nobody has picked up (only if the org has them) |
 
 Skip cleanly on `ADDON_REQUIRED`. Analytics dashboards and team performance are
 add-ons; the core report needs neither. Mention the omission once, at the end,
@@ -63,7 +66,14 @@ A total is a fact. A difference is information.
 6. **Source quality.** Win rate by capture source and campaign. Volume flatters
    the wrong channel constantly.
 7. **Coverage.** Weighted pipeline against target. Say the ratio plainly.
-8. **Hygiene.** Duplicates, orphaned leads, open leads with no next step. These
+8. **Follow-up engagement.** `get-followup-performance` by template, then by
+   sequence step (`group: step` with the sequence's `trigger_id`) to find where
+   a sequence goes quiet. Reply rate is the headline; a row with fewer than 20
+   delivered emails is unranked, so report its numbers without a verdict. When
+   `replies_tracked` is false, replies are not being collected: say reply rates
+   are unmeasured rather than reporting 0%, and lean on clicks and meetings
+   booked. Open rate is empty when the org does not track opens.
+9. **Hygiene.** Duplicates, orphaned leads, open leads with no next step. These
    are the caveats every other number in the report needs.
 
 ## Step 3: Turn analysis into recommendations
@@ -88,6 +98,8 @@ makes the rest trustworthy:
   leads with no value set are invisible in the forecast
 - Where the sample is too small for the percentage to mean anything. "3 of 4 = 75%
   win rate" is not a win rate
+- Whether replies are tracked at all (`replies_tracked`). An untracked reply
+  rate is not a zero
 
 A leader who catches a report overstating its confidence once will discount every
 report after it.
@@ -120,6 +132,9 @@ report after it.
 
 ## Events & campaigns
 | Name | Spend | Leads | Qualified | Pipeline | Cost/qualified |
+
+## Follow-ups
+| Template or step | Delivered | Reply rate | Booked | Won | Note |
 
 ## Do this week
 1. {Action} — {who} — {expected impact}
@@ -158,6 +173,11 @@ Keep the top of the report to what fits on a phone screen. Depth goes below.
   actually valued. A forecast built on 30% coverage is a guess with a decimal point.
 - **Period contains a holiday or an event** → note it. A quiet week in August is
   not a trend.
+- **`replies_tracked` is false** → drop reply rate from the follow-up table and
+  say why in one line. Never present it as 0%.
+- **Scope narrower than asked** → `get-followup-performance` and `list-outbox`
+  default to the caller's own sends; `team` and `all` need manager or admin.
+  State which scope the numbers cover.
 
 ## Cross-skill integration
 
@@ -166,6 +186,9 @@ Keep the top of the report to what fits on a phone screen. Depth goes below.
 - Loss patterns by segment → `lynqu-icp`
 - Event ROI worth digging into → `lynqu-event-blitz`
 - Deals with no value set, blocking the forecast → `lynqu-deal-desk`
+- A template or sequence step that gets no replies → `lynqu-sales-followup` or
+  `lynqu-outreach` to rewrite it. A rep's personal version running beside the
+  team template is the comparison: both show up in `get-followup-performance`
 - Run this **after** any write-heavy skill to confirm the writes landed as intended
 
 ## Example

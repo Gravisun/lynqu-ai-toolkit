@@ -33,12 +33,15 @@ Running a tool requires an **AI-tier plan**:
 | Plan | Connect | Run tools |
 | --- | --- | --- |
 | Free / Pro | ✅ | ❌ (upgrade prompt) |
+| Business (without the AI add-on) | ✅ | ❌ (upgrade prompt) |
 | **Pro + AI** | ✅ | ✅ (personal scope) |
-| **Business** | ✅ | ✅ |
-| **Corporate** | ✅ | ✅ |
+| **Business + AI** | ✅ | ✅ |
+| **Enterprise** | ✅ | ✅ |
 
-Connecting and listing tools is always allowed — the gate fires when you
-*call* a tool.
+Connecting and listing tools is always allowed; the gate fires when you
+*call* a tool. A member of an organization on Business + AI or Enterprise gets
+access from the org's plan, whatever their personal plan is. Legacy Corporate
+plans count as Enterprise.
 
 ### 2. Organization policy
 
@@ -49,23 +52,36 @@ For the org server (`/mcp/v2`), your organization admin controls an
 - **allowed_roles** — restrict MCP to specific roles.
 - **read_only** — allow read tools but block writes.
 
-If a policy blocks you, the tool returns a clear error explaining why.
+An organization whose subscription lapsed into its grace period is read-only
+too, until it renews. If a policy blocks you, the tool returns a clear error
+explaining why.
 
-### 3. Role gate
+### 3. Role and capability gate
 
 Org roles rank `employee` (1) < `manager` (2) < `admin` (3). The org owner is an
-implicit admin. A tool runs only if your role meets its minimum:
+implicit admin. Most tools check a named **capability**, the same one the
+matching screen in the app checks, and each capability has a default minimum
+role:
 
-| Minimum role | Example tools |
-| --- | --- |
-| **employee** (default) | list/read tools, `create-lead`, `add-lead-note`, `update-lead-stage`, `send-followup-now` |
-| **manager** | `create-campaign`, `update-campaign-status`, `add-campaign-member`, `assign-lead`, `create-event`, `update-event-lifecycle`, `link-event-to-campaign`, `create-department`, `assign-user-to-department`, `create-followup-template`, `move-lead-pipeline` |
-| **admin** | `create-lead-pipeline`, `create-pipeline-stage`, `create-employee`, `update-employee`, `remove-employee`, `bulk-import-employees`, `manage-catalog-item`, `manage-comp-plan`, `decide-join-request` |
+| Held by default from | Capabilities | Example tools |
+| --- | --- | --- |
+| **employee** | none needed | read tools, `create-lead`, `add-lead-note`, `update-lead-stage`, `send-followup-now`, a personal `create-followup-template` |
+| **manager** | `leads.manage`, `campaigns.manage`, `companies.manage`, `booking.manage`, `automation.manage`, `performance.team`, `analytics.view`, `events.reports`, `field_policies.manage`, `studio.use` | `assign-lead`, `delete-lead`, `create-lead-pipeline`, `create-campaign`, `merge-companies`, `get-forecast` |
+| **admin** | `events.manage`, `departments.manage`, `lead_scoring.manage`, `members.admin`, `crm.configure`, `agents.manage`, `devices.manage`, `follow_ups.manage` (team templates) | `create-event`, `manage-department`, `create-lead-scoring-rule`, `create-employee`, `manage-catalog-item`, `decide-agent-approval`, `assign-device` |
 
-The personal server (`/mcp/me`) has **no org or role gate** — every tool there
-is scoped to you.
+On **Enterprise**, custom roles can be granted a capability or have one taken
+away, so a denial means "this role does not hold that capability", not
+necessarily "you are not a manager". A few tools are **hard floors** that no
+custom role can reach: `get-billing-summary`, `list-audit-events`,
+`list-integrations`, `list-access-domains` and `manage-comp-plan` are admin
+only.
 
-`docs/mcp/tool-catalog.md` lists the minimum role for every tool.
+The personal server (`/mcp/me`) has **no org or role gate**: every tool there
+is scoped to you. A card owned by an organization that switched MCP off stays
+out of reach there too.
+
+`docs/mcp/tool-catalog.md` lists the default role and capability for every
+tool.
 
 ### Stricter than role alone
 
@@ -77,17 +93,26 @@ Two things are gated beyond the role table:
   a rep's numbers but not their pay, and nobody sets their own.
 - **Add-on-gated categories.** Some tools need a paid add-on regardless of
   role (team performance needs Advanced User Management, automation needs
-  Workflow Automation, dashboards need Analytics). Calling one without it
-  returns an `ADDON_REQUIRED` error naming the add-on key, so the assistant can
-  point you at the right purchase page.
+  Workflow Automation, dashboards and the booking report need Analytics, team
+  booking pools need Advanced Booking, event tickets need Ticketing). Calling
+  one without it returns an `ADDON_REQUIRED` error naming the add-on key, so the
+  assistant can point you at the right purchase page.
+- **Scope parameters.** Several read tools default to your own records and
+  widen only for a manager or admin: `list-outbox`, `get-followup-performance`,
+  `list-handoffs` and the org-level task list in `list-lead-contact-points`.
+- **AI employee approvals.** `decide-agent-approval` decides exactly one parked
+  action per call. There is no batch form, and editing an action before
+  approving it happens in the app.
 
 ### Actions with no tool at all
 
 A few things are reachable in the app but deliberately have **no MCP tool**, so
 no role unlocks them: sending, accepting or declining a quote; validating an
-event ticket. These either reach a customer or change a real-world record, and
-an assistant being talked into one is worse than the convenience is worth. See
-the guardrails in `skills/lynqu-deal-desk/SKILL.md`.
+event ticket; running an AI Studio recipe; picking up or resolving an AI
+employee's handoff; reading or changing an AI employee's guardrails. These
+either reach a customer, change a real-world record or reshape how a team
+works, and an assistant being talked into one is worse than the convenience is
+worth. See the guardrails in `skills/lynqu-deal-desk/SKILL.md`.
 
 ## Security notes
 

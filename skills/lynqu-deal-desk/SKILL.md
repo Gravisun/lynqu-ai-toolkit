@@ -42,6 +42,19 @@ If no opportunity exists yet, **`create-opportunity`** on the lead — but only 
 scope is genuinely understood. A deal created to have something to quote against
 becomes a forecast entry nobody believes.
 
+Two clean-ups belong here, before any pricing, and each needs its own yes:
+
+- **A secondary deal that isn't real** (a renewal that was never going to
+  happen, an upsell opened twice): **`delete-opportunity`**, naming the deal.
+  A lead's primary deal cannot be deleted; it closes with a stage move on the
+  lead
+- **The account split across two company records** (the roll-up on
+  `get-company` is missing deals you know exist): **`merge-companies`** with no
+  arguments lists the duplicate pairs with each side's lead, contact and deal
+  counts. Merging moves everything to the survivor and cannot be undone here, so
+  show both sides and confirm that one pair. Needs `companies.manage` (managers
+  by default)
+
 ## Step 2: Confirm the scope before you price it
 
 The most expensive failure in this skill is a clean quote for the wrong thing.
@@ -148,6 +161,8 @@ saying that clearly is better than apologising for it.
 - **Set the forecast category honestly.** Optimism here becomes someone's missed
   number.
 - **A sent quote is frozen.** Revise with a new version; never edit in place.
+- **Never delete a deal or merge companies on inference.** Name the record, show
+  what moves or disappears, and get a yes for that one call.
 
 ## Error handling
 
@@ -166,6 +181,9 @@ saying that clearly is better than apologising for it.
   most orgs. Deliver the missing item as a request with the details filled in.
 - **Multiple deals on one account** → ask which. Never guess between a renewal and
   an expansion.
+- **`delete-opportunity` refused on the lead's main deal** → that is the primary
+  deal, which follows the lead. Close it with `update-lead-stage` (won or lost),
+  or delete the lead if the whole record was a mistake.
 
 ## Cross-skill integration
 

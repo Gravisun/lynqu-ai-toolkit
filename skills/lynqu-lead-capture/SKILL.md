@@ -84,6 +84,14 @@ Per person: **`create-lead`** with the normalized fields, a real `source` ("SaaS
 context — what was said, what they asked for, how interested they seemed. That
 note is what makes the follow-up sound like a human remembers them.
 
+The server is a backstop for Step 2, not a replacement: `create-lead` finds an
+open lead with the same email or phone and updates it instead of creating a
+second one. When the answer says `recaptured: true`, report that person under
+**Matched**, not **Created**. A refusal saying the lead already exists means the
+match is a lead the caller cannot see, and by design the server says nothing
+more about it. Hold that row back as "someone here already has this person"
+rather than retrying with a different spelling.
+
 Assignment, if relevant: `list-team-members` then `assign-lead` (which takes the
 **user id**, not the `organization_user_id` — the same call returns both).
 

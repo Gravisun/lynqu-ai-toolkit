@@ -36,10 +36,13 @@ no email — it proves nobody looked.
 - **`get-company`** and **`list-opportunities`** — an existing deal on the account
   changes this from cold outreach to multi-threading, which is a different message
 - **`search-contacts`** — is this person already known to someone here?
+- **`list-outbox`** with the `lead_id`: has anyone on the team, or an AI
+  employee, already emailed them, and did they reply? A reply means this is no
+  longer cold
 
-**Stop conditions.** If the lead was contacted in the last 5 days, or is already
-in an active sequence, or belongs to another rep's open deal — say so and stop.
-Don't write the email.
+**Stop conditions.** If the lead was contacted in the last 5 days, is already
+in an active sequence, has replied, or belongs to another rep's open deal, say
+so and stop. Don't write the email.
 
 ## Step 2: Qualify before you spend
 
@@ -92,20 +95,31 @@ champion. Never send identical copy to two people at the same company.
 
 Show the full sequence, get approval, then:
 
-1. **`list-followup-templates`** — reuse before you create. A template the org
-   already tuned beats a fresh one, and it keeps the brand consistent
-2. **`create-followup-template`** for a genuinely new, reusable sequence
-   (manager+ in most orgs — if denied, deliver the copy and say who can save it)
-3. **`send-followup-now`** for step 1 — **only after an explicit yes for this
+1. **`list-followup-templates`**: reuse before you create. A template the org
+   already tuned beats a fresh one, and it keeps the brand consistent. When
+   several fit, **`get-followup-performance`** (group `template`) shows which
+   gets replies; trust a ranking only on 20 or more delivered emails, and only
+   while `replies_tracked` is true. AI employees' proposals in the list are
+   drafts, not sendable templates
+2. **`create-followup-template`** for a genuinely new, reusable sequence.
+   `scope: team` makes it the org's (needs `follow_ups.manage`, admins by
+   default); `scope: mine` saves it as the user's personal template, used only
+   on their own leads. If team is denied, offer personal, or deliver the copy
+   and say who can save it for the team
+3. **`send-followup-now`** for step 1, **only after an explicit yes for this
    specific send**. Not implied by plan approval, not implied by "looks good" on
-   the draft. The user says send, or nothing sends
+   the draft. The user says send, or nothing sends. It takes a team template or
+   the user's own personal one. It answers "queued", and the server can still
+   cancel it at dispatch (an opt-out, a reply, a booked meeting), so confirm in
+   **`list-outbox`** before reporting it sent
 4. **`add-lead-contact-point`** for every remaining step, dated: *"Touch 2 —
    peer example — due {date}"*. This is what makes a sequence survive the rep
    getting busy
 5. **`add-lead-note`** with the angle and the reasoning, so touch 4 doesn't
    contradict touch 1
 6. **`bulk-update-leads`** (≤ 100) to tag the cohort, so the response rate of this
-   sequence is measurable later
+   sequence is measurable later. The template's own reply rate shows up in
+   `get-followup-performance` once enough of it has been delivered
 
 Compliance — opt-outs, the 30-day cap, sender identity, physical address — is
 enforced server-side by Lynqu. Do not try to route around it, and do not promise
@@ -131,7 +145,7 @@ the user a send that the platform will suppress.
 | Person | Role | Their version of the message |
 
 ## Written to Lynqu
-- Template {name} {reused | created}
+- Template {name} {reused | created} ({team | personal})
 - Touch 1 sent to {n} leads (approved {timestamp})
 - {n} tasks scheduled for touches 2–5
 - Cohort tagged {tag}
@@ -160,8 +174,10 @@ the user a send that the platform will suppress.
   `lynqu-sales-followup` instead — this is no longer cold.
 - **Send fails or is suppressed** → the recipient may have opted out or hit the
   cap. Report it as a compliance outcome, never as a bug, and never retry.
-- **Template write denied** → deliver the copy in chat, formatted to paste, and
-  name the manager who can save it.
+- **Team template write denied** → save it as the user's personal template
+  (`scope: mine`), or deliver the copy in chat, formatted to paste, and name who
+  can save it for the team. An admin can switch personal templates off for the
+  workspace; then the paste route is the only one.
 - **Segment larger than 100** → chunk, confirm each chunk, and report progress.
   Never fire 400 sends off one approval.
 - **Thin lead — no notes, no source, no company** → that's not a cold outreach
@@ -173,7 +189,9 @@ the user a send that the platform will suppress.
 - Committee unmapped → `lynqu-contacts` for multi-threading
 - Incumbent known → `lynqu-competitors`, but never lead a first touch with a
   competitor comparison
-- They replied → `lynqu-sales-followup` owns everything after the first response
+- They replied → `lynqu-sales-followup` owns everything after the first response.
+  When reply tracking is on, the reply also stops their automated follow-ups by
+  itself
 - They booked a meeting → `lynqu-prep`
 - Whole-cohort performance → `lynqu-pipeline-report`
 

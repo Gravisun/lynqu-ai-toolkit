@@ -8,7 +8,7 @@ There is **no API key or token to copy**.
 
 | Server | URL | Use it for |
 | --- | --- | --- |
-| **Organization (B2B)** | `https://api.lynqu.com/mcp/v2` | Cards, contacts, leads, campaigns, events, pipeline, departments, employees, follow-ups, analytics |
+| **Organization (B2B)** | `https://api.lynqu.com/mcp/v2` | Cards, contacts, leads, campaigns, events, pipeline, departments, employees, follow-ups, AI employees, analytics |
 | **Personal** | `https://api.lynqu.com/mcp/me` | Just your own cards, card analytics, and profile |
 
 Most teams want the **organization** server. Use the personal server if you're
@@ -16,8 +16,9 @@ an individual user without an organization, or you only want to manage your own
 cards.
 
 > **Plan requirement:** *connecting* is open to any account. *Running* a tool
-> requires an AI-tier plan (Pro+AI, Business, or Corporate). If you connect on a
-> free plan, the tools appear but return an upgrade prompt when called.
+> requires an AI-tier plan (Pro+AI, Business+AI or Enterprise). If you connect
+> on a plan without AI, the tools appear but return an upgrade prompt when
+> called.
 
 ## Easiest path: the in-app connector
 

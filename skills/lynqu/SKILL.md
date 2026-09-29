@@ -80,6 +80,8 @@ cost of a wrong turn. So:
 | "We keep losing to {incumbent}" | `competitors` (battlecard) → `icp` (is this segment the anti-profile?) → `pipeline` (nurture the ones with bad timing) |
 | "Make me money this week" | `report` → rank by score and staleness → `followup` on the warm ones → `proposal` on anything already scoped |
 | "Set us up, we're new here" | `card` → `icp` (or a starter profile) → `capture` → `pipeline` |
+| "Which of our emails actually get answered?" | `report` (follow-up performance, outbox) → `followup` to rewrite the weakest template or step |
+| "What has our AI SDR been doing, and what's waiting on me?" | AI employees (below): timeline and handoffs → approvals decided one by one → `report` for its reply rate |
 
 ### When one skill really is enough
 
@@ -155,12 +157,47 @@ Match on the **outcome**, not the noun. "I have a list of people" is capture;
 | "tidy the pipeline", "who's stalled", "reassign" | `lynqu-lead-management` | Leads exist; the work is state and ownership |
 | "how's the pipeline", "weekly review", "forecast", "ROI" | `lynqu-pipeline-report` | Read-only analysis, no writes |
 | "my card", "update my title", "card views" | `lynqu-card-studio` | The surface people meet you through |
+| "which template works", "reply rate", "what did we send" | `lynqu-pipeline-report` | Read-only analysis of follow-up performance and the outbox |
+| "what is X", "do we have X", "why can't I see X" | answered here | Product knowledge, not a workflow (below) |
+| "AI employee", "the agent", "approve that", "handoff" | answered here | No specialist skill owns AI employees (below) |
 
 **Multi-step requests get a chain, not a fight.** Announce the chain up front,
 run it in order, and check in between phases that write.
 
 **Ambiguous requests get one question, not five.** Ask the single thing that
 changes the route, then go.
+
+## Answered here, not routed
+
+Two kinds of request have no specialist skill, so you handle them yourself.
+
+**Product questions.** "What's a field policy", "do we have virtual
+backgrounds", "why can't I see Dashboards": call **`explain-feature`** first. It
+says what a feature is, where it lives, which plan includes it and whether this
+caller can use it. Never tell anyone Lynqu lacks something before asking it.
+When the answer is "it's switched off" or "your plan doesn't include it",
+**`get-ai-settings`** explains the AI surfaces and **`get-billing-summary`** the
+plan and add-ons (both admin tools; for anyone else, name who can check).
+
+**AI employees.** Reads chain freely: **`list-agents`** (who is hired, whether
+each is still in its observe-only trial), **`get-agent-timeline`** (what one
+did and why, including actions awaiting approval), **`list-handoffs`** (work an
+agent handed back to a person), **`get-sales-brief`** (what they are briefed
+with; `none` or `stale` means an admin has to confirm it in the app).
+**`decide-agent-approval`** is the one write, and it is held to the email rule:
+
+1. Show the parked action from the timeline: the tool, the lead it concerns,
+   and the agent's own rationale
+2. Get an explicit yes or no **for that one action**. Approving executes it
+   immediately. Rejecting needs a reason code, which is what tunes the agent
+3. One call per action. There is no batch form, and "approve them all" is
+   answered by walking the list one yes at a time
+4. Editing an action before approving it, picking up a handoff and changing an
+   agent's guardrails happen in the app. Say so rather than improvising
+
+Deciding needs `agents.manage` (admins by default). An agent's reply rate is in
+`get-followup-performance` with `group: agent`, which is a `lynqu-pipeline-report`
+question.
 
 ## How the suite chains
 
@@ -205,7 +242,8 @@ Starting step 1 — nothing is written until you've seen the scorecard.
 ## Rules and constraints
 
 - **Route, don't do.** If you are calling `create-lead` from this skill, you
-  skipped a handoff.
+  skipped a handoff. The only exceptions are product questions and AI
+  employees, which no specialist owns.
 - **Read before write, everywhere.** Search for an existing lead or contact
   before creating one. A duplicated pipeline is worse than a missing lead.
 - **Confirm before bulk writes and before any email.** Never send on your own
@@ -216,9 +254,16 @@ Starting step 1 — nothing is written until you've seen the scorecard.
   assignment take the membership row id; lead assignment takes the user id.
   `list-team-members` returns both — read it.
 - **Bulk cap is 100.** `bulk-update-leads` handles ≤ 100 leads per call.
-- **Role gates are real.** Employee tools are open; manager+ covers campaign,
-  event, pipeline and team writes; admin covers org membership and access
-  domains. A denial is a fact to report, not an obstacle to route around.
+- **Role gates are real.** Most tools check a capability rather than a rung:
+  managers hold campaign, pipeline, lead-management and company writes by
+  default; admins hold events, departments, scoring rules, membership and AI
+  employee decisions; billing, audit, integrations and access domains are admin
+  only. On Enterprise a custom role can move any capability. The Role column in
+  `docs/mcp/tool-catalog.md` has the default for every tool. A denial is a fact
+  to report, not an obstacle to route around.
+- **Destructive calls get their own yes.** Every `delete-*` and `merge-*` call,
+  and every AI employee approval, is confirmed on its own, naming the record.
+  Approval of the plan does not cover them.
 
 ## Error handling
 
@@ -227,7 +272,8 @@ Starting step 1 — nothing is written until you've seen the scorecard.
 | `who-am-i` fails or returns nothing | Server not connected, or OAuth expired | Stop. Point at `docs/mcp/connect.md`. Nothing else will work |
 | `ADDON_REQUIRED` naming a key | The org lacks that module | Name the add-on, offer the path that doesn't need it, don't retry |
 | Role/permission denial | Caller lacks the minimum role | Say which role it needs and who in the org has it |
-| Every write refused, reads fine | Org MCP policy is read-only | Say so plainly — it's an admin setting, not a failure |
+| Every write refused, reads fine | Org MCP policy is read-only, or the org's subscription lapsed into its read-only grace period | Say so plainly: an admin setting or a billing state, not a failure |
+| Denied though the user's role "should" allow it | The tool checks a capability, and a custom role (Enterprise) does not hold it | Name the capability from the catalog and who can grant it |
 | Empty org: no leads, no campaigns | Fresh account | Route to `lynqu-card-studio` or `lynqu-lead-capture`. A report on nothing wastes everyone's time |
 | Tool not found | Client cached an old tool list | Ask the user to reconnect the server |
 
@@ -236,8 +282,10 @@ Starting step 1 — nothing is written until you've seen the scorecard.
 - Pass `get-org-summary` into the routed skill so it doesn't re-read.
 - After any write-heavy skill, suggest `/lynqu report`.
 - Some things are deliberately **not** in this suite: sending a quote, validating
-  a ticket at the door, approving compensation. Those are human-in-the-loop by
-  design. Point at the Lynqu app rather than improvising a workaround.
+  a ticket at the door, approving compensation, running an AI Studio recipe
+  (`list-studio-recipes` can recommend one), picking up a handoff. Those are
+  human-in-the-loop by design. Point at the Lynqu app rather than improvising a
+  workaround.
 - The generic `/sales` suite still applies to work that has no Lynqu object
   behind it — market sizing, positioning essays, one-off decks. Use it there and
   bring the conclusions back here as notes.
