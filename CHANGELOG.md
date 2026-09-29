@@ -3,6 +3,93 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.0] - 2026-09-29
+
+### Added
+- **28 tools were missing from the catalog** (organization 136 → **163**,
+  personal 9 → **10**), regenerated from the server's tool classes and
+  checked against its registered list:
+  - Follow-ups: `get-followup-performance` (sent, delivered, opened, clicked,
+    replied, booked and won by template, sequence, step, rep or AI employee)
+    and `list-outbox` (what went out, and the replies that came back).
+  - AI employees: `list-agents`, `get-agent-timeline`, `decide-agent-approval`,
+    `list-handoffs`, `get-sales-brief`.
+  - Clean-up: `delete-lead`, `delete-contact`, `delete-company`,
+    `delete-opportunity`, `delete-lead-note`, `delete-lead-document`,
+    `update-lead-note`, `merge-companies`.
+  - Workspace: `explain-feature` (on both servers), `get-billing-summary`,
+    `get-ai-settings`, `list-integrations`, `list-audit-events`,
+    `list-field-policies`, `list-brand-assets`, `list-studio-recipes`.
+  - Also `update-campaign`, `manage-department`, `list-org-devices` and
+    `assign-device`.
+- New catalog sections: **AI Employees**, **NFC Devices**, **Workspace &
+  Settings**, and **Follow-ups & Outbox**. The automation section lists all 21
+  triggers and 21 actions (it listed 6 and 11).
+- `docs/concepts.md` explains **personal follow-ups** (a member's version
+  replaces the team text on their own leads unless an admin locked it),
+  **replies and reply tracking**, **follow-up performance** (reply rate is the
+  headline; nothing is ranked below 20 delivered emails), **AI employees and
+  their approvals**, and the **sales brief**. The README gained a short section
+  on the same, and the prompt library gained follow-up, reporting and AI
+  employee examples.
+
+### Changed
+- **The Role column follows capabilities.** Most tools now check a named
+  capability that Enterprise custom roles can grant or withhold, so every row
+  shows the default role plus the capability key (`manager · leads.manage`),
+  and `admin only` marks the hard floors. Defaults that moved: events are admin
+  by default (they were manager), as are departments and lead scoring rules,
+  reading the rules included; pipelines and stages dropped to manager (they
+  were admin); `create-lead` is open to every member (it was manager); team
+  follow-up templates need `follow_ups.manage` while personal ones are open to
+  every member.
+- **`lynqu-sales-followup`** and **`lynqu-outreach`** pick templates on
+  evidence from `get-followup-performance`, honour the 20-delivered floor, say
+  so when `replies_tracked` is false instead of reporting 0%, send only team
+  templates or the user's own (never an AI proposal), check `list-outbox`
+  afterwards because the server can still cancel a send, treat a reply as the
+  end of the follow-up, and use `update-lead` `follow_ups_paused` to stop one
+  lead's automated sequence.
+- **`lynqu-lead-management`** deletes records that were never real
+  (`delete-lead`), merges duplicate companies, and corrects or removes notes,
+  each behind its own confirmation naming the record.
+- **`lynqu-pipeline-report`** reports follow-up engagement from
+  `get-followup-performance`, the outbox and open AI employee handoffs.
+- **`lynqu`** answers product questions with `explain-feature` before saying
+  Lynqu lacks something, handles AI employees itself (reads freely, decides
+  approvals one action at a time with an explicit yes each), and states role
+  gates in terms of capabilities.
+- **`lynqu-deal-desk`** can remove a secondary deal that isn't real and merge an
+  account split across two company records; **`lynqu-sales-playbook`** knows
+  stage rules send team templates only; **`lynqu-event-blitz`** reflects the
+  admin default on events and reads post-event follow-up performance by
+  campaign; **`lynqu-lead-capture`** counts a `recaptured: true` answer from
+  `create-lead` as a match; **`lynqu-qualify`**, **`lynqu-icp`**,
+  **`lynqu-lead-research`** and **`lynqu-competitors`** reflect the new gates on
+  scoring rules and templates.
+- `scripts/validate_skills.py` now also checks tool references that start with
+  `delete`, `merge`, `manage`, `decide`, `issue`, `confirm`, `start`, `review`,
+  `propose`, `reschedule`, `accept` and `explain`, so a misspelled destructive
+  tool fails CI like any other.
+
+### Fixed
+- **The plan gate was wrong everywhere.** Running tools needs Pro+AI,
+  Business+AI or Enterprise; plain Business does not include the assistant.
+  Fixed in the README, `concepts.md`, `connect.md`, `authentication.md` and
+  `troubleshooting.md`.
+- Seven read tools were marked as writes (`list-lead-contact-points`,
+  `list-lead-views`, `list-automation-rules`, `list-automation-rule-runs`,
+  `list-access-domains`, `list-join-requests`, `list-library-files`).
+- Descriptions cut off mid-sentence (`get-lead`, `list-companies`,
+  `create-company` and others) are whole sentences again.
+- `get-forecast` sat under the Team Performance add-on; it needs none. Team
+  booking pools were listed as open to every member with no add-on; they need
+  `booking.manage` and Advanced Booking. The booking report needs Analytics.
+- `update-contact` said deleting a contact had no tool; `delete-contact` exists.
+- `concepts.md` still called pipelines "lead environments".
+
+[1.4.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.4.0
+
 ## [1.3.0] - 2026-08-05
 
 ### Added

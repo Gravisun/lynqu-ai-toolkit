@@ -112,7 +112,9 @@ def main() -> int:
 # like `pt-br` or `co-marketing` from tripping the check while still catching
 # real tool typos such as `create-leads` (vs `create-lead`).
 _TOOL_VERBS = ("list", "get", "create", "update", "add", "assign", "remove",
-               "bulk", "move", "send", "attach", "link", "search", "who", "how")
+               "bulk", "move", "send", "attach", "link", "search", "who", "how",
+               "delete", "merge", "manage", "decide", "issue", "confirm",
+               "start", "review", "propose", "reschedule", "accept", "explain")
 
 
 def _looks_like_tool(token: str) -> bool:

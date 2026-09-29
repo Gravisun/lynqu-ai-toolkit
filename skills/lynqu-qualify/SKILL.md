@@ -168,6 +168,10 @@ the rep can work top-down.
   name the owner.
 - **Stage not found** → `get-pipeline-stages` for the lead's own pipeline; stages
   are per-pipeline, and the name you assumed may live on a different board.
+- **`list-lead-scoring-rules` denied** → reading the rules needs
+  `lead_scoring.manage`, which admins hold by default. Score against the ICP from
+  won leads instead (`list-leads`, `get-lead`), say the org's rules were not
+  visible to you, and don't contradict a rule you could not read.
 
 ## Cross-skill integration
 

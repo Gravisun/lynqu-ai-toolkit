@@ -158,8 +158,9 @@ Built from {n} won and {n} lost leads, {date range}.
 - **Wildly inconsistent data** (half the leads have no company, no source) →
   report the coverage gaps first. Fix the intake, then profile. Say which fields
   are missing and how often.
-- **Scoring rule write denied** → manager+ territory. Deliver the rule table so a
-  manager can apply it in one pass, and name who can.
+- **Scoring rules denied, read or write** → they need `lead_scoring.manage`,
+  which admins hold by default. Deliver the rule table so an admin can apply it
+  in one pass, and name who can.
 
 ## Cross-skill integration
 

@@ -38,6 +38,9 @@ good starting points.
 > "Move all my Demo-stage leads tagged `webinar` into the Won stage — wait, show
 > me the list first."
 
+> "Delete the three test leads I created yesterday. Show me exactly which ones
+> first, and merge anything that's really a duplicate instead."
+
 ## Sales follow-up → `lynqu-sales-followup`
 
 > "Draft post-event follow-ups for everyone tagged `SaaStr-2026` in the Warm
@@ -46,6 +49,16 @@ good starting points.
 
 > "Write a re-engagement note for this stalled lead [name] based on their
 > timeline, and once I'm happy, send it and bump the stage."
+
+> "Which of our follow-up templates actually gets replies? Use the best one for
+> the leads that went quiet after a demo, and show me the drafts before
+> anything sends."
+
+> "Save my own version of the 'Event recap' template with this wording, so my
+> leads get mine instead of the team one."
+
+> "Acme's CFO asked us to hold off until January. Pause the automated follow-ups
+> on that lead and set me a task for the 6th."
 
 ## Event blitz → `lynqu-event-blitz`
 
@@ -64,6 +77,9 @@ good starting points.
 
 > "How are our cards performing this month, and is event-sourced pipeline
 > converting better than inbound?"
+
+> "How are our follow-up sequences doing this quarter? Show me the step where
+> 'Post-demo' goes quiet, and tell me if reply tracking is even on."
 
 ## Card studio → `lynqu-card-studio`
 
@@ -108,6 +124,18 @@ those stay with you, and it will hand off rather than pretend otherwise.
 The last one is a stage rule, not a one-off: it fires for every lead that
 reaches that stage from then on, including ones created months later. See
 [`examples/playbooks/`](playbooks/) for a complete worked doc set.
+
+## AI employees → `lynqu`
+
+> "What has our SDR agent done this week, and what's waiting for my approval?
+> Walk me through each one and I'll decide."
+
+> "Show me the handoffs assigned to me, oldest first."
+
+> "Is our sales brief up to date? The agents write from it."
+
+Approvals are decided one action at a time, each with its own yes. There is no
+"approve all".
 
 ## Chaining skills
 

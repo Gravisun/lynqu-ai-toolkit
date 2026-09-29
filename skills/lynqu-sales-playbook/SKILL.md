@@ -65,7 +65,9 @@ For each named person:
 - **`create-contact`** only for genuine misses. Never create a second contact
   for someone who is already in the roster.
 - **`create-lead`** for the ones you are actually going to work, in the pipeline
-  the user confirmed.
+  the user confirmed. If it answers `recaptured: true`, an open lead with the
+  same email or phone already existed and was updated instead of duplicated:
+  count it as matched, not created.
 - **`manage-lead-participant`** for the rest of the buying committee. A
   corporate track with a champion, a technical sponsor and an economic buyer is
   ONE deal with three participants, not three leads. Promote the champion to
@@ -92,6 +94,13 @@ doesn't fit is a sign the playbook is describing two plays, not one.
 For email touches that are genuinely templated across every lead, build the
 template once with **`create-followup-template`** and reference it from the
 stage rule in Step 6 rather than pasting the copy into 20 tasks.
+
+A stage rule sends **team** templates only (`scope: team`, which needs
+`follow_ups.manage`, admins by default); a personal template is refused there.
+A rep who saved their own version of that team template sends their version on
+their own leads, unless an admin locks the team template in the app. If the
+playbook's copy has to go out word for word (legal wording, a regulated claim),
+say so and ask for the lock.
 
 ## Step 5: Attach the playbook itself
 
@@ -209,6 +218,8 @@ didn't, because nobody knows which half.
 | Attachment over 25 MB | Split by section — which is what you should have done anyway. |
 | Stage named in the playbook doesn't exist | Ask before creating it. A playbook's stage names are usually generic; the org's are usually deliberate. |
 | No pipeline confirmed | Do not guess the default. Ask. |
+| `send_template` refused: "can only use team templates" | The rule names a personal template. Point it at a team template, or ask an admin to publish one. |
+| Team template create denied | Deliver the copy and name an admin; the rest of the playbook still provisions. |
 
 ## Cross-skill integration
 
@@ -218,7 +229,8 @@ didn't, because nobody knows which half.
 - **`lynqu-outreach`** writes the sequence copy → this schedules and attaches it.
 - **`lynqu-prep`** briefs one meeting → the `add_note` rules in Step 6 are the
   standing version of that, delivered by stage instead of on request.
-- **`lynqu-pipeline-report`** tells you weeks later whether the playbook worked.
+- **`lynqu-pipeline-report`** tells you weeks later whether the playbook worked,
+  including the reply rate of each templated touch.
 
 ## Example
 

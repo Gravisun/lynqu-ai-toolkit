@@ -10,7 +10,7 @@ Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/age
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-17-7C3AED.svg)](skills)
-[![MCP tools](https://img.shields.io/badge/MCP%20tools-136%2B9-7C3AED.svg)](docs/mcp/tool-catalog.md)
+[![MCP tools](https://img.shields.io/badge/MCP%20tools-163%2B10-7C3AED.svg)](docs/mcp/tool-catalog.md)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-ready-1f1147.svg)](https://modelcontextprotocol.io)
 
 <br/>
@@ -50,7 +50,7 @@ That whole flow is one sentence to you — and a chain of audited Lynqu actions 
 
 | Server | URL | Scope |
 | --- | --- | --- |
-| **Organization (B2B)** | `https://api.lynqu.com/mcp/v2` | Cards, contacts, leads, campaigns, events, pipeline, team, follow-ups, analytics |
+| **Organization (B2B)** | `https://api.lynqu.com/mcp/v2` | Cards, contacts, leads, campaigns, events, pipeline, team, follow-ups, AI employees, analytics |
 | **Personal** | `https://api.lynqu.com/mcp/me` | Your own cards, card analytics, profile |
 
 Paste the URL into your client's connector settings, sign in, approve. Full per-client steps → [`docs/mcp/connect.md`](docs/mcp/connect.md). There's also a one-click setup in the Lynqu app under **Settings → AI / MCP**.
@@ -90,7 +90,7 @@ cp -r lynqu-ai-toolkit/skills/lynqu* ~/.claude/skills/
 
 That's it. See [`examples/prompts.md`](examples/prompts.md) for a full prompt library.
 
-> 💡 **Plan note:** connecting is free on any account. *Running* tools needs an AI-tier plan (Pro+AI, Business, or Corporate).
+> 💡 **Plan note:** connecting is free on any account. *Running* tools needs an AI-tier plan (Pro+AI, Business+AI or Enterprise).
 
 ---
 
@@ -118,13 +118,13 @@ Or drive them directly:
 | `/lynqu competitors` | ⚔️ [`lynqu-competitors`](skills/lynqu-competitors) | Battlecard → objections and honest answers, saved to the lead |
 | `/lynqu capture` | ➕ [`lynqu-lead-capture`](skills/lynqu-lead-capture) | Badges and pasted lists → **deduped**, routed, tagged leads |
 | `/lynqu outreach` | 📤 [`lynqu-outreach`](skills/lynqu-outreach) | First-touch sequence → template, sent only on your yes |
-| `/lynqu followup` | ✉️ [`lynqu-sales-followup`](skills/lynqu-sales-followup) | Post-meeting and re-engagement → sends + scheduled next steps |
+| `/lynqu followup` | ✉️ [`lynqu-sales-followup`](skills/lynqu-sales-followup) | Post-meeting and re-engagement → sends from the template that gets replies, plus scheduled next steps |
 | `/lynqu prep` | 📋 [`lynqu-prep`](skills/lynqu-prep) | Meeting brief → agenda, open threads, the questions that matter |
 | `/lynqu proposal` | 🧾 [`lynqu-deal-desk`](skills/lynqu-deal-desk) | Priced line items → a **draft** quote; you stay the one who sends |
 | `/lynqu playbook` | 📕 [`lynqu-sales-playbook`](skills/lynqu-sales-playbook) | A written playbook → leads, dated tasks, the doc on the lead, stage rules that deliver the prep |
 | `/lynqu event` | 🎪 [`lynqu-event-blitz`](skills/lynqu-event-blitz) | Event + campaign → capture → attribution → ROI you can answer |
-| `/lynqu pipeline` | 🗂️ [`lynqu-lead-management`](skills/lynqu-lead-management) | Stage moves, owners, merges, stalled sweep |
-| `/lynqu report` | 📊 [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) | Weekly briefing — movement, risk, ROI. **Read-only** |
+| `/lynqu pipeline` | 🗂️ [`lynqu-lead-management`](skills/lynqu-lead-management) | Stage moves, owners, merges, clean-up, stalled sweep |
+| `/lynqu report` | 📊 [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) | Weekly briefing: movement, risk, ROI, which emails get replies. **Read-only** |
 | `/lynqu card` | 🪪 [`lynqu-card-studio`](skills/lynqu-card-studio) | Cards created, updated, and read for engagement |
 
 Every skill ends by **writing to Lynqu** — a scored lead, a dated task, a note
@@ -167,7 +167,28 @@ A typical multi-step ask fans out like this:
   Phase 4 ▸ OUTREACH      lynqu-sales-followup   → drafts for your approval
 ```
 
-You stay in control: skills **confirm before writing in bulk** and **always ask before sending email**.
+You stay in control: skills **confirm before writing in bulk** and **always ask before sending email**. Deletes, merges and AI employee approvals each get their own yes, one record at a time.
+
+---
+
+## 🔁 Follow-ups, replies and AI employees
+
+Lynqu closes the engagement loop, and the MCP reaches every part of it:
+
+- **Personal follow-ups.** Every rep can save their own version of a team
+  template or sequence. It replaces the team text on their own leads, unless an
+  admin locked it.
+- **Follow-up performance.** Sent, delivered, opened, clicked, replied, booked
+  and won, by template, sequence step, rep or AI employee. Reply rate is the
+  headline, and nothing is ranked on fewer than 20 delivered emails.
+- **Replies.** With reply tracking on, a human reply stops the lead's automated
+  follow-ups, lands on its timeline and in the outbox, and is forwarded to
+  whoever the email went out as.
+- **AI employees.** Read what an agent did and why, see the work it handed back,
+  and approve or reject its parked actions one at a time. Agents write from the
+  org's confirmed sales brief.
+
+How these fit together: [`docs/concepts.md`](docs/concepts.md).
 
 ---
 
@@ -244,11 +265,11 @@ A repeatable research → capture → outreach motion that runs in minutes, so a
 ```text
 lynqu-ai-toolkit/
 ├── docs/
-│   ├── concepts.md              # The Lynqu model: cards, leads, campaigns, events, pipeline
+│   ├── concepts.md              # The Lynqu model: cards, leads, pipeline, follow-ups, AI employees
 │   ├── mcp/
 │   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Cursor · VS Code)
 │   │   ├── authentication.md    # OAuth 2.1 flow + plan tiers, explained
-│   │   ├── tool-catalog.md      # All 136 org tools + 9 personal tools, by category
+│   │   ├── tool-catalog.md      # All 163 org tools + 10 personal tools, by category
 │   │   └── troubleshooting.md   # Common connection errors and fixes
 │   └── client-configs/          # Copy-paste config snippets per client
 ├── skills/                      # The 17 Lynqu Agent Skills
@@ -284,6 +305,7 @@ lynqu-ai-toolkit/
 - **Quotes & price-book proposals** → [`lynqu-deal-desk`](skills/lynqu-deal-desk)
 - **Event / trade-show lead capture** → [`lynqu-event-blitz`](skills/lynqu-event-blitz)
 - **Connect Lynqu MCP to ChatGPT / Cursor / Claude** → [`docs/mcp/connect.md`](docs/mcp/connect.md)
+- **Which follow-up template gets replies** → [`lynqu-pipeline-report`](skills/lynqu-pipeline-report)
 - **The full Lynqu MCP tool reference** → [`docs/mcp/tool-catalog.md`](docs/mcp/tool-catalog.md)
 
 ---

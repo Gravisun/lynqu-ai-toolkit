@@ -53,9 +53,10 @@ Every stalled lead gets one of three verdicts, and the user picks in bulk:
 1. **Revive** — there's a real reason to re-engage → task + `lynqu-sales-followup`
 2. **Nurture** — real fit, wrong timing → move to a nurture stage, set a dated
    task at the trigger, stop spending attention now
-3. **Close as lost** — with a **reason**. This is the important one. A lost lead
+3. **Close as lost**, with a **reason**. This is the important one. A lost lead
    with a reason feeds `lynqu-icp`; a lead left open forever feeds nothing and
-   corrupts the forecast
+   corrupts the forecast. A closed lead also stops receiving automated
+   follow-ups by itself
 
 Nobody wants to close deals, which is exactly why the pipeline fills up. Make the
 recommendation explicit and let the human decide.
@@ -65,22 +66,35 @@ recommendation explicit and let the human decide.
 Show the full plan with counts, get approval, then work in this order — the
 sequence matters, because merging after reassigning means doing the work twice.
 
-1. **Duplicates first.** `merge-leads` — pick the survivor deliberately (the one
+1. **Duplicates first.** `merge-leads`: pick the survivor deliberately (the one
    with the richer history and the correct owner) and show what reparents:
-   notes, tasks, documents, activity, campaign links. Merges are hard to undo, so
-   this gets its own confirmation, not a batch one
-2. **Ownership.** `assign-lead` for orphans and rebalancing. Takes the **user
+   notes, tasks, documents, activity, campaign links. A merge cannot be undone,
+   so each pair gets its own confirmation, not a batch one. The same goes for
+   duplicate company records splitting an account's roll-up: `merge-companies`
+   with no arguments lists the pairs, then one confirmed call per pair
+2. **Records that should never have existed** (test entries, spam submissions,
+   a lead created by mistake): `delete-lead`. Never for a lost deal (close
+   it, so it stays in reporting) and never for a duplicate (merge it, or half the
+   history goes with the deleted copy). List every lead by name and id and get a
+   yes for exactly that list. The lead leaves every board and report at once,
+   and only an admin can restore it
+3. **Ownership.** `assign-lead` for orphans and rebalancing. Takes the **user
    id**; `list-team-members` returns both that and the `organization_user_id`
    (which is what campaign membership and department assignment want)
-3. **Stage moves.** `update-lead-stage` per the verdicts. `move-lead-pipeline`
-   when a lead is on the wrong board entirely — a different board is a different
+4. **Stage moves.** `update-lead-stage` per the verdicts. `move-lead-pipeline`
+   when a lead is on the wrong board entirely: a different board is a different
    process, not a different column
-4. **Scores, tags, temperature.** `bulk-update-leads`, ≤ 100 per call
-5. **Tasks.** `add-lead-contact-point` on everything that stays open, and
+5. **Scores, tags, temperature.** `bulk-update-leads`, ≤ 100 per call
+6. **Tasks.** `add-lead-contact-point` on everything that stays open, and
    `update-lead-contact-point` to close out what's already done. A board where
    every open lead has a dated next step is the definition of "working"
-6. **Notes.** `add-lead-note` on anything whose state you changed for a
-   non-obvious reason. Six weeks later, "why is this in nurture?" needs an answer
+7. **Notes.** `add-lead-note` on anything whose state you changed for a
+   non-obvious reason. Six weeks later, "why is this in nurture?" needs an answer.
+   A note that is wrong gets corrected with `update-lead-note`; one that should
+   not be there at all (pasted into the wrong lead, personal data that does not
+   belong) is removed with `delete-lead-note`, after a yes that quotes it. Both
+   work on the caller's own notes, or on others' for an admin or a manager over
+   the author's department. Voice notes are transcripts and cannot be reworded
 
 ## Step 5: Make it stick
 
@@ -113,9 +127,10 @@ A one-off cleanup decays in a month. Before you finish:
 | Merge duplicate pairs | 6 | survivor shown per pair |
 | Reassign orphans | 12 | → round-robin across {names} |
 | Close as lost | 18 | reason required per lead |
+| Delete (never a real lead) | 3 | named per lead, confirmed separately |
 
 ## Applied
-- {n} merged · {n} reassigned · {n} stages moved · {n} tasks opened
+- {n} merged · {n} deleted · {n} reassigned · {n} stages moved · {n} tasks opened
 - Held back: {n} ({reason})
 
 ## To keep it clean
@@ -128,6 +143,12 @@ Saved view proposed · cadence: weekly
   name match. Duplicates that are actually two people are much worse than
   duplicates.
 - **Never close a lead as lost without a reason.**
+- **Every delete and every merge gets its own yes**, naming the records it
+  touches. `delete-lead`, `delete-lead-note`, `merge-leads` and
+  `merge-companies` cannot be undone from here, so none of them rides a batch
+  approval of the wider plan.
+- **Delete is for records that were never real.** A lost deal is closed; a
+  duplicate is merged.
 - **Don't move stages to look busy.** A stage change is a claim about reality.
 - **Bulk cap is 100** per `bulk-update-leads` call — chunk and report.
 - **`assign-lead` takes `user_id`; campaigns and departments take
@@ -148,8 +169,11 @@ Saved view proposed · cadence: weekly
 - **Partial bulk failure** → report exactly which ids succeeded and which failed,
   then retry only the failures.
 - **Permission denied** → employees can move and update their own leads;
-  reassignment across a team and pipeline structure are manager+. Deliver the
-  plan and name who can run it.
+  reassignment, deleting leads, the duplicate queue and pipeline structure need
+  `leads.manage` (managers by default), and company merges need
+  `companies.manage`. Deliver the plan and name who can run it.
+- **Note edit or delete refused** → it is someone else's note, and the caller is
+  neither an admin nor a manager over the author's department. Name the author.
 - **Board is empty or brand new** → skip the diagnosis theatre. Say the board is
   new and suggest `lynqu-lead-capture` or `lynqu-lead-research`.
 

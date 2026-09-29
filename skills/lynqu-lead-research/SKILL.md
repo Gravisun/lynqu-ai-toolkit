@@ -133,8 +133,10 @@ Researched {n} candidates · {n} already known · {n} recommended
   will be worked once, badly, and then ignored.
 - **Say which claims are inferred.** "Probably 200–500 employees" is fine; stating
   it as fact is not.
-- **Respect role gates** — creating campaigns and pipelines is manager+; attaching
-  leads to an existing campaign is employee-level.
+- **Respect role gates.** Creating campaigns and pipelines is manager+ by
+  default; an employee may attach only leads they own to a campaign they belong
+  to; reading the org's scoring rules is admin by default. If
+  `list-lead-scoring-rules` is denied, anchor on won leads instead and say so.
 
 ## Error handling
 

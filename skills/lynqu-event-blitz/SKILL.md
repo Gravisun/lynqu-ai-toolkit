@@ -25,7 +25,10 @@ wrong.
 
 Skipping this is the expensive mistake. Do it even the night before.
 
-1. **`list-events`** — does it already exist? Someone may have set it up.
+1. **`list-events`**: does it already exist? Someone may have set it up.
+   Without `events.manage` (admins by default) this lists only the events live
+   right now, so a draft someone else created will not show; ask before
+   creating a second one.
 2. **`create-event`** — name, dates, location. Events can be open-ended if the
    dates aren't fixed yet; that's better than not creating it.
 3. **`create-campaign`** — the money side: budget, goals, members. The event holds
@@ -91,6 +94,11 @@ one on day ten, and it isn't close.
 - **`get-campaign`** and **`list-campaign-goals`** — actual against target
 - **`get-capture-form-stats`** — which capture route worked
 - **`get-forecast`** — what the event actually put into the pipeline
+- **`get-followup-performance`** with the campaign's `campaign_id`: whether the
+  post-event emails got replies and meetings. Trust a reply rate only on 20 or
+  more delivered emails, and only while `replies_tracked` is true
+- **`update-campaign`** if the real spend differs from the budget set in Phase
+  1, after a yes. Cost per qualified lead is only as honest as that number
 
 Report honestly, including cost per lead and cost per qualified lead. An event
 that produced 200 badges and 3 qualified leads had a bad show, and saying so is
@@ -161,6 +169,10 @@ on day three.
   reopen, then attach. Don't skip attribution to avoid the extra step.
 - **Goal metric not available** → `list-metric-catalogue` and pick the nearest
   measurable one; a slightly different metric beats an unmeasured goal.
+- **Event write denied** → creating, linking, closing and reading full event
+  detail need `events.manage`, which admins hold by default; the campaign side
+  needs `campaigns.manage` (managers by default). A manager can still run the
+  campaign half and hand the event half to an admin, named.
 
 ## Cross-skill integration
 
