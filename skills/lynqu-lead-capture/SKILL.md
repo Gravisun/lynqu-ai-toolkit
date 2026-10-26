@@ -98,7 +98,9 @@ Assignment, if relevant: `list-team-members` then `assign-lead` (which takes the
 ## Step 5: Tag, attribute, and set the next step
 
 - **`attach-leads-to-campaign`** — attribution is only possible at capture time.
-  Nobody backfills it later, and without it the event's ROI is unanswerable
+  Nobody backfills it later, and without it the event's ROI is unanswerable.
+  Scans made at an event without the event picked get `attach-leads-to-event`
+  too (≤ 100 per call); say first that it runs the event's follow-up sequence
 - **`bulk-update-leads`** (≤ 100 per call) for tags and temperature across the
   cohort. Chunk larger sets and report progress per chunk
 - **`add-lead-contact-point`** — a dated first action for anything warm or hot.
@@ -133,6 +135,12 @@ Parsed {n} · created {n} · matched to existing {n} · needs a decision {n}
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Dedupe is non-negotiable.** Always search before create, per person.
 - **Never fabricate a field.** Missing email is blank, not a guess. A wrong email
   in a captured list gets emailed, bounces, and damages the sending domain.

@@ -60,6 +60,32 @@ good starting points.
 > "Acme's CFO asked us to hold off until January. Pause the automated follow-ups
 > on that lead and set me a task for the 6th."
 
+## Segments and sequences → `lynqu-lead-management`, `lynqu-sales-followup`
+
+> "Make a segment for leads from German-speaking countries captured at events,
+> then tell me how it converts against everyone else."
+
+> "When a lead reaches Demo booked, send the 'Demo recap' template the next day
+> and 'Pricing walkthrough' three days later. Leave it switched off for now, we
+> add the postal address on Friday."
+
+> "The SaaStr sequence should only go to leads in the SaaStr segment. Fix the
+> trigger."
+
+> "These 14 scans were made without the event picked. Attach them to SaaStr
+> Europe, and tell me first whether that fires the event sequence."
+
+A segment is a shared filter, so defining one is a write that a manager
+confirms. A sequence sends mail nobody reviews one by one, so the assistant
+shows the whole thing and waits for a yes.
+
+## Voice
+
+> "Write it the way I would: short, plain, one ask. No corporate filler."
+
+Every skill already writes like that. Drafts are 40 to 90 words, notes are
+three lines, and nothing a template would say gets through.
+
 ## Event blitz → `lynqu-event-blitz`
 
 > "We have a booth at SaaStr next week. Set up the campaign and event in Lynqu,

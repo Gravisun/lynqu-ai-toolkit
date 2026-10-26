@@ -11,6 +11,14 @@ Most connection problems fall into a few buckets. Work top to bottom.
 - **Use `https://`.** The server only speaks HTTPS.
 - **Pick the right server.** Org tools (leads, campaigns, events) only exist on
   `/mcp/v2`. If you connected to `/mcp/me` you'll only see card/profile tools.
+- **Codex only, and no sign-in page ever opens.** Codex refuses an
+  authorization endpoint on a different origin from the token endpoint unless
+  the server advertises issuer-bound callbacks (RFC 9207). Lynqu does. A server
+  whose `/.well-known/oauth-authorization-server` answer lacks
+  `authorization_response_iss_parameter_supported` is an older deployment;
+  Claude connects to the same server because it does not enforce that check.
+- **ChatGPT cannot find "Add custom MCP server".** Developer mode is off, or
+  your plan does not include it (Free) or a workspace admin disabled it.
 
 ## OAuth fails / "couldn't register" / stuck on the sign-in page
 

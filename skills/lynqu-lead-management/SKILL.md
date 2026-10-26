@@ -28,6 +28,8 @@ step. The output is a board a manager can trust and a rep can work top-down.
 - **`list-lead-duplicates`** — the hygiene problem that corrupts every other number
 - **`list-team-members`** — who's active, and who has left but still owns leads
 - **`list-lead-views`** — the org's saved views already encode what it watches
+- **`list-segments`** — the shared filters (market, source, campaign, tags, UTM)
+  with live counts and what each one drives: sequences, rules, A/B variants
 
 ## Step 2: Diagnose before you touch anything
 
@@ -84,7 +86,10 @@ sequence matters, because merging after reassigning means doing the work twice.
 4. **Stage moves.** `update-lead-stage` per the verdicts. `move-lead-pipeline`
    when a lead is on the wrong board entirely: a different board is a different
    process, not a different column
-5. **Scores, tags, temperature.** `bulk-update-leads`, ≤ 100 per call
+5. **Scores, tags, temperature.** `bulk-update-leads`, ≤ 100 per call. Leads
+   scanned without the event picked: `attach-leads-to-event` (≤ 100), after
+   saying that attaching runs the event's follow-up sequences, so it can send
+   that event's first email
 6. **Tasks.** `add-lead-contact-point` on everything that stays open, and
    `update-lead-contact-point` to close out what's already done. A board where
    every open lead has a dated next step is the definition of "working"
@@ -102,6 +107,12 @@ A one-off cleanup decays in a month. Before you finish:
 
 - Propose a **saved view** for the checks that mattered ("stalled > 30 days",
   "no open task") so this becomes a filter, not a memory
+- Propose a **segment** (`create-segment`, `leads.manage`) for the slices that
+  are about the leads rather than their state: a market, a capture source, an
+  event, a tag. One definition then serves as a list filter, a sequence or
+  automation audience and a row in `get-segment-performance`. At most 20 per
+  org; `update-segment` replaces the whole definition; `delete-segment` is
+  refused while anything live targets it
 - Where the org has the workflow automation add-on, propose an
   `create-automation-rule` for the recurring cases — auto-task on stage entry,
   auto-flag on inactivity. Propose; don't create silently. Rules fire on
@@ -139,6 +150,12 @@ Saved view proposed · cadence: weekly
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Never merge without showing what reparents**, and never merge on a fuzzy
   name match. Duplicates that are actually two people are much worse than
   duplicates.
@@ -150,7 +167,8 @@ Saved view proposed · cadence: weekly
 - **Delete is for records that were never real.** A lost deal is closed; a
   duplicate is merged.
 - **Don't move stages to look busy.** A stage change is a claim about reality.
-- **Bulk cap is 100** per `bulk-update-leads` call — chunk and report.
+- **Bulk cap is 100** per `bulk-update-leads` and `attach-leads-to-event`
+  call. Chunk and report.
 - **`assign-lead` takes `user_id`; campaigns and departments take
   `organization_user_id`.** Read `list-team-members`; don't guess.
 - **Stages are per-pipeline.** Always resolve them against the lead's own board.
@@ -174,6 +192,9 @@ Saved view proposed · cadence: weekly
   `companies.manage`. Deliver the plan and name who can run it.
 - **Note edit or delete refused** → it is someone else's note, and the caller is
   neither an admin nor a manager over the author's department. Name the author.
+- **`delete-segment` refused** → a live sequence, automation rule or template
+  variant still targets it, and the refusal names them. Re-scope those first;
+  deleting the filter would widen their audience to every lead.
 - **Board is empty or brand new** → skip the diagnosis theatre. Say the board is
   new and suggest `lynqu-lead-capture` or `lynqu-lead-research`.
 

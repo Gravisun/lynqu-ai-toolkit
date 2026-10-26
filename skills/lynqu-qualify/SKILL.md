@@ -19,8 +19,9 @@ deliverable.
 /lynqu qualify <lead id | name | company | "everything in Discovery">
 ```
 
-Handles one lead or a segment. A segment is the same work in a loop plus a
-ranking table at the end.
+Handles one lead or a cohort. A cohort is the same work in a loop plus a
+ranking table at the end; a saved segment (`list-segments`) is the cleanest
+cohort, read with `list-leads` and its `segment_id`.
 
 ## Step 1: Read everything Lynqu already has
 
@@ -144,6 +145,12 @@ the rep can work top-down.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Read Lynqu before asking the user.** Anything `get-lead` knows is not a
   question.
 - **Confidence labels are mandatory.** An unlabelled inference is a lie with

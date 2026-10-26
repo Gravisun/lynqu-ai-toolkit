@@ -76,13 +76,13 @@ sequence where step 3 is "just bumping this" teaches people to ignore you.
 
 | # | Day | Job | Length |
 |---|-----|-----|--------|
-| 1 | 0 | The observation and one specific question | 50–90 words |
-| 2 | +3 | New angle, not a bump: a proof point or a peer example | 40–70 |
-| 3 | +7 | Something useful with no ask — a relevant number, a short teardown | 60–100 |
-| 4 | +12 | Direct: name the ask, make it easy to say no | 30–50 |
-| 5 | +20 | Close the loop. "I'll stop here — worth revisiting when {trigger}?" | 25–40 |
+| 1 | 0 | The observation and one specific question | 40 to 70 words |
+| 2 | +3 | New angle, not a bump: a proof point or a peer example | 30 to 60 |
+| 3 | +7 | Something useful with no ask: a relevant number, a short teardown | 50 to 80 |
+| 4 | +12 | Direct: name the ask, make it easy to say no | 25 to 40 |
+| 5 | +20 | Close the loop. "I'll stop here. Worth a look when {trigger}?" | 20 to 35 |
 
-Rules that hold across all of them: subject lines under 50 characters and never
+Rules that hold across all of them: subject lines under 40 characters and never
 clickbait; one CTA per message; no attachments on a first touch; plain text, no
 images; and every message must read as though a person wrote it to *this* person.
 
@@ -120,35 +120,61 @@ Show the full sequence, get approval, then:
 6. **`bulk-update-leads`** (≤ 100) to tag the cohort, so the response rate of this
    sequence is measurable later. The template's own reply rate shows up in
    `get-followup-performance` once enough of it has been delivered
+7. **`create-followup-trigger`** when the approved sequence should run on its
+   own for every lead that fits, not just this cohort: the first template plus
+   up to five `steps`, scoped with `segment_id` (a saved segment from
+   `list-segments`) or `event_id` for a post-capture sequence. `scope: team`
+   needs `follow_ups.manage`; `scope: mine` runs on the user's own leads only.
+   Pass `enabled: false` if the org's postal address is not on file yet. This
+   is mail nobody reviews one by one: show every step and get a yes first
 
 Compliance — opt-outs, the 30-day cap, sender identity, physical address — is
 enforced server-side by Lynqu. Do not try to route around it, and do not promise
 the user a send that the platform will suppress.
 
+## Voice
+
+Every draft and every note has to pass one test: would a busy person read it
+as something a colleague typed, not something a tool produced?
+
+- **Short.** A first touch is 40 to 70 words. A recap is 60 to 90. A nurture
+  touch is 30 to 50. A note is three lines. Cut until it hurts, then send.
+- **Plain.** "You mentioned", not "as per our conversation". "Can you", not
+  "would you be open to exploring".
+- **Specific.** One true detail from the record in the first line, or do not
+  send.
+- **One ask**, one line, usually a question. Never "let me know if you have any
+  questions".
+- **Nothing a template would say.** No "I hope this finds you well", "just
+  circling back", "touching base", "leverage", "synergy", "delve",
+  "streamline". No em dashes, no exclamation marks, no bullet lists inside an
+  email.
+- **Subject lines under 40 characters**, said the way you would say it out
+  loud.
+- **Notes read like the rep's shorthand**: what they said, what we owe, what is
+  next, dated. Task titles are the action ("Send the 3-seat pricing by Thu").
+
 ## Output format
 
 ```markdown
-# Outreach Sequence — {Lead} at {Company}
+# Outreach: {Lead}, {Company}
 
-**Angle:** {trigger | shared context | symptom | referral | post-capture}
-**Why now:** {the verifiable observation}
-**Recommendation:** {send | qualify first | don't send, because …}
+{angle} · why now: {the verifiable observation}
+Recommendation: {send | qualify first | do not send, because ...}
 
-## Touch 1 — day 0
-**Subject:** {under 50 chars}
-{Body. 50–90 words.}
+## Touch 1, day 0
+Subject: {under 40 chars}
+{Body, 40 to 70 words.}
 
-## Touches 2–5
+## Touches 2 to 5
 | # | Day | Angle | Subject | Draft |
 
 ## Multi-thread
-| Person | Role | Their version of the message |
+| Person | Role | Their version |
 
-## Written to Lynqu
-- Template {name} {reused | created} ({team | personal})
-- Touch 1 sent to {n} leads (approved {timestamp})
-- {n} tasks scheduled for touches 2–5
-- Cohort tagged {tag}
+## In Lynqu
+- Template {name} {reused | created} ({team | personal}) · sequence {created | not needed}
+- Touch 1 sent to {n} (your yes at {time}) · {n} tasks for touches 2 to 5 · tagged {tag}
 ```
 
 ## Rules and constraints

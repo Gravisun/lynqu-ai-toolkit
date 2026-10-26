@@ -98,6 +98,11 @@ how every future lead is scored, which is exactly why it deserves a confirmation
   document
 - Propose a **saved view** or tag for "matches ICP" so the profile is a filter,
   not a memory
+- Propose a **segment** for the profile and another for the anti-profile
+  (`create-segment`, `leads.manage`, at most 20 per org): industry, size band,
+  country, capture source and score range are all definition keys. From then on
+  `get-segment-performance` is the quarterly re-run, with the rows adding up,
+  and a sequence or an automation rule can target the profile directly
 - If the org runs campaigns against segments, note which campaigns aim at the
   anti-profile — that's spend to reallocate
 
@@ -134,6 +139,12 @@ Built from {n} won and {n} lost leads, {date range}.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Sample size gets stated, every time.** Under ~10 wons, label it a hypothesis
   and recommend a re-run next quarter.
 - **Losses are half the analysis.** An ICP built only on wins is survivorship
@@ -165,6 +176,8 @@ Built from {n} won and {n} lost leads, {date range}.
 ## Cross-skill integration
 
 - ICP in hand → `lynqu-lead-research` to go find more of them
+- Profile and anti-profile as segments → `lynqu-pipeline-report` compares them
+  next quarter
 - Every subsequent `lynqu-qualify` run should score against these rules
 - Anti-profile → tighten `lynqu-lead-capture` routing so the wrong-fit leads stop
   landing in the main pipeline

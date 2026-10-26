@@ -4,13 +4,13 @@
 
 # Lynqu AI Toolkit
 
-**Operate your entire lead motion — research → capture → manage → follow up → measure — straight from Claude, ChatGPT, or Cursor.**
+**Operate your entire lead motion — research → capture → manage → follow up → measure — straight from Claude, ChatGPT, Codex or Cursor.**
 
 Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + [MCP](https://modelcontextprotocol.io) for AI lead capture, lead research, sales follow-up, and pipeline management — powered by [Lynqu](https://lynqu.com).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-17-7C3AED.svg)](skills)
-[![MCP tools](https://img.shields.io/badge/MCP%20tools-163%2B10-7C3AED.svg)](docs/mcp/tool-catalog.md)
+[![MCP tools](https://img.shields.io/badge/MCP%20tools-171%2B10-7C3AED.svg)](docs/mcp/tool-catalog.md)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-ready-1f1147.svg)](https://modelcontextprotocol.io)
 
 <br/>
@@ -53,7 +53,14 @@ That whole flow is one sentence to you — and a chain of audited Lynqu actions 
 | **Organization (B2B)** | `https://api.lynqu.com/mcp/v2` | Cards, contacts, leads, campaigns, events, pipeline, team, follow-ups, AI employees, analytics |
 | **Personal** | `https://api.lynqu.com/mcp/me` | Your own cards, card analytics, profile |
 
-Paste the URL into your client's connector settings, sign in, approve. Full per-client steps → [`docs/mcp/connect.md`](docs/mcp/connect.md). There's also a one-click setup in the Lynqu app under **Settings → AI / MCP**.
+Then, in your client:
+
+- **Claude** (claude.ai, Desktop): **Settings → Connectors → Add custom connector**, paste the URL, sign in. **Claude Code:** `claude mcp add --transport http lynqu https://api.lynqu.com/mcp/v2`
+- **ChatGPT** (Plus, Pro, Business, Enterprise, Edu): turn on **Developer mode**, open [chatgpt.com/plugins](https://chatgpt.com/plugins) → **+** → **Add custom MCP server**, paste the URL, keep **OAuth**, sign in on the Lynqu page. Then call it with `@Lynqu` in a chat.
+- **Codex** (app or CLI): **Settings → MCP servers → Add**, Streamable HTTP, paste the URL, then **Authenticate**. CLI: `codex mcp add lynqu --url https://api.lynqu.com/mcp/v2` and `codex mcp login lynqu`.
+- **Cursor, VS Code and any other MCP client:** add a remote HTTP server with the URL and approve on the Lynqu page.
+
+Full per-client steps, with the gotchas, are in [`docs/mcp/connect.md`](docs/mcp/connect.md). There is also a one-click setup in the Lynqu app under **Settings → AI / MCP**.
 
 **2. Install the skills** — the method depends on where you use Claude:
 
@@ -184,6 +191,13 @@ Lynqu closes the engagement loop, and the MCP reaches every part of it:
 - **Replies.** With reply tracking on, a human reply stops the lead's automated
   follow-ups, lands on its timeline and in the outbox, and is forwarded to
   whoever the email went out as.
+- **Sequences.** Set up a follow-up sequence from the assistant: fire on a
+  stage, a score or a predicate, up to five timed steps, a cooldown, scoped to
+  an event or a segment. Team or personal, and nothing sends until the org's
+  postal address is on file.
+- **Segments.** A named lead filter (market, source, campaign, tags, UTM,
+  custom fields) that works as a list filter, a sequence audience and a report
+  row. The segment report says which market converts, and the rows add up.
 - **AI employees.** Read what an agent did and why, see the work it handed back,
   and approve or reject its parked actions one at a time. Agents write from the
   org's confirmed sales brief.
@@ -267,9 +281,9 @@ lynqu-ai-toolkit/
 ├── docs/
 │   ├── concepts.md              # The Lynqu model: cards, leads, pipeline, follow-ups, AI employees
 │   ├── mcp/
-│   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Cursor · VS Code)
+│   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Codex · Cursor · VS Code)
 │   │   ├── authentication.md    # OAuth 2.1 flow + plan tiers, explained
-│   │   ├── tool-catalog.md      # All 163 org tools + 10 personal tools, by category
+│   │   ├── tool-catalog.md      # All 171 org tools + 10 personal tools, by category
 │   │   └── troubleshooting.md   # Common connection errors and fixes
 │   └── client-configs/          # Copy-paste config snippets per client
 ├── skills/                      # The 17 Lynqu Agent Skills
@@ -283,7 +297,7 @@ lynqu-ai-toolkit/
 ## ✅ Requirements
 
 - A [Lynqu](https://lynqu.com) account (free to connect; AI-tier plan to run tools).
-- An MCP client that supports remote (streamable HTTP) servers with OAuth — **Claude** (Desktop, Code, claude.ai), **ChatGPT**, **Cursor**, **VS Code (Copilot)**, and others.
+- An MCP client that supports remote (streamable HTTP) servers with OAuth: **Claude** (Desktop, Code, claude.ai), **ChatGPT**, **Codex**, **Cursor**, **VS Code (Copilot)**, and others.
 - The skills are most fully featured in Claude; the MCP works with any compliant client.
 
 ---
@@ -304,7 +318,7 @@ lynqu-ai-toolkit/
 - **Turning a sales playbook into a working pipeline** → [`lynqu-sales-playbook`](skills/lynqu-sales-playbook)
 - **Quotes & price-book proposals** → [`lynqu-deal-desk`](skills/lynqu-deal-desk)
 - **Event / trade-show lead capture** → [`lynqu-event-blitz`](skills/lynqu-event-blitz)
-- **Connect Lynqu MCP to ChatGPT / Cursor / Claude** → [`docs/mcp/connect.md`](docs/mcp/connect.md)
+- **Connect Lynqu MCP to ChatGPT / Codex / Cursor / Claude** → [`docs/mcp/connect.md`](docs/mcp/connect.md)
 - **Which follow-up template gets replies** → [`lynqu-pipeline-report`](skills/lynqu-pipeline-report)
 - **The full Lynqu MCP tool reference** → [`docs/mcp/tool-catalog.md`](docs/mcp/tool-catalog.md)
 

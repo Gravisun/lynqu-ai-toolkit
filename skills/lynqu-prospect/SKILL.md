@@ -174,6 +174,12 @@ Channel, the angle, and the first message — ready for `/lynqu outreach`
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **One account per run.** A list is `/lynqu research`. Depth is the product here.
 - **Show before you write.** Always. The user prunes; you execute.
 - **Confidence labels are mandatory** on every qualification line.

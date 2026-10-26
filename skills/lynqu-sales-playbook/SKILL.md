@@ -102,6 +102,14 @@ their own leads, unless an admin locks the team template in the app. If the
 playbook's copy has to go out word for word (legal wording, a regulated claim),
 say so and ask for the lock.
 
+If the playbook's email touches should run on their own once a lead reaches a
+stage, that is a sequence, not twenty tasks: **`create-followup-trigger`** with
+`condition_type: stage`, the `stage_to_id`, the first template and up to five
+`steps`. Sequences need no add-on. Create it with `enabled: false` when the
+org's postal address is not on file, and get a yes first: it sends mail nobody
+reviews one by one. LinkedIn and call touches stay tasks, because Lynqu sends
+email only.
+
 ## Step 5: Attach the playbook itself
 
 **`add-lead-document`** takes a file as base64 and accepts Markdown. Attach the
@@ -190,6 +198,12 @@ didn't, because nobody knows which half.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Confirm before the first write.** Everything in this skill writes to a
   shared workspace.
 - **Never send email as part of provisioning.** You build templates and rules;

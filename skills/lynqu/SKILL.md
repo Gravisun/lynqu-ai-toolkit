@@ -81,6 +81,8 @@ cost of a wrong turn. So:
 | "Make me money this week" | `report` → rank by score and staleness → `followup` on the warm ones → `proposal` on anything already scoped |
 | "Set us up, we're new here" | `card` → `icp` (or a starter profile) → `capture` → `pipeline` |
 | "Which of our emails actually get answered?" | `report` (follow-up performance, outbox) → `followup` to rewrite the weakest template or step |
+| "Everyone who books a demo should get the same three emails" | `followup` (the sequence: condition, steps, cooldown, scope, shown whole before a yes) → `report` two weeks later for its reply rate |
+| "Which market actually converts?" | `report` (segment performance) → `pipeline` to define or fix the segments → `icp` if one segment loses on sight |
 | "What has our AI SDR been doing, and what's waiting on me?" | AI employees (below): timeline and handoffs → approvals decided one by one → `report` for its reply rate |
 
 ### When one skill really is enough
@@ -150,6 +152,8 @@ Match on the **outcome**, not the noun. "I have a list of people" is capture;
 | "here are 30 people", pastes a sheet, "add these" | `lynqu-lead-capture` | People are known; the work is clean entry |
 | "cold email", "first touch", "reach out to" | `lynqu-outreach` | No prior conversation |
 | "follow up", "they went quiet", "after the demo" | `lynqu-sales-followup` | There *was* a prior conversation |
+| "sequence", "drip", "every lead that reaches X gets", "automate the follow-up" | `lynqu-sales-followup` | A sequence is a follow-up trigger; the cadence and the copy are one job |
+| "segment", "audience", "our DACH leads", "which market converts" | `lynqu-lead-management` to define it, `lynqu-pipeline-report` to compare | Defining a shared filter is a write; comparing segments is a read |
 | "I have a call at 2", "prep me", "meeting tomorrow" | `lynqu-prep` | Time-bound, a specific meeting |
 | "how much is this deal", "send pricing", "add seats" | `lynqu-deal-desk` | Pricing and quoting have their own rules |
 | "here's our playbook", "set this plan up", "run this sequence for all of them" | `lynqu-sales-playbook` | A written process exists; the work is making the pipeline execute it |
@@ -226,21 +230,25 @@ writes landed the way the user expected.
 Keep the routing turn short. The specialist produces the real output.
 
 ```markdown
-**Routing to `lynqu-qualify`** — the lead exists, you want a verdict.
+**Routing to `lynqu-qualify`**: the lead exists, you want a verdict.
 
-Account: {org} · you are {role}
-Pipeline: {n} open leads · {n} active campaigns · {n} stalled >14d
+{org} · you are {role} · {n} open leads · {n} stalled >14d
 
-Plan:
-1. Read the lead, its notes, activity and contact points
-2. Score BANT + MEDDIC against the ICP, flagging what's unknown
-3. Write score + temperature back, and open a task for each gap
+1. Read the lead, notes, activity, tasks
+2. Score BANT + MEDDIC against the ICP, flag the unknowns
+3. Write score and temperature back, one task per gap
 
-Starting step 1 — nothing is written until you've seen the scorecard.
+Nothing is written until you have seen the scorecard.
 ```
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Route, don't do.** If you are calling `create-lead` from this skill, you
   skipped a handoff. The only exceptions are product questions and AI
   employees, which no specialist owns.
@@ -253,7 +261,8 @@ Starting step 1 — nothing is written until you've seen the scorecard.
 - **`organization_user_id` is not `user_id`.** Campaign membership and department
   assignment take the membership row id; lead assignment takes the user id.
   `list-team-members` returns both — read it.
-- **Bulk cap is 100.** `bulk-update-leads` handles ≤ 100 leads per call.
+- **Bulk cap is 100.** `bulk-update-leads`, `attach-leads-to-campaign` and
+  `attach-leads-to-event` take at most 100 leads per call.
 - **Role gates are real.** Most tools check a capability rather than a rung:
   managers hold campaign, pipeline, lead-management and company writes by
   default; admins hold events, departments, scoring rules, membership and AI
@@ -296,12 +305,12 @@ Starting step 1 — nothing is written until you've seen the scorecard.
 > what state anything is in."
 
 ```text
-Pre-flight: connected as Amin (admin) at Gravisun · 412 open leads · 3 active campaigns
+Connected as Amin (admin) at Gravisun · 412 open leads · 3 campaigns live
 
-Three phases, checking in between each:
-  1. /lynqu event    → confirm the SaaStr event + campaign exist and are linked
-  2. /lynqu capture  → dedupe the 200 badges, route them, tag SaaStr-2026
-  3. /lynqu outreach → first touch for anything that scores warm or hot
+Three phases, a check-in between each:
+  1. event     confirm SaaStr exists and is linked to its campaign
+  2. capture   dedupe the 200 badges, route, tag SaaStr-2026
+  3. outreach  first touch for anything warm or hot
 
-Phase 1: do you already have a SaaStr event in Lynqu, or should I create it?
+Is SaaStr already set up as an event, or do I create it?
 ```

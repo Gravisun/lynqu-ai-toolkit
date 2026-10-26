@@ -3,6 +3,52 @@
 All notable changes to the Lynqu AI Toolkit are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.0] - 2026-10-26
+
+### Added
+- **Eight tools the server gained since 1.4.0** (organization 163 → **171**):
+  - Segments: `list-segments`, `create-segment`, `update-segment`,
+    `delete-segment` and `get-segment-performance` (a named lead filter that
+    is a list filter, a sequence or automation audience and a report row;
+    reports count each lead in the first segment it matches, so rows add up).
+  - Sequences: `create-followup-trigger` and `update-followup-trigger` (fire
+    on a stage, a score or a predicate; up to five timed steps; cooldown; event
+    or segment scope; team or personal; an enabled one needs the org's postal
+    address). Pausing, resuming and deleting stay in the app.
+  - Events: `attach-leads-to-event`, for scans made without the event picked.
+    Attaching runs the event's sequences, and the skills say so before calling
+    it.
+- A **Segments** catalog section, and `docs/concepts.md` sections on segments
+  and on what a sequence can do.
+- **ChatGPT and Codex in the Quick start.** The README now lists the connect
+  steps per client (Claude, ChatGPT in Developer mode, the Codex app and CLI,
+  Cursor and VS Code); `connect.md` has the current ChatGPT flow
+  (chatgpt.com/plugins → Add custom MCP server, OAuth) and a Codex section;
+  `troubleshooting.md` explains the Codex-only "Couldn't connect" (it needs the
+  issuer-bound callbacks Lynqu now advertises).
+- Prompt library entries for segments, sequences, event attribution and voice.
+
+### Changed
+- **Every draft, note and task title is written for a person to read.** The
+  skills carry a shared voice rule: short (a first touch is 40 to 70 words, a
+  recap 60 to 90, a nurture touch 30 to 50, a note three lines), plain, one
+  specific detail, one ask, nothing a template would say. `lynqu-outreach` and
+  `lynqu-sales-followup` have a Voice section and shorter length tables, and
+  the output templates across the suite lost their filler.
+- **No em dashes anywhere** in the toolkit (480 removed across 32 files),
+  following Lynqu's copy voice. The validator and the issue templates included.
+- `lynqu-sales-followup` builds sequences (`create-followup-trigger`) and reads
+  saved segments; `lynqu-outreach` can turn an approved sequence into a trigger
+  scoped to a segment or an event; `lynqu-lead-management` defines segments
+  and attaches orphan scans to their event; `lynqu-event-blitz` drafts the
+  post-event sequence before the show and attributes with both attach tools;
+  `lynqu-pipeline-report` reports segment performance with its 20-decided-deals
+  floor; `lynqu-icp` encodes the profile and anti-profile as segments;
+  `lynqu-sales-playbook` prefers a sequence over twenty templated tasks.
+- Bulk cap notes now name `attach-leads-to-event` beside the other two.
+
+[1.5.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.5.0
+
 ## [1.4.0] - 2026-09-29
 
 ### Added

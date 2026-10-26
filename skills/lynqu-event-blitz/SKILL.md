@@ -51,6 +51,12 @@ Skipping this is the expensive mistake. Do it even the night before.
    lists. Walking a floor with a ranked list of who to find beats wandering.
 10. **Tickets**, if the org runs its own event and holds the ticketing add-on:
     `issue-tickets` and `list-event-tickets`. Skip cleanly on `ADDON_REQUIRED`.
+11. **The post-event sequence, drafted now.** `create-followup-trigger` with
+    `event_id`: the recap template the morning after, pricing or a booking link
+    a few days on, up to five steps. `enabled: false` until the org's postal
+    address is on file and the copy is approved; `update-followup-trigger`
+    switches it on. Writing it before the show is what makes the 48-hour
+    window hold without anyone remembering to send
 
 ## Phase 2: During the event
 
@@ -70,8 +76,11 @@ one on day ten, and it isn't close.
 1. **Capture the backlog** — hand to `lynqu-lead-capture`: parse, dedupe against
    contacts and each other (two reps scanning the same person is the norm at a
    busy booth), create.
-2. **Attribute everything** — `attach-leads-to-campaign` for all of them.
-   Attribution is only possible now. Nobody backfills it.
+2. **Attribute everything.** `attach-leads-to-campaign` for the money side and
+   `attach-leads-to-event` for scans made without the event picked (≤ 100 per
+   call each). Say first that attaching to the event runs its sequence, so the
+   recap can go out from this step. Attribution is only possible now. Nobody
+   backfills it.
 3. **Triage by what was actually said**, not by title. `bulk-update-leads`
    (≤ 100) to set temperature:
    - **Hot** — asked for pricing, a demo, or a date → task due within 24 hours
@@ -99,6 +108,10 @@ one on day ten, and it isn't close.
   more delivered emails, and only while `replies_tracked` is true
 - **`update-campaign`** if the real spend differs from the budget set in Phase
   1, after a yes. Cost per qualified lead is only as honest as that number
+- **`get-segment-performance`** when event leads are a segment (`list-segments`;
+  propose `create-segment` on `event_id` if not): event against everyone else
+  on win rate, hours to first response and reply rate, with the rows adding up.
+  Needs the Analytics add-on; a segment is ranked only past 20 decided deals
 
 Report honestly, including cost per lead and cost per qualified lead. An event
 that produced 200 badges and 3 qualified leads had a bad show, and saying so is
@@ -137,6 +150,12 @@ on day three.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Set up before, or accept you can never answer the ROI question.** Say this
   plainly if the user wants to skip it.
 - **Link the event to the campaign.** That link is the attribution spine.
@@ -169,6 +188,9 @@ on day three.
   reopen, then attach. Don't skip attribution to avoid the extra step.
 - **Goal metric not available** → `list-metric-catalogue` and pick the nearest
   measurable one; a slightly different metric beats an unmeasured goal.
+- **Sequence refused on enable** → the org's postal address is missing. Keep
+  it `enabled: false`, name the admin who adds the address, and send the hot
+  band by hand through `lynqu-sales-followup` meanwhile.
 - **Event write denied** → creating, linking, closing and reading full event
   detail need `events.manage`, which admins hold by default; the campaign side
   needs `campaigns.manage` (managers by default). A manager can still run the

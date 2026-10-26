@@ -140,6 +140,12 @@ Show the battlecard, get a yes, then:
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **No disparagement.** Compare on facts you can source. A rep who repeats a
   false claim about a competitor loses the room and sometimes the account.
 - **Never fabricate competitor pricing, customers or roadmap.** "Not publicly

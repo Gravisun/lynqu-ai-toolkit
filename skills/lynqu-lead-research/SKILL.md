@@ -124,6 +124,12 @@ Researched {n} candidates · {n} already known · {n} recommended
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Never invent contact data.** No pattern-guessed emails, no assumed phone
   numbers. Blank and "unverified" is the correct output.
 - **Always show the ranked list before creating anything.**

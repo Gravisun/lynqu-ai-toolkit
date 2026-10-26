@@ -44,6 +44,7 @@ Pull broad first, then drill only where something looks wrong.
 | `get-followup-performance` | Which templates, sequences, steps and reps get replies, meetings and wins |
 | `list-outbox` | What actually went out: bounces, server cancellations, and the replies that came back |
 | `list-handoffs` | Work AI employees handed back that nobody has picked up (only if the org has them) |
+| `list-segments` + `get-segment-performance` | Which market, source or cohort converts: win rate, hours to first response, reply rate, meetings, per segment, rows adding up (analytics add-on) |
 
 Skip cleanly on `ADDON_REQUIRED`. Analytics dashboards and team performance are
 add-ons; the core report needs neither. Mention the omission once, at the end,
@@ -73,6 +74,12 @@ A total is a fact. A difference is information.
    `replies_tracked` is false, replies are not being collected: say reply rates
    are unmeasured rather than reporting 0%, and lean on clicks and meetings
    booked. Open rate is empty when the org does not track opens.
+10. **Segment quality.** `get-segment-performance` over the same window. Each
+    lead sits in the first segment it matches, so the rows add up to the org;
+    a segment is ranked by win rate only past 20 decided deals, and the
+    `segment:former` row is email to a deleted segment, not a market. Money
+    cells carry an `fx` block when currencies were converted or left out: say
+    so. Skip cleanly on `ADDON_REQUIRED`.
 9. **Hygiene.** Duplicates, orphaned leads, open leads with no next step. These
    are the caveats every other number in the report needs.
 
@@ -127,6 +134,9 @@ report after it.
 ## By source
 | Source | Leads | Won | Win rate | Note |
 
+## By segment
+| Segment | Leads | Won | Win rate | First response | Reply rate | Note |
+
 ## By rep
 | Rep | Open | Advanced | Won | Stalled |
 
@@ -147,11 +157,19 @@ Keep the top of the report to what fits on a phone screen. Depth goes below.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Read-only. Always.** No stage moves, no sends, no tags, no "while I was in
   there". If the report surfaces work, hand it to the skill that owns it.
 - **Never state a number you didn't read.** No extrapolation presented as fact.
 - **Always compare to a baseline.** A number with no comparison isn't a finding.
 - **Flag small samples.** Percentages on fewer than ~10 records get labelled.
+- **Never rank a segment under 20 decided deals.** Report its numbers without a
+  verdict, the way the tool does.
 - **Respect role scope.** An employee's report covers their own leads; a manager's
   covers their departments. Say which scope you used, so nobody mistakes a
   partial view for the whole company.
