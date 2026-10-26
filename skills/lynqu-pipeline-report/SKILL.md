@@ -1,6 +1,6 @@
 ---
 name: lynqu-pipeline-report
-description: Weekly Lynqu pipeline and sales report — what moved, what's stalling, campaign and event ROI, card engagement, who needs attention. Read-only. Requires the Lynqu MCP server connected.
+description: Weekly Lynqu pipeline and sales report. What moved, what's stalling, campaign and event ROI, card engagement, who needs attention. Read-only. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Pipeline Report
@@ -32,13 +32,13 @@ Pull broad first, then drill only where something looks wrong.
 |--------|-------------------|
 | `get-org-summary` | The shape: counts by stage, activity, campaigns |
 | `get-dashboard-summary` | Headline numbers, pre-aggregated |
-| `list-leads` (by stage, updated window) | Movement and staleness — the raw material |
+| `list-leads` (by stage, updated window) | Movement and staleness. The raw material |
 | `get-forecast` | Weighted pipeline by forecast category (manager+) |
 | `list-campaigns` + `get-campaign` | Spend against return |
 | `get-event-portfolio` | Cross-event roll-up: leads, pipeline, won, cost |
 | `list-events` | What's live and what's closing |
 | `get-team-performance` / `get-employee-performance` | Per-rep (add-on gated) |
-| `get-card-stats` / `list-org-cards` | Card engagement — the top of the funnel |
+| `get-card-stats` / `list-org-cards` | Card engagement: the top of the funnel |
 | `list-dashboards` + `get-dashboard-data` | The org's own saved widgets (analytics add-on) |
 | `list-lead-duplicates` | Data quality that's distorting every number above |
 | `get-followup-performance` | Which templates, sequences, steps and reps get replies, meetings and wins |
@@ -50,7 +50,7 @@ Skip cleanly on `ADDON_REQUIRED`. Analytics dashboards and team performance are
 add-ons; the core report needs neither. Mention the omission once, at the end,
 without turning it into an upsell.
 
-## Step 2: Analyse — differences, not totals
+## Step 2: Analyse differences, not totals
 
 A total is a fact. A difference is information.
 
@@ -89,7 +89,7 @@ Every finding needs a **so what**. Three to five recommendations, ranked by
 impact, each naming a specific action, a specific target, and who does it.
 
 Bad: "Follow-up could be improved."
-Good: "9 hot leads from SaaStr have had no touch in 6 days — the 48-hour window
+Good: "9 hot leads from SaaStr have had no touch in 6 days. The 48-hour window
 is gone. Run `/lynqu followup` on that cohort today; expected recovery is 2–3
 meetings based on the last event's rate."
 
@@ -101,7 +101,7 @@ Every report states its own limits. This is not a disclaimer, it's the part that
 makes the rest trustworthy:
 
 - Which surfaces were unavailable (add-ons, role scope)
-- Data quality problems that distort the numbers — duplicates double-count value,
+- Data quality problems that distort the numbers. Duplicates double-count value,
   leads with no value set are invisible in the forecast
 - Where the sample is too small for the percentage to mean anything. "3 of 4 = 75%
   win rate" is not a win rate
@@ -114,7 +114,7 @@ report after it.
 ## Output format
 
 ```markdown
-# Pipeline Report — {period}
+# Pipeline Report · {period}
 
 **{One-sentence verdict.}**
 
@@ -147,7 +147,7 @@ report after it.
 | Template or step | Delivered | Reply rate | Booked | Won | Note |
 
 ## Do this week
-1. {Action} — {who} — {expected impact}
+1. {Action} ({who}): {expected impact}
 
 ## Caveats
 {Unavailable surfaces · data quality · small samples.}
@@ -218,6 +218,6 @@ headline is that pipeline value is up 12% · then finds that 62% of it is one
 static deal, that 9 hot SaaStr leads have gone 6 days untouched, that the Events
 campaign produces a 41% win rate against outbound's 9% while receiving a fifth of
 the spend, and that 6 duplicate pairs are double-counting €80k · verdict: *"The
-pipeline is up on paper and down in reality — one deal is carrying it, and the
+pipeline is up on paper and down in reality. One deal is carrying it, and the
 channel that actually converts is the one you're underfunding."* Three ranked
 actions, each handed to the skill that owns it. Nothing written.

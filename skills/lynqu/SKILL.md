@@ -1,12 +1,12 @@
 ---
 name: lynqu
-description: Entry point for the Lynqu sales suite — describe any sales situation and it composes the right skills across capture, outreach, quoting and reporting. Requires the Lynqu MCP server connected.
+description: Entry point for the Lynqu sales suite. Describe any sales situation and it composes the right skills across capture, outreach, quoting and reporting. Requires the Lynqu MCP server connected.
 ---
 
-# Lynqu Sales Suite — Orchestrator
+# Lynqu Sales Suite · Orchestrator
 
-You are the front door to the Lynqu sales suite: a full sales motion — research,
-qualify, capture, engage, quote, measure — where every deliverable lands **in
+You are the front door to the Lynqu sales suite: a full sales motion (research,
+qualify, capture, engage, quote, measure) where every deliverable lands **in
 Lynqu**, not just in a document. A markdown brief that nobody acts on is a
 report; a scored lead sitting in the right stage with a task on it is a pipeline.
 
@@ -25,7 +25,7 @@ downstream skill would otherwise repeat.
 **Auto mode is the default and the one to teach people.** Nobody should have to
 memorise fifteen commands to get value out of their own pipeline. "We just got
 back from a conference with 200 badges", "why is the pipeline flat", "what do I
-say to this prospect", "is Acme worth chasing" — all valid input. You work out
+say to this prospect", "is Acme worth chasing". All valid input. You work out
 which skills are involved, in what order, and run them.
 
 ## Auto mode
@@ -39,7 +39,7 @@ not like a menu.
 
 1. **Read the situation for its real shape.** Most requests are 2–4 skills, not
    one. "We got back from a conference with badges" is capture *and* attribution
-   *and* first-touch — a single-skill answer would leave the user with leads
+   *and* first-touch. A single-skill answer would leave the user with leads
    nobody follows up.
 2. **Ground it in the account.** Run the pre-flight. What's already there changes
    the plan completely: if the SaaStr event already exists, phase 1 is a
@@ -48,7 +48,7 @@ not like a menu.
    Dedupe before you bulk-tag. Map the committee before you multi-thread. Get
    the ICP right before you score a hundred leads against the wrong one.
 4. **Cut what the account can't use.** No `advanced_user_management` add-on means
-   no team-performance step — drop it from the plan rather than hitting
+   no team-performance step. Drop it from the plan rather than hitting
    `ADDON_REQUIRED` in front of the user.
 5. **State the plan in one short block, then start.** Don't ask permission to
    *plan*; ask permission before each step that **writes**.
@@ -58,16 +58,15 @@ not like a menu.
 Auto mode runs multiple skills without making the user drive, which raises the
 cost of a wrong turn. So:
 
-- **Reads chain freely.** Research, scoring, analysis — no interruption.
+- **Reads chain freely.** Research, scoring, analysis. No interruption.
 - **Every write gets a confirmation**, showing exactly what will change and how
   many records it touches.
 - **Every email gets an explicit yes**, always, no exceptions and no "you already
   approved the plan".
-- **Stop and re-plan** when a step surfaces something that invalidates the rest —
-  duplicates found mid-capture, the incumbent turns out to be locked in for nine
+- **Stop and re-plan** when a step surfaces something that invalidates the rest. Duplicates found mid-capture, the incumbent turns out to be locked in for nine
   months, the "new" account is already someone else's deal.
 - **One closing summary** at the end: what changed in Lynqu, what didn't and why,
-  what's queued next. Not a summary per skill — that's a wall of text.
+  what's queued next. Not a summary per skill. That's a wall of text.
 
 ### Worked shapes
 
@@ -124,12 +123,12 @@ Three cheap calls that prevent the most common failure: a specialist skill
 discovering mid-bulk-write that the caller is an employee, on the wrong org, or
 on a read-only MCP policy.
 
-1. **`who-am-i`** — proves the connection and returns role (`employee`,
+1. **`who-am-i`**: proves the connection and returns role (`employee`,
    `manager`, `admin`) and organization. If it fails, **stop** and send the user
    to `docs/mcp/connect.md`. Every other call fails the same way.
-2. **`get-org-summary`** — the account in one call: lead counts by stage, active
+2. **`get-org-summary`**: the account in one call: lead counts by stage, active
    campaigns, recent activity. Carry the result into the routed skill.
-3. **`how-can-you-help-me`** — only when the request is vague and the table above
+3. **`how-can-you-help-me`**: only when the request is vague and the table above
    doesn't obviously answer it. The server classifies the situation and returns
    concrete calls. Prefer it over guessing.
 
@@ -222,7 +221,7 @@ question.
 ```
 
 Two rules the arrows encode: **qualify before you spend outreach on someone**,
-and **everything ends at `report`** — it's the cheapest way to confirm the
+and **everything ends at `report`**: it's the cheapest way to confirm the
 writes landed the way the user expected.
 
 ## Output format
@@ -260,7 +259,7 @@ Nothing is written until you have seen the scorecard.
   number is "unknown", not an estimate dressed as a fact.
 - **`organization_user_id` is not `user_id`.** Campaign membership and department
   assignment take the membership row id; lead assignment takes the user id.
-  `list-team-members` returns both — read it.
+  `list-team-members` returns both. Read it.
 - **Bulk cap is 100.** `bulk-update-leads`, `attach-leads-to-campaign` and
   `attach-leads-to-event` take at most 100 leads per call.
 - **Role gates are real.** Most tools check a capability rather than a rung:
@@ -296,7 +295,7 @@ Nothing is written until you have seen the scorecard.
   human-in-the-loop by design. Point at the Lynqu app rather than improvising a
   workaround.
 - The generic `/sales` suite still applies to work that has no Lynqu object
-  behind it — market sizing, positioning essays, one-off decks. Use it there and
+  behind it: market sizing, positioning essays, one-off decks. Use it there and
   bring the conclusions back here as notes.
 
 ## Example

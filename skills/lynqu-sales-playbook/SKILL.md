@@ -1,6 +1,6 @@
 ---
 name: lynqu-sales-playbook
-description: Turn a written sales playbook into a live Lynqu pipeline — contacts, timed tasks, follow-up templates, the playbook attached to each lead, and stage rules that deliver the prep at the right moment.
+description: Turn a written sales playbook into a live Lynqu pipeline. Contacts, timed tasks, follow-up templates, the playbook attached to each lead, and stage rules that deliver the prep at the right moment.
 ---
 
 # Lynqu Sales Playbook
@@ -10,8 +10,8 @@ is a process: the contacts are on leads, the touches are dated tasks, the
 meeting prep appears when the deal reaches the stage it belongs to, and the
 whole thing is attached to the lead so the next rep inherits it.
 
-You do that conversion. You read a playbook doc set — decision makers, an
-outreach sequence, meeting prep, the send order — and you provision it.
+You do that conversion. You read a playbook doc set (decision makers, an
+outreach sequence, meeting prep, the send order) and you provision it.
 
 The measure of a good run is that a rep who has never read the playbook still
 executes it, because the next action is already on their board with a date on
@@ -60,7 +60,7 @@ working in; a playbook provisioned into the wrong pipeline is tedious to undo.
 
 For each named person:
 
-- **`search-contacts`** first — match on email, then name + company. A playbook
+- **`search-contacts`** first. Match on email, then name + company. A playbook
   usually names people the org has already met.
 - **`create-contact`** only for genuine misses. Never create a second contact
   for someone who is already in the roster.
@@ -71,7 +71,7 @@ For each named person:
 - **`manage-lead-participant`** for the rest of the buying committee. A
   corporate track with a champion, a technical sponsor and an economic buyer is
   ONE deal with three participants, not three leads. Promote the champion to
-  primary — that is what points the lead at the right contact record.
+  primary. That is what points the lead at the right contact record.
 
 Multiple people at one company who are each their own opportunity (separate
 teams, separate budgets) are separate leads. People who must all say yes to the
@@ -81,10 +81,10 @@ same purchase are participants on one lead. Ask if it is genuinely ambiguous.
 
 Each touch in the sequence becomes a task via **`add-lead-contact-point`**:
 
-- `title` — what the rep actually does ("Send the 90-day pilot one-pager")
-- `kind` — `call`, `demo`, `proposal`, `follow_up` or `other`
-- `due_at` — the sequence's day offset, counted from today
-- `description` — the angle, and the copy if the playbook supplies it
+- `title`: what the rep actually does ("Send the 90-day pilot one-pager")
+- `kind`: `call`, `demo`, `proposal`, `follow_up` or `other`
+- `due_at`: the sequence's day offset, counted from today
+- `description`: the angle, and the copy if the playbook supplies it
 - leave `assigned_to` unset unless the playbook names an owner; an unassigned
   task already routes to whoever owns the lead
 
@@ -113,8 +113,7 @@ email only.
 ## Step 5: Attach the playbook itself
 
 **`add-lead-document`** takes a file as base64 and accepts Markdown. Attach the
-send playbook — the per-person copy, the objection handling, the value props —
-to each lead it covers.
+send playbook (the per-person copy, the objection handling, the value props) to each lead it covers.
 
 It renders in the browser: the lead's Engagement tab shows the Documents panel,
 and a `.md` file opens as formatted text, not a download. So the rep opens the
@@ -128,7 +127,7 @@ per-person. A rep opening Kyle's lead should find Kyle's angle, not a
 
 This is the part that turns a provisioned playbook into a live one. Stage rules
 need the **Workflow Automation add-on**; check with `list-automation-rules`
-first — if it returns `ADDON_REQUIRED`, everything above still worked, and you
+first, if it returns `ADDON_REQUIRED`, everything above still worked, and you
 say so plainly rather than failing the whole run.
 
 **`create-automation-rule`** with `trigger_type: stage_changed` and the
@@ -152,7 +151,7 @@ Four things about these rules that decide whether the result is usable:
 
 1. **They are per-stage, not per-lead.** One rule serves every lead that ever
    reaches that stage, including ones created long after this run. That is the
-   whole point — you are configuring the pipeline, not decorating 20 records.
+   whole point. You are configuring the pipeline, not decorating 20 records.
 2. **`due_in_days` is relative to the fire.** A lead reaching Discovery in
    March gets the same three-day runway as one reaching it in June.
 3. **Both playbook actions are idempotent.** A card dragged out of a stage and
@@ -171,7 +170,7 @@ reaching the same stage need different prep, so scope the rule with
 
 Re-read one lead end to end with **`get-lead`** and **`list-lead-documents`**.
 Confirm the participants, the tasks with their dates, and the attachment are
-all actually there — a playbook that half-provisioned is worse than one that
+all actually there. A playbook that half-provisioned is worse than one that
 didn't, because nobody knows which half.
 
 ## Output format
@@ -190,7 +189,7 @@ didn't, because nobody knows which half.
 | Stage | Actions | Scope |
 
 ## Not done
-<anything skipped, and why — add-on missing, ambiguous person, cap reached>
+<anything skipped, and why: add-on missing, ambiguous person, cap reached>
 
 ## First actions due
 <the tasks landing in the next 7 days, so the rep knows what Monday looks like>
@@ -229,7 +228,7 @@ didn't, because nobody knows which half.
 | `ADDON_REQUIRED` on automation | Everything else still provisioned. Report which stages have no rule, and what the add-on would add. |
 | Person matches two contacts | Stop and ask. Linking a company roster to the wrong person's pipeline is invisible once done. |
 | Lead at the 25-task cap | Report which touches were dropped. Never silently truncate. |
-| Attachment over 25 MB | Split by section — which is what you should have done anyway. |
+| Attachment over 25 MB | Split by section, which is what you should have done anyway. |
 | Stage named in the playbook doesn't exist | Ask before creating it. A playbook's stage names are usually generic; the org's are usually deliberate. |
 | No pipeline confirmed | Do not guess the default. Ask. |
 | `send_template` refused: "can only use team templates" | The rule names a personal template. Point it at a team template, or ask an admin to publish one. |
@@ -248,7 +247,7 @@ didn't, because nobody knows which half.
 
 ## Example
 
-> *"Here's our eXp Realty folder — decision makers, the outreach sequence, the
+> *"Here's our eXp Realty folder: decision makers, the outreach sequence, the
 > meeting prep and the send playbook. Set it up in the Partnerships pipeline."*
 
 Reads all four documents. Finds 13 named people across three tracks; 4 already

@@ -7,7 +7,7 @@ Lynqu runs the full arc: **capture → engage → manage → measure.**
 
 ## Cards
 
-Digital business cards — the entry point. A card holds contact info, social
+Digital business cards, the entry point. A card holds contact info, social
 links, services, a template, and a color palette. Both individuals and teams
 have them. Sharing a card (QR, NFC, link) is how a relationship starts.
 
@@ -17,7 +17,7 @@ have them. Sharing a card (QR, NFC, link) is how a relationship starts.
 ## Contacts
 
 The organization-level shared address book (OrgContacts). When someone shares
-their details back with you — or you scan their card/badge — they land here as a
+their details back with you (or you scan their card/badge) they land here as a
 contact the whole team can search.
 
 ## Leads
@@ -72,12 +72,12 @@ afterwards (`attach-leads-to-event`), which also runs the event's sequences.
 
 ## Supporting objects
 
-- **Departments** — org-chart structure (nestable via `parent_id`), with an
+- **Departments**: org-chart structure (nestable via `parent_id`), with an
   optional manager and contact info.
-- **Employees** — organization members with a role (`admin` / `manager` /
+- **Employees**: organization members with a role (`admin` / `manager` /
   `employee`). Invite, update, remove, or bulk-import from a spreadsheet.
   Membership changes are **admin** actions.
-- **Capture Forms** — public submission forms attached to a campaign at
+- **Capture Forms**: public submission forms attached to a campaign at
   `/c/{token}`.
 - **NFC devices**: physical cards, tags and fobs. Each one points at a digital
   card and can be handed to a teammate without rewriting the tag.
@@ -159,7 +159,7 @@ OAuth flow.
 
 ## Two identifiers to know
 
-Some tools take `organization_user_id` (the membership join-row id — used for
+Some tools take `organization_user_id` (the membership join-row id: used for
 campaign membership and department assignment); others take the underlying
 `user_id` (used for lead assignment). The **`list-team-members`** tool returns
 both, so you never have to guess which one a tool wants.

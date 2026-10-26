@@ -23,7 +23,7 @@ e.g. Claude Desktop 1.x, Cursor, ChatGPT, VS Code.
 
 **Exact error**
 Paste the verbatim error. If a tool call failed, include the tool name. You can
-paste `who-am-i` output (auth context only — no secrets).
+paste `who-am-i` output (auth context only, no secrets).
 
-> Check `docs/mcp/troubleshooting.md` first — many connection issues are covered
+> Check `docs/mcp/troubleshooting.md` first: many connection issues are covered
 > there.

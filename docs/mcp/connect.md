@@ -1,6 +1,6 @@
 # Connect the Lynqu MCP server
 
-The Lynqu MCP server is **hosted by Lynqu**. You don't run anything — you point
+The Lynqu MCP server is **hosted by Lynqu**. You don't run anything. You point
 your AI client at a URL and sign in with your Lynqu account over OAuth 2.1.
 There is **no API key or token to copy**.
 
@@ -104,11 +104,11 @@ Or use [`../client-configs/vscode.json`](../client-configs/vscode.json) as your
 ### Any other MCP client
 
 1. Add a new **remote (HTTP / streamable)** MCP server.
-2. Use the Lynqu URL — your client handles the OAuth sign-in.
+2. Use the Lynqu URL. Your client handles the OAuth sign-in.
 3. Approve access on the Lynqu page when prompted.
 
 For clients that only speak **stdio**, bridge with
-[`mcp-remote`](https://www.npmjs.com/package/mcp-remote) — see
+[`mcp-remote`](https://www.npmjs.com/package/mcp-remote), see
 [`../client-configs/claude-desktop.json`](../client-configs/claude-desktop.json).
 
 ## After connecting

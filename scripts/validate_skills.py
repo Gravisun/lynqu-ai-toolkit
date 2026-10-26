@@ -5,11 +5,13 @@ Checks, for every skills/*/SKILL.md:
   1. YAML frontmatter exists with non-empty `name` and `description`.
   2. `name` is kebab-case and prefixed `lynqu-`, and matches its folder name.
   3. `description` stays under our 200-char house limit. Anthropic documents a
-     1024-char maximum; 200 is a deliberately tighter budget — the description is
+     1024-char maximum; 200 is a deliberately tighter budget: the description is
      always in context and is what Claude matches a request against, so a tight
      one both triggers better and travels safely across every upload surface.
   4. Every MCP tool the skill references (backtick `tool-name`) is documented in
-     docs/mcp/tool-catalog.md — so a skill can't call a tool that will error.
+     docs/mcp/tool-catalog.md: so a skill can't call a tool that will error.
+  5. No em dash anywhere in the repo's text files (house voice rule: a colon,
+     a comma or a full stop says the same thing and reads like a person).
 
 Exit code is non-zero if any check fails. No third-party dependencies.
 """
@@ -27,7 +29,7 @@ CATALOG = ROOT / "docs" / "mcp" / "tool-catalog.md"
 NAME_RE = re.compile(r"^lynqu(?:-[a-z0-9]+)*$")
 # House limit. Anthropic's documented maximum is 1024, but a description is
 # permanently in context and is the text Claude matches requests against, so we
-# keep ours tight — and short descriptions upload cleanly everywhere.
+# keep ours tight: and short descriptions upload cleanly everywhere.
 MAX_DESC = 200
 # A backticked token that looks like an MCP tool id: all lowercase, hyphenated,
 # at least one hyphen (e.g. `create-lead`). Excludes paths and prose.
@@ -89,7 +91,7 @@ def main() -> int:
         elif len(desc) > MAX_DESC:
             errors.append(
                 f"{d.name}: description is {len(desc)} chars, max {MAX_DESC} "
-                "(house limit — keep it short and matchable)"
+                "(house limit: keep it short and matchable)"
             )
 
         referenced = set(TOOL_TOKEN_RE.findall(text))
@@ -101,6 +103,8 @@ def main() -> int:
         }
         for t in sorted(unknown):
             errors.append(f"{d.name}: references undocumented MCP tool `{t}`")
+
+    errors.extend(em_dash_hits())
 
     if errors:
         return _fail(errors)
@@ -119,6 +123,22 @@ _TOOL_VERBS = ("list", "get", "create", "update", "add", "assign", "remove",
 
 def _looks_like_tool(token: str) -> bool:
     return token.split("-", 1)[0] in _TOOL_VERBS
+
+
+TEXT_SUFFIXES = {".md", ".py", ".json", ".yml", ".yaml", ".txt", ".gitignore"}
+
+
+def em_dash_hits() -> list[str]:
+    hits = []
+    for p in sorted(ROOT.rglob("*")):
+        if ".git" in p.parts or not p.is_file():
+            continue
+        if p.suffix not in TEXT_SUFFIXES and p.name not in TEXT_SUFFIXES:
+            continue
+        for n, line in enumerate(p.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+            if "\u2014" in line:
+                hits.append(f"{p.relative_to(ROOT)}:{n}: em dash; use a colon, comma or full stop")
+    return hits
 
 
 def _fail(errors: list[str]) -> int:

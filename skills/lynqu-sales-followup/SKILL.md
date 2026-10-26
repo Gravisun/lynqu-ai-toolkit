@@ -7,7 +7,7 @@ description: Draft and send on-brand sales follow-up emails to Lynqu leads from 
 
 You handle everything **after** the first conversation: the post-meeting recap,
 the deal that went quiet, the proposal nobody has opened, the long nurture until
-timing arrives. This is not cold outreach — there is history, and using it is the
+timing arrives. This is not cold outreach. There is history, and using it is the
 entire job.
 
 Rule that governs the skill: **every follow-up must add something new**. A message
@@ -24,20 +24,20 @@ safe to ignore, and that lesson is permanent.
 
 Never ask the user for what Lynqu already knows.
 
-- **`get-lead`** — stage, score, temperature, value, owner, and the activity
+- **`get-lead`**: stage, score, temperature, value, owner, and the activity
   timeline. **The timeline is your material**: opens, clicks, document views,
   stage history
-- The lead's **notes**, returned with `get-lead` — what was actually said, in
+- The lead's **notes**, returned with `get-lead`: what was actually said, in
   the rep's own words
-- **`list-lead-contact-points`** — what was promised and by whom. An open task
+- **`list-lead-contact-points`**: what was promised and by whom. An open task
   saying *"send the pricing breakdown"* from three weeks ago **is** the follow-up;
   don't write a nurture email around a promise you're still not keeping
-- **`list-lead-documents`** — what was shared, and **whether it was opened**. A
+- **`list-lead-documents`**: what was shared, and **whether it was opened**. A
   proposal opened five times by two different people is a completely different
   email from one never opened at all
-- **`list-quotes`** / **`list-opportunities`** — a live quote changes the message
+- **`list-quotes`** / **`list-opportunities`**: a live quote changes the message
   and its urgency
-- **`get-booking`** / **`list-card-bookings`** — was there a meeting? When?
+- **`get-booking`** / **`list-card-bookings`**: was there a meeting? When?
   Did they show?
 - **`list-outbox`** with the `lead_id`: every email that actually went to this
   person, from anyone on the team or an AI employee, with delivery status,
@@ -65,21 +65,21 @@ downstream is off.
 | **Replied** | A reply in `list-outbox` since the last send | Answer in their thread | Respond to what they said; no template on top of it |
 
 Two behaviours worth naming: a document opened repeatedly by **someone new** means
-the deal moved to a wider audience — write to that, it's the best signal you'll
+the deal moved to a wider audience. Write to that, it's the best signal you'll
 get. And zero opens on a proposal usually means the wrong person received it, not
 that they said no.
 
 ## Step 3: Write it
 
 Reference something **specific and true** from the history in the first two lines.
-Not "following up on our conversation" — the actual thing: the constraint they
+Not "following up on our conversation". The actual thing: the constraint they
 named, the number they quoted, the deadline they mentioned.
 
 Then: one new piece of value, one clear next step, and a length that respects
 them. Post-meeting recaps run 60 to 90 words; a nurture touch runs 30 to 50.
 Shorter wins. The test is in the Voice section below.
 
-The exit email matters more than people think. *"I'll stop here — if the badge
+The exit email matters more than people think. *"I'll stop here, if the badge
 backlog comes up again after the spring shows, I'm easy to find"* preserves the
 relationship, and it converts surprisingly often precisely because it isn't asking.
 
@@ -162,7 +162,7 @@ discipline is stricter:
 - Group by scenario, then by what actually happened. One template with a merge
   field is not personalization
 - Cap the batch. Confirm per chunk (`bulk-update-leads` is ≤ 100 anyway)
-- Show three representative drafts, not thirty — the user is approving the
+- Show three representative drafts, not thirty. The user is approving the
   *pattern*
 - Exclude anyone touched in the last 5 days, anyone on another rep's open deal,
   anyone with a live quote in negotiation, and anyone whose reply is sitting in
@@ -287,7 +287,7 @@ Subject: {under 40 chars}
 
 The run: finds 14 · excludes 2 touched by another rep this week and 1 with a quote
 in active negotiation · groups the rest: 6 never opened the follow-up document
-(likely wrong recipient — the draft asks who else should see it), 4 opened it
+(likely wrong recipient, the draft asks who else should see it), 4 opened it
 repeatedly including one by a new address (the draft speaks to a wider audience
 and offers a short session), 1 has an open promise from the rep 19 days old (the
 draft delivers it and apologises once, briefly) · shows three representative

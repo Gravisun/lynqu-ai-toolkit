@@ -1,6 +1,6 @@
 ---
 name: lynqu-lead-management
-description: Keep the Lynqu pipeline moving — stage moves, lead routing and owner assignment, scoring, tags, bulk hygiene and stalled deals. Requires the Lynqu MCP server connected.
+description: Keep the Lynqu pipeline moving. Stage moves, lead routing and owner assignment, scoring, tags, bulk hygiene and stalled deals. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Pipeline Hygiene
@@ -10,7 +10,7 @@ stages they left months ago, leads are assigned to people who no longer work
 here, the same person exists three times, and every forecast built on top of it
 is fiction.
 
-You fix that — in bulk, safely, with the user's approval at each destructive
+You fix that: in bulk, safely, with the user's approval at each destructive
 step. The output is a board a manager can trust and a rep can work top-down.
 
 ## Invocation
@@ -21,19 +21,19 @@ step. The output is a board a manager can trust and a rep can work top-down.
 
 ## Step 1: Take the pipeline's temperature
 
-- **`get-org-summary`** — the shape of the book
-- **`list-lead-pipelines`** and **`get-pipeline-stages`** — the boards and their
+- **`get-org-summary`**: the shape of the book
+- **`list-lead-pipelines`** and **`get-pipeline-stages`**: the boards and their
   columns. Everything downstream is per-board; there is no global stage list
-- **`list-leads`** per board with stage and updated dates — the raw material
-- **`list-lead-duplicates`** — the hygiene problem that corrupts every other number
-- **`list-team-members`** — who's active, and who has left but still owns leads
-- **`list-lead-views`** — the org's saved views already encode what it watches
-- **`list-segments`** — the shared filters (market, source, campaign, tags, UTM)
+- **`list-leads`** per board with stage and updated dates: the raw material
+- **`list-lead-duplicates`**: the hygiene problem that corrupts every other number
+- **`list-team-members`**: who's active, and who has left but still owns leads
+- **`list-lead-views`**: the org's saved views already encode what it watches
+- **`list-segments`**: the shared filters (market, source, campaign, tags, UTM)
   with live counts and what each one drives: sequences, rules, A/B variants
 
 ## Step 2: Diagnose before you touch anything
 
-Six checks, in this order. Report all of them before fixing any of them — a
+Six checks, in this order. Report all of them before fixing any of them: a
 manager needs the shape of the problem, not a running commentary of edits.
 
 | Check | How to spot it | Why it matters |
@@ -48,12 +48,12 @@ manager needs the shape of the problem, not a running commentary of edits.
 Quantify each: *"41 stalled (median 9 days, these are 30+), 12 orphaned from
 Sara's departure, 6 duplicate pairs, 88 with no open task."*
 
-## Step 3: Stalled deals — decide, don't just report
+## Step 3: Decide on stalled deals, don't just report them
 
 Every stalled lead gets one of three verdicts, and the user picks in bulk:
 
-1. **Revive** — there's a real reason to re-engage → task + `lynqu-sales-followup`
-2. **Nurture** — real fit, wrong timing → move to a nurture stage, set a dated
+1. **Revive**: there's a real reason to re-engage → task + `lynqu-sales-followup`
+2. **Nurture**: real fit, wrong timing → move to a nurture stage, set a dated
    task at the trigger, stop spending attention now
 3. **Close as lost**, with a **reason**. This is the important one. A lost lead
    with a reason feeds `lynqu-icp`; a lead left open forever feeds nothing and
@@ -65,7 +65,7 @@ recommendation explicit and let the human decide.
 
 ## Step 4: Fix it
 
-Show the full plan with counts, get approval, then work in this order — the
+Show the full plan with counts, get approval, then work in this order, the
 sequence matters, because merging after reassigning means doing the work twice.
 
 1. **Duplicates first.** `merge-leads`: pick the survivor deliberately (the one
@@ -114,7 +114,7 @@ A one-off cleanup decays in a month. Before you finish:
   org; `update-segment` replaces the whole definition; `delete-segment` is
   refused while anything live targets it
 - Where the org has the workflow automation add-on, propose an
-  `create-automation-rule` for the recurring cases — auto-task on stage entry,
+  `create-automation-rule` for the recurring cases: auto-task on stage entry,
   auto-flag on inactivity. Propose; don't create silently. Rules fire on
   everything afterwards
 - Recommend a cadence. Weekly for a busy board, monthly for a slow one
@@ -122,7 +122,7 @@ A one-off cleanup decays in a month. Before you finish:
 ## Output format
 
 ```markdown
-# Pipeline Hygiene — {board}
+# Pipeline Hygiene · {board}
 
 {n} open leads · median {n} days in stage · {n} need attention
 
@@ -210,7 +210,7 @@ Saved view proposed · cadence: weekly
 
 ## Example
 
-> "/lynqu pipeline — Sara left last month and I think the board is a mess."
+> "/lynqu pipeline, Sara left last month and I think the board is a mess."
 
 The run: reads three boards · finds 12 leads still assigned to Sara, 41 stalled
 beyond 30 days (median in-stage is 9), 6 duplicate pairs from the same event

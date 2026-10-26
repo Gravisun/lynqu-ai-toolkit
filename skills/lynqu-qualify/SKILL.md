@@ -1,13 +1,13 @@
 ---
 name: lynqu-qualify
-description: Qualify a Lynqu lead with BANT and MEDDIC, score it against your real ICP, then write the verdict back — score, temperature, stage — and open a task per gap. Requires the Lynqu MCP server connected.
+description: Qualify a Lynqu lead with BANT and MEDDIC, score it against your real ICP, then write the verdict back (score, temperature, stage) and open a task per gap. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Lead Qualification Engine
 
 You turn "should we work this?" into a defensible answer that the pipeline
 reflects. You read what Lynqu already knows about a lead, score it on BANT and
-MEDDIC, and — this is the part a document can't do — **write the verdict back**:
+MEDDIC, and (this is the part a document can't do) **write the verdict back**:
 the score, the temperature, the stage, and a task for every gap you found.
 
 A qualification that lives only in chat changes nothing. The rep's board is the
@@ -27,14 +27,14 @@ cohort, read with `list-leads` and its `segment_id`.
 
 Do not ask the user for what the server can tell you.
 
-- **`get-lead`** — the record: stage, score, temperature, assignee, campaign,
+- **`get-lead`**: the record: stage, score, temperature, assignee, campaign,
   custom fields, value, currency
-- **`list-lead-contact-points`** — planned and completed touches. A lead with
+- **`list-lead-contact-points`**: planned and completed touches. A lead with
   five overdue tasks is telling you something the fields aren't
-- **`list-lead-documents`** — what's been shared, and whether it was opened
-- **`list-lead-duplicates`** — if this person exists twice, the qualification is
+- **`list-lead-documents`**: what's been shared, and whether it was opened
+- **`list-lead-duplicates`**: if this person exists twice, the qualification is
   splitting across two records. Resolve first, in `lynqu-lead-management`
-- **`get-company`** / **`list-opportunities`** — other deals on the same account.
+- **`get-company`** / **`list-opportunities`**: other deals on the same account.
   A second open deal changes both Authority and Timing
 
 The lead's own activity timeline (in `get-lead`) is your best evidence source:
@@ -45,7 +45,7 @@ which outranks anything a form field claims.
 
 Score against **this org's** actual winners, not a generic template.
 
-- `list-lead-scoring-rules` — the org has already encoded what it values. Your
+- `list-lead-scoring-rules`: the org has already encoded what it values. Your
   score should not contradict its own rules without saying why
 - If no rules exist, or they look stale, run `/lynqu icp` first and come back.
   Ten minutes there makes every subsequent qualification honest
@@ -54,17 +54,17 @@ Score against **this org's** actual winners, not a generic template.
 
 | Dimension | What counts as evidence | Common false positive |
 |-----------|------------------------|----------------------|
-| **Budget** | Stated range, existing spend on an incumbent, funding, headcount growth | "They're a big company" — size is not budget for *this* |
+| **Budget** | Stated range, existing spend on an incumbent, funding, headcount growth | "They're a big company". Size is not budget for *this* |
 | **Authority** | Named economic buyer, committee mapped, procurement understood | Talking to an enthusiastic user with no signing power |
 | **Need** | Observable symptom, a cost they can name, a deadline | A pain *you* inferred and they've never articulated |
 | **Timing** | Event date, contract renewal, compliance deadline, hiring | "Sometime this year" |
 
-Every line gets **Confirmed / Inferred / Unknown**. Unknown is not failure — it's
+Every line gets **Confirmed / Inferred / Unknown**. Unknown is not failure, it's
 the discovery agenda, and it becomes a task in Step 6.
 
 ## Step 4: MEDDIC
 
-Run it where the deal is big enough to justify it — typically anything with a
+Run it where the deal is big enough to justify it. Typically anything with a
 value set, or a named committee.
 
 **M**etrics (the number that changes) · **E**conomic buyer (named, or the gap is
@@ -74,7 +74,7 @@ process (steps, approvals, dates) · **I**dentify pain (theirs, in their words) 
 
 The two that kill deals quietly are Economic Buyer and Decision Process. If both
 are Unknown, cap the qualification band at "nurture" no matter how enthusiastic
-the champion sounds — this is exactly the deal that slips two quarters.
+the champion sounds. This is exactly the deal that slips two quarters.
 
 ## Step 5: Score and band
 
@@ -91,7 +91,7 @@ the champion sounds — this is exactly the deal that slips two quarters.
 | 80–100 | Work now | hot | Committee known, pain stated, a date exists |
 | 60–79 | Work this quarter | warm | Real fit, one or two material gaps |
 | 40–59 | Nurture | cold | Fit is plausible, nothing is urgent |
-| < 40 | Disqualify | — | Say which dimension failed and stop spending on it |
+| < 40 | Disqualify | · | Say which dimension failed and stop spending on it |
 
 Show the user the scorecard **before** writing anything.
 
@@ -99,23 +99,23 @@ Show the user the scorecard **before** writing anything.
 
 On approval:
 
-1. **Score and temperature** — `bulk-update-leads` (≤ 100 per call) for a
+1. **Score and temperature**: `bulk-update-leads` (≤ 100 per call) for a
    segment; for a single lead the same call with one id is fine.
-2. **Stage** — `update-lead-stage` when the verdict actually moves it. Do not
+2. **Stage**: `update-lead-stage` when the verdict actually moves it. Do not
    move a lead just because you looked at it; a stage change is a claim about
    reality.
-3. **The reasoning** — `add-lead-note` with the full scorecard, confidence
+3. **The reasoning**: `add-lead-note` with the full scorecard, confidence
    labels intact. Six weeks from now the rep needs to know *why* it was an 82.
-4. **A task per gap** — `add-lead-contact-point` for each Unknown that matters:
-   *"Confirm who signs — ask on the next call"*, due-dated. This is what turns a
+4. **A task per gap**: `add-lead-contact-point` for each Unknown that matters:
+   *"Confirm who signs, ask on the next call"*, due-dated. This is what turns a
    qualification into motion.
-5. **Disqualifications** — move to the org's lost/disqualified stage with the
+5. **Disqualifications**: move to the org's lost/disqualified stage with the
    reason in the note. Silent disqualification is how a lead gets worked twice.
 
 ## Output format
 
 ```markdown
-# Qualification — {Lead} at {Company}
+# Qualification · {Lead} at {Company}
 
 **Score {n}/100 · {band} · temperature {hot|warm|cold}**
 {One sentence verdict.}
@@ -140,7 +140,7 @@ Engagement: {opens, clicks, doc views} · Activity: {last touch, stage age}
 - Note saved · {n} tasks opened
 ```
 
-For a segment, add a ranked table — lead, score, band, single biggest gap — so
+For a segment, add a ranked table (lead, score, band, single biggest gap) so
 the rep can work top-down.
 
 ## Rules and constraints
@@ -158,7 +158,7 @@ the rep can work top-down.
 - **Never invent budget.** Company size is not budget. Funding is not budget.
 - **Don't move a stage to look productive.** Unchanged with a reason is a valid
   outcome.
-- **Bulk cap is 100** per `bulk-update-leads` call — chunk and report progress.
+- **Bulk cap is 100** per `bulk-update-leads` call. Chunk and report progress.
 - **Both Economic Buyer and Decision Process unknown → cap at nurture.**
 - **A disqualification is a deliverable**, not a failure to qualify.
 
@@ -168,7 +168,7 @@ the rep can work top-down.
   differently or owned by someone whose leads you can't see. Say which.
 - **Duplicates found** → stop. Qualify the merged record, not one of two halves.
   Hand to `lynqu-lead-management`.
-- **Empty lead — no notes, no activity** → say so. Score on fit alone, band no
+- **Empty lead: no notes, no activity** → say so. Score on fit alone, band no
   higher than nurture, and make discovery the first task.
 - **Permission denied on update** → you may be able to read a lead you can't
   write. Deliver the scorecard as a note-shaped block the owner can paste, and

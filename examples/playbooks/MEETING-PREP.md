@@ -1,4 +1,4 @@
-# Meeting Prep — Northwind Brokerage
+# Meeting Prep · Northwind Brokerage
 
 > Fictional example. See [README.md](README.md).
 
@@ -8,7 +8,7 @@ rep reads it on the lead instead of hunting for this file.
 
 ---
 
-# §A. Corporate pilot call — Dana Reyes (± Marcus, Priya)
+# §A. Corporate pilot call with Dana Reyes (± Marcus, Priya)
 
 ## Objective
 
@@ -19,16 +19,16 @@ and a date, the call worked.
 ## The positioning lock
 
 Say this, in these words: *"This isn't a CRM replacement. Your CRM is fine at
-managing deals — it's blind to the 40% of people your agents meet who never get
+managing deals. It's blind to the 40% of people your agents meet who never get
 entered. We close that gap and hand the clean record to the CRM you already
 have."*
 
 ## Talk track (15 min)
 
-1. **2 min** — the panel line, back to her
-2. **4 min** — the capture gap, with her own event calendar as the example
-3. **5 min** — walkthrough: scan → enriched lead → routed → followed up
-4. **4 min** — pilot scope: one region, 90 days, one success metric
+1. **2 min**: the panel line, back to her
+2. **4 min**: the capture gap, with her own event calendar as the example
+3. **5 min**: walkthrough: scan → enriched lead → routed → followed up
+4. **4 min**: pilot scope: one region, 90 days, one success metric
 
 ## Discovery questions
 
@@ -39,10 +39,10 @@ have."*
 
 ## Anticipated questions
 
-- *"We just renewed our CRM."* — Good. We feed it; we don't replace it.
-- *"Our agents won't adopt a new tool."* — It replaces the card they already
+- *"We just renewed our CRM."* Good. We feed it; we don't replace it.
+- *"Our agents won't adopt a new tool."* It replaces the card they already
   carry. Adoption is the doorway, not a training programme.
-- *"How is this different from Popl or Blinq?"* — Those stop at the card. Ours
+- *"How is this different from Popl or Blinq?"* Those stop at the card. Ours
   is the pipeline after it.
 
 ## Landmines
@@ -53,7 +53,7 @@ have."*
 
 ---
 
-# §B. Regional call — Elena Kovač
+# §B. Regional call with Elena Kovač
 
 ## Objective
 
@@ -67,9 +67,9 @@ have to justify upward. Her constraint is her own time, not money.
 
 ## Talk track (10 min)
 
-1. **2 min** — her four events, and what happens to the badges after them
-2. **5 min** — walkthrough, on her actual next event
-3. **3 min** — trial: today, her region, no procurement
+1. **2 min**: her four events, and what happens to the badges after them
+2. **5 min**: walkthrough, on her actual next event
+3. **3 min**: trial: today, her region, no procurement
 
 ## Questions
 

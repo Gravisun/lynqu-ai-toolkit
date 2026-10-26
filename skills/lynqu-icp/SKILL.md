@@ -5,8 +5,8 @@ description: Build an Ideal Customer Profile from your own won and lost leads in
 
 # Lynqu ICP Builder
 
-You build an Ideal Customer Profile from **evidence the org already owns** — its
-won deals, its losses, its cycle times — and then encode it where it does work:
+You build an Ideal Customer Profile from **evidence the org already owns**, its
+won deals, its losses, its cycle times, and then encode it where it does work:
 Lynqu's lead scoring rules. A slide-deck ICP is an opinion. A scoring rule is an
 opinion that grades every lead that arrives at 3am.
 
@@ -23,17 +23,17 @@ Bare invocation profiles the whole book. A segment narrows it.
 
 ## Step 1: Pull the evidence
 
-- **`get-org-summary`** — shape of the book before you slice it
-- **`list-leads`** filtered to **won** — the positive class. Aim for 20+; below
+- **`get-org-summary`**: shape of the book before you slice it
+- **`list-leads`** filtered to **won**. The positive class. Aim for 20+; below
   ~10 say plainly that the sample is thin and treat the output as a hypothesis
-- **`list-leads`** filtered to **lost** — the negative class, and the half every
+- **`list-leads`** filtered to **lost**. The negative class, and the half every
   ICP exercise skips. What you *don't* want is a sharper signal than what you do
-- **`get-lead`** on a sample of each — notes and activity carry the reasons the
+- **`get-lead`** on a sample of each. Notes and activity carry the reasons the
   columns don't
-- **`list-companies`** — firmographics behind the leads
-- **`get-team-performance`** / **`get-employee-performance`** — who wins which
+- **`list-companies`**: firmographics behind the leads
+- **`get-team-performance`** / **`get-employee-performance`**: who wins which
   kind of deal (add-on gated; skip cleanly if `ADDON_REQUIRED`)
-- **`get-forecast`** and **`get-dashboard-summary`** — value and cycle context
+- **`get-forecast`** and **`get-dashboard-summary`**: value and cycle context
 
 Say your sample sizes out loud. "Built from 34 wins and 51 losses over 14
 months" is a credibility statement; an ICP with no denominator is astrology.
@@ -41,7 +41,7 @@ months" is a credibility statement; an ICP with no denominator is astrology.
 ## Step 2: Find the pattern
 
 Compare won against lost on each axis. The interesting number is always the
-*difference*, never the raw count — 60% of your wins being SMB means nothing if
+*difference*, never the raw count: 60% of your wins being SMB means nothing if
 80% of your losses are too.
 
 | Axis | What to compute | The tell |
@@ -56,7 +56,7 @@ Compare won against lost on each axis. The interesting number is always the
 | Campaign / event | Win rate per campaign | One event produces half the revenue |
 
 Then, the part the numbers won't give you: read 5–10 won notes and 5–10 lost
-notes and find the **trigger** — what was true at the moment they decided to buy.
+notes and find the **trigger**. What was true at the moment they decided to buy.
 "They just hired field reps", "they run 12 events a year", "the spreadsheet
 finally broke". Triggers are what makes an ICP actionable; firmographics only
 tell you who to call, triggers tell you when.
@@ -65,9 +65,9 @@ tell you who to call, triggers tell you when.
 
 Three parts, all required:
 
-1. **Fit** — the firmographics: industry, size, geography, structure
-2. **Trigger** — the observable event that makes it urgent *now*
-3. **Anti-profile** — who to disqualify on sight, with the evidence. This is
+1. **Fit**: the firmographics: industry, size, geography, structure
+2. **Trigger**: the observable event that makes it urgent *now*
+3. **Anti-profile**: who to disqualify on sight, with the evidence. This is
    worth more than the profile: it stops the reps burning weeks on the segment
    that loses 90% of the time
 
@@ -78,14 +78,14 @@ line without a denominator is an opinion.
 
 This is what separates this from a document.
 
-- **`list-lead-scoring-rules`** — read what exists first. Rules the org already
+- **`list-lead-scoring-rules`**: read what exists first. Rules the org already
   wrote encode beliefs; contradicting one is fine, doing it silently isn't
 - **`create-lead-scoring-rule`** for each ICP dimension worth points, and
   **`update-lead-scoring-rule`** where an existing rule is now provably wrong
 - **`delete-lead-scoring-rule`** only for rules the evidence actively refutes,
   and only with the user's explicit yes
 
-Keep the rule set small — a dozen well-chosen rules beat forty that cancel each
+Keep the rule set small. A dozen well-chosen rules beat forty that cancel each
 other out. Weight by demonstrated win-rate lift, not by how strongly anyone feels.
 
 Show the proposed rules as a table and get approval before writing. This changes
@@ -93,8 +93,7 @@ how every future lead is scored, which is exactly why it deserves a confirmation
 
 ## Step 5: Make it reachable
 
-- **`add-lead-note`** on a handful of exemplar won leads: *"Textbook ICP —
-  {trigger}"*. Future reps learn the profile from real deals faster than from a
+- **`add-lead-note`** on a handful of exemplar won leads: *"Textbook ICP: {trigger}"*. Future reps learn the profile from real deals faster than from a
   document
 - Propose a **saved view** or tag for "matches ICP" so the profile is a filter,
   not a memory
@@ -104,12 +103,12 @@ how every future lead is scored, which is exactly why it deserves a confirmation
   `get-segment-performance` is the quarterly re-run, with the rows adding up,
   and a sequence or an automation rule can target the profile directly
 - If the org runs campaigns against segments, note which campaigns aim at the
-  anti-profile — that's spend to reallocate
+  anti-profile: that's spend to reallocate
 
 ## Output format
 
 ```markdown
-# Ideal Customer Profile — {Org}
+# Ideal Customer Profile · {Org}
 
 Built from {n} won and {n} lost leads, {date range}.
 
@@ -123,7 +122,7 @@ Built from {n} won and {n} lost leads, {date range}.
 |------|-----|------|----------|------|
 | … | 18 | 6 | 75% | 3× the book average |
 
-## Anti-profile — disqualify on sight
+## Anti-profile: disqualify on sight
 | Signal | Win rate | Deals burned |
 
 ## Triggers, in their words
@@ -187,7 +186,7 @@ Built from {n} won and {n} lost leads, {date range}.
 
 ## Example
 
-> "/lynqu icp — I think we're wasting time on enterprise."
+> "/lynqu icp, I think we're wasting time on enterprise."
 
 The run: pulls 34 wons and 51 losts · finds mid-market (50–500) wins at 61% with
 a 24-day cycle while enterprise wins at 12% with a 96-day cycle *and* accounts

@@ -1,13 +1,13 @@
 ---
 name: lynqu-event-blitz
-description: Run a conference, trade show or booth end-to-end in Lynqu — set up the event and campaign, capture leads, attribute them, then start follow-up. Requires the Lynqu MCP server connected.
+description: Run a conference, trade show or booth end-to-end in Lynqu. Set up the event and campaign, capture leads, attribute them, then start follow-up. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Event Blitz
 
 You run an event as a complete motion: set it up before, capture cleanly during,
 attribute and follow up after, and answer the only question that matters
-afterwards — **did this event make money?**
+afterwards: **did this event make money?**
 
 Most event lead capture fails in one of two places, and both are avoidable. Setup
 is skipped, so nothing is attributable and the ROI question is unanswerable
@@ -29,25 +29,25 @@ Skipping this is the expensive mistake. Do it even the night before.
    Without `events.manage` (admins by default) this lists only the events live
    right now, so a draft someone else created will not show; ask before
    creating a second one.
-2. **`create-event`** — name, dates, location. Events can be open-ended if the
+2. **`create-event`**: name, dates, location. Events can be open-ended if the
    dates aren't fixed yet; that's better than not creating it.
-3. **`create-campaign`** — the money side: budget, goals, members. The event holds
+3. **`create-campaign`**: the money side: budget, goals, members. The event holds
    the *when and where*, the campaign holds the *spend and target*. You need both
    to answer the ROI question.
-4. **`link-event-to-campaign`** — the link **is** the attribution spine. Without
+4. **`link-event-to-campaign`**: the link **is** the attribution spine. Without
    it you have two records that never talk.
-5. **`create-campaign-goal`** — a real target: leads captured, pipeline value,
+5. **`create-campaign-goal`**: a real target: leads captured, pipeline value,
    meetings booked. `list-metric-catalogue` shows what can be measured. A goal
    set afterwards is a story; set now it's a target.
-6. **`add-campaign-member`** — who's working the booth. Takes the
-   **`organization_user_id`** (not the user id) — `list-team-members` returns both.
-7. **Capture route** — `list-capture-forms` and set up a capture form for the
+6. **`add-campaign-member`**: who's working the booth. Takes the
+   **`organization_user_id`** (not the user id). `list-team-members` returns both.
+7. **Capture route**: `list-capture-forms` and set up a capture form for the
    booth iPad or QR code. `get-capture-form-stats` later tells you which route
    actually worked.
-8. **Pipeline** — decide now whether event leads go to their own board
+8. **Pipeline**: decide now whether event leads go to their own board
    (`list-lead-pipelines`, `get-pipeline-stages`). Event leads mixed into
    outbound are indistinguishable within a week.
-9. **Target list** — `lynqu-lead-research` against the exhibitor and speaker
+9. **Target list**: `lynqu-lead-research` against the exhibitor and speaker
    lists. Walking a floor with a ranked list of who to find beats wandering.
 10. **Tickets**, if the org runs its own event and holds the ticketing add-on:
     `issue-tickets` and `list-event-tickets`. Skip cleanly on `ADDON_REQUIRED`.
@@ -60,7 +60,7 @@ Skipping this is the expensive mistake. Do it even the night before.
 
 ## Phase 2: During the event
 
-- Badge and card **scanning happens in the Lynqu mobile app** — it handles OCR,
+- Badge and card **scanning happens in the Lynqu mobile app**. It handles OCR,
   offline queueing and bulk mode. Say so rather than inventing a workflow
 - The capture form covers everyone who prefers to type
 - Mid-event, the one thing worth doing daily: **capture the context while it's
@@ -73,7 +73,7 @@ Skipping this is the expensive mistake. Do it even the night before.
 Speed beats polish here. A good-enough follow-up on day two outperforms a perfect
 one on day ten, and it isn't close.
 
-1. **Capture the backlog** — hand to `lynqu-lead-capture`: parse, dedupe against
+1. **Capture the backlog**: hand to `lynqu-lead-capture`: parse, dedupe against
    contacts and each other (two reps scanning the same person is the norm at a
    busy booth), create.
 2. **Attribute everything.** `attach-leads-to-campaign` for the money side and
@@ -83,26 +83,26 @@ one on day ten, and it isn't close.
    backfills it.
 3. **Triage by what was actually said**, not by title. `bulk-update-leads`
    (≤ 100) to set temperature:
-   - **Hot** — asked for pricing, a demo, or a date → task due within 24 hours
-   - **Warm** — real interest, no ask → sequence within 48 hours
-   - **Cold** — badge swap for the swag → nurture, low effort, no guilt
-4. **Score** — `lynqu-qualify` on the warm and hot bands.
-5. **Follow up** — `lynqu-outreach` (post-capture angle: you *met* them, so this
+   - **Hot**: asked for pricing, a demo, or a date → task due within 24 hours
+   - **Warm**: real interest, no ask → sequence within 48 hours
+   - **Cold**: badge swap for the swag → nurture, low effort, no guilt
+4. **Score**: `lynqu-qualify` on the warm and hot bands.
+5. **Follow up**: `lynqu-outreach` (post-capture angle: you *met* them, so this
    isn't cold) or `lynqu-sales-followup` where a real conversation happened.
    Reference the booth conversation specifically, or don't bother.
-6. **Book the meetings** — `propose-booking` while the event is still recent
+6. **Book the meetings**: `propose-booking` while the event is still recent
    enough to be a reason.
-7. **Close the event** — `update-event-lifecycle` when the capture work is done,
+7. **Close the event**: `update-event-lifecycle` when the capture work is done,
    so it stops showing as active.
 
 ## Phase 4: Did it pay?
 
-- **`get-event-portfolio`** — the roll-up across events: leads, pipeline value,
+- **`get-event-portfolio`**: the roll-up across events: leads, pipeline value,
   won value, cost. This is the answer to "should we do this show again", and it
   only works if Phase 1 was done
-- **`get-campaign`** and **`list-campaign-goals`** — actual against target
-- **`get-capture-form-stats`** — which capture route worked
-- **`get-forecast`** — what the event actually put into the pipeline
+- **`get-campaign`** and **`list-campaign-goals`**: actual against target
+- **`get-capture-form-stats`**: which capture route worked
+- **`get-forecast`**: what the event actually put into the pipeline
 - **`get-followup-performance`** with the campaign's `campaign_id`: whether the
   post-event emails got replies and meetings. Trust a reply rate only on 20 or
   more delivered emails, and only while `replies_tracked` is true
@@ -116,13 +116,13 @@ one on day ten, and it isn't close.
 Report honestly, including cost per lead and cost per qualified lead. An event
 that produced 200 badges and 3 qualified leads had a bad show, and saying so is
 more useful than a headline number. Note that the real ROI verdict lands 60–90
-days out — flag that the current number is partial rather than declaring victory
+days out. Flag that the current number is partial rather than declaring victory
 on day three.
 
 ## Output format
 
 ```markdown
-# Event — {name}, {dates}
+# Event: {name}, {dates}
 
 **Phase:** {setup | live | post-capture | review}
 
@@ -142,7 +142,7 @@ on day three.
 |--------|--------|--------|
 | Leads / Qualified / Pipeline value / Cost per qualified lead | … | … |
 
-{Partial — the real verdict is 60–90 days out.}
+{Partial. The real verdict is 60–90 days out.}
 
 ## Written to Lynqu
 - Event {id} linked to campaign {id} · {n} leads attributed · {n} tasks opened
@@ -182,7 +182,7 @@ on day three.
   partial at best. Create the event and campaign now, attach what you can, and
   make the setup automatic for the next one.
 - **Duplicate leads across reps** → expected at a busy booth. `list-lead-duplicates`
-  then `lynqu-lead-management` for the merges — before follow-up, not after, or
+  then `lynqu-lead-management` for the merges: before follow-up, not after, or
   someone gets two emails.
 - **Campaign closed before capture finished** → `update-campaign-status` to
   reopen, then attach. Don't skip attribution to avoid the extra step.
@@ -208,7 +208,7 @@ on day three.
 
 ## Example
 
-> "/lynqu event — we're exhibiting at SaaStr Europe in three weeks and last time
+> "/lynqu event, we're exhibiting at SaaStr Europe in three weeks and last time
 > we came back with 300 badges and never worked out if it was worth it."
 
 The run: creates the event and a campaign with a €18k budget, links them, sets

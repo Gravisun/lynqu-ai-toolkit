@@ -1,7 +1,7 @@
 # Prompt library
 
 Copy, tweak, and paste. Each prompt assumes the Lynqu MCP server is connected
-and the relevant skill is installed. Plain language works — these are just
+and the relevant skill is installed. Plain language works. These are just
 good starting points.
 
 ## Getting oriented
@@ -35,7 +35,7 @@ good starting points.
 > active SDRs, flag deals stuck in Qualified 14+ days, and bulk-set cold for
 > anything untouched in 30 days. Confirm with me before bulk changes."
 
-> "Move all my Demo-stage leads tagged `webinar` into the Won stage — wait, show
+> "Move all my Demo-stage leads tagged `webinar` into the Won stage. Wait, show
 > me the list first."
 
 > "Delete the three test leads I created yesterday. Show me exactly which ones
@@ -92,7 +92,7 @@ three lines, and nothing a template would say gets through.
 > point them at the Events pipeline, and prep the 'Event recap' template. I'll
 > paste scans each evening for you to process and attribute."
 
-> "The conference is over — give me the event's results against goal and
+> "The conference is over, give me the event's results against goal and
 > recommend who to follow up with first."
 
 ## Pipeline report → `lynqu-pipeline-report`
@@ -122,7 +122,7 @@ three lines, and nothing a template would say gets through.
 > "Acme wants 25 Business seats plus the onboarding package, 10% off
 > onboarding. Put that on their deal and tell me the new total."
 
-> "What's actually in the Northwind quote — line by line — and what's it worth?"
+> "What's actually in the Northwind quote (line by line) and what's it worth?"
 
 > "Draft a quote on the Contoso deal, valid 30 days, with our standard terms.
 > I'll send it myself."
@@ -130,12 +130,11 @@ three lines, and nothing a template would say gets through.
 > "Add 'Premium Support' to the price book at €99/month, then show me
 > everything we sell in euros."
 
-Note the assistant will draft a quote but never send, accept or decline one —
-those stay with you, and it will hand off rather than pretend otherwise.
+Note the assistant will draft a quote but never send, accept or decline one. Those stay with you, and it will hand off rather than pretend otherwise.
 
 ## Sales playbook → `lynqu-sales-playbook`
 
-> "Here's our playbook folder — decision makers, the outreach sequence, meeting
+> "Here's our playbook folder: decision makers, the outreach sequence, meeting
 > prep and the send order. Set it up in the Partnerships pipeline."
 
 > "Take these 13 people, work them as three tracks, and put the six-touch

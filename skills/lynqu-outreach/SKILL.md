@@ -1,6 +1,6 @@
 ---
 name: lynqu-outreach
-description: Write and run first-touch outreach to Lynqu leads — sequences, multi-threaded to the committee — sent through your templates on your approval. Requires the Lynqu MCP server.
+description: Write and run first-touch outreach to Lynqu leads (sequences, multi-threaded to the committee) sent through your templates on your approval. Requires the Lynqu MCP server.
 ---
 
 # Lynqu Cold Outreach
@@ -23,19 +23,19 @@ paragraphs of value proposition every time.
 ## Step 1: Earn the right to write
 
 Read the lead first. An email that ignores what Lynqu already knows is worse than
-no email — it proves nobody looked.
+no email. It proves nobody looked.
 
-- **`get-lead`** — role, company, source, score, notes, activity. **How they were
+- **`get-lead`**: role, company, source, score, notes, activity. **How they were
   captured is the single most important input**: someone who scanned your badge
   at a booth is not a cold contact, and treating them like one throws away the
   only warm thing you have
-- The lead's **notes**, returned with `get-lead` — the rep's own words about
+- The lead's **notes**, returned with `get-lead`: the rep's own words about
   the encounter, if there was one
-- **`list-lead-contact-points`** — has anyone already reached out? Two reps
+- **`list-lead-contact-points`**: has anyone already reached out? Two reps
   cold-emailing the same person in one week is a real and embarrassing failure
-- **`get-company`** and **`list-opportunities`** — an existing deal on the account
+- **`get-company`** and **`list-opportunities`**: an existing deal on the account
   changes this from cold outreach to multi-threading, which is a different message
-- **`search-contacts`** — is this person already known to someone here?
+- **`search-contacts`**: is this person already known to someone here?
 - **`list-outbox`** with the `lead_id`: has anyone on the team, or an AI
   employee, already emailed them, and did they reply? A reply means this is no
   longer cold
@@ -60,10 +60,10 @@ One angle per sequence. Not four.
 | Angle | Use when | Opening move |
 |-------|----------|--------------|
 | **Trigger event** | Hiring, funding, expansion, a launch | Name the event, then the consequence you'd expect |
-| **Shared context** | Same event, same community, mutual connection | Lead with the shared thing — it's the reason you're not a stranger |
+| **Shared context** | Same event, same community, mutual connection | Lead with the shared thing. It's the reason you're not a stranger |
 | **Observed symptom** | Something public shows the pain | Describe what you noticed, not what you sell |
 | **Referral** | A named person suggested them | Name them in the first line or it reads as a trick |
-| **Post-capture** | They scanned your badge or filled a form | Reference the conversation. You have permission — use it |
+| **Post-capture** | They scanned your badge or filled a form | Reference the conversation. You have permission. Use it |
 
 The angle must be **verifiable by them**. "I saw you're hiring three field reps"
 survives scrutiny. "I imagine you're struggling with lead capture" does not, and
@@ -71,7 +71,7 @@ it tells them you're guessing.
 
 ## Step 4: Build the sequence
 
-Four to five touches over 2–3 weeks. Every touch must carry something new — a
+Four to five touches over 2–3 weeks. Every touch must carry something new, a
 sequence where step 3 is "just bumping this" teaches people to ignore you.
 
 | # | Day | Job | Length |
@@ -87,7 +87,7 @@ clickbait; one CTA per message; no attachments on a first touch; plain text, no
 images; and every message must read as though a person wrote it to *this* person.
 
 **Multi-threading.** If `lynqu-contacts` mapped a committee, the champion and the
-economic buyer get **different messages** — different pain, different length,
+economic buyer get **different messages**: different pain, different length,
 different ask. Sending the champion's email to the VP is how you lose the
 champion. Never send identical copy to two people at the same company.
 
@@ -112,8 +112,7 @@ Show the full sequence, get approval, then:
    the user's own personal one. It answers "queued", and the server can still
    cancel it at dispatch (an opt-out, a reply, a booked meeting), so confirm in
    **`list-outbox`** before reporting it sent
-4. **`add-lead-contact-point`** for every remaining step, dated: *"Touch 2 —
-   peer example — due {date}"*. This is what makes a sequence survive the rep
+4. **`add-lead-contact-point`** for every remaining step, dated: *"Touch 2 (peer example) due {date}"*. This is what makes a sequence survive the rep
    getting busy
 5. **`add-lead-note`** with the angle and the reasoning, so touch 4 doesn't
    contradict touch 1
@@ -128,7 +127,7 @@ Show the full sequence, get approval, then:
    Pass `enabled: false` if the org's postal address is not on file yet. This
    is mail nobody reviews one by one: show every step and get a yes first
 
-Compliance — opt-outs, the 30-day cap, sender identity, physical address — is
+Compliance (opt-outs, the 30-day cap, sender identity, physical address) is
 enforced server-side by Lynqu. Do not try to route around it, and do not promise
 the user a send that the platform will suppress.
 
@@ -187,7 +186,7 @@ Subject: {under 40 chars}
   that never happened.
 - **One CTA per message.**
 - **Don't cold-email an existing customer or another rep's open deal.** Check first.
-- **Respect the 5-day rule** — if anyone touched this lead recently, stop.
+- **Respect the 5-day rule**: if anyone touched this lead recently, stop.
 - **Different people get different copy.** Identical emails to two colleagues get
   forwarded to each other, and that's the end of it.
 - **Bulk cap is 100** per `bulk-update-leads` call.
@@ -197,7 +196,7 @@ Subject: {under 40 chars}
 - **Lead has no email** → say so plainly; don't guess a pattern address. Offer
   LinkedIn/phone as the channel, or route to `lynqu-contacts` to find a real one.
 - **Already contacted recently** → stop and report when and by whom. Suggest
-  `lynqu-sales-followup` instead — this is no longer cold.
+  `lynqu-sales-followup` instead. This is no longer cold.
 - **Send fails or is suppressed** → the recipient may have opted out or hit the
   cap. Report it as a compliance outcome, never as a bug, and never retry.
 - **Team template write denied** → save it as the user's personal template
@@ -206,7 +205,7 @@ Subject: {under 40 chars}
   workspace; then the paste route is the only one.
 - **Segment larger than 100** → chunk, confirm each chunk, and report progress.
   Never fire 400 sends off one approval.
-- **Thin lead — no notes, no source, no company** → that's not a cold outreach
+- **Thin lead: no notes, no source, no company** → that's not a cold outreach
   problem, it's a data problem. Say so, and offer to enrich or research first.
 
 ## Cross-skill integration
@@ -228,7 +227,7 @@ Subject: {under 40 chars}
 The run: pulls 14 leads · finds 3 already touched by another rep this week and
 excludes them · notes all 14 were badge-scanned at the booth, so the angle is
 post-capture, not cold · drafts a 5-touch sequence opening *"You mentioned your
-team scans badges into a spreadsheet and re-types them on the flight home —"* ·
+team scans badges into a spreadsheet and re-types them on the flight home..."* ·
 reuses the org's existing "Event follow-up" template · asks for an explicit yes,
 sends touch 1 to the 11 eligible leads, schedules touches 2–5 as dated tasks, and
 tags the cohort `saastr-outreach-w1` so the response rate is measurable.

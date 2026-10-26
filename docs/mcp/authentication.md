@@ -1,6 +1,6 @@
 # Authentication & access
 
-The Lynqu MCP server uses **OAuth 2.1 with PKCE** — the modern standard MCP
+The Lynqu MCP server uses **OAuth 2.1 with PKCE**. The modern standard MCP
 clients implement natively. You never paste a token. This page explains what
 happens and what governs whether a tool call succeeds.
 
@@ -20,7 +20,7 @@ happens and what governs whether a tool call succeeds.
    Missing or invalid tokens return `401` with a `WWW-Authenticate` header
    pointing back at the discovery metadata, so the client knows to re-auth.
 
-All of this is automatic. Your job is steps 3 — sign in and approve.
+All of this is automatic. Your job is step 3: sign in and approve.
 
 ## What governs a successful tool call
 
@@ -48,9 +48,9 @@ plans count as Enterprise.
 For the org server (`/mcp/v2`), your organization admin controls an
 `mcp_policy`:
 
-- **enabled** — MCP can be turned off org-wide.
-- **allowed_roles** — restrict MCP to specific roles.
-- **read_only** — allow read tools but block writes.
+- **enabled**: MCP can be turned off org-wide.
+- **allowed_roles**: restrict MCP to specific roles.
+- **read_only**: allow read tools but block writes.
 
 An organization whose subscription lapsed into its grace period is read-only
 too, until it renews. If a policy blocks you, the tool returns a clear error
@@ -89,7 +89,7 @@ Two things are gated beyond the role table:
 
 - **Compensation.** `get-comp-plan` and `list-comp-statements` are admin **or
   the member themselves**; `manage-comp-plan` is admin **only**. This is one
-  band tighter than the rest of team performance on purpose — a manager can see
+  band tighter than the rest of team performance on purpose. A manager can see
   a rep's numbers but not their pay, and nobody sets their own.
 - **Add-on-gated categories.** Some tools need a paid add-on regardless of
   role (team performance needs Advanced User Management, automation needs
@@ -119,6 +119,6 @@ worth. See the guardrails in `skills/lynqu-deal-desk/SKILL.md`.
 - The toolkit in this repo never stores or transmits credentials. OAuth tokens
   live in your MCP client's secure storage.
 - Tokens are scoped narrowly (`mcp:use`) and tied to your Lynqu account and its
-  org membership and policy at call time — revoking access in Lynqu immediately
+  org membership and policy at call time, revoking access in Lynqu immediately
   stops tool calls.
 - Treat the server URLs as public; treat your session as private.

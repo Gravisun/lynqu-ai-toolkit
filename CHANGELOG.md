@@ -35,7 +35,8 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   specific detail, one ask, nothing a template would say. `lynqu-outreach` and
   `lynqu-sales-followup` have a Voice section and shorter length tables, and
   the output templates across the suite lost their filler.
-- **No em dashes anywhere** in the toolkit (480 removed across 32 files),
+- **No em dashes anywhere** in the toolkit (481 removed across 33 files, and
+  `scripts/validate_skills.py` now fails on a new one),
   following Lynqu's copy voice. The validator and the issue templates included.
 - `lynqu-sales-followup` builds sequences (`create-followup-trigger`) and reads
   saved segments; `lynqu-outreach` can turn an approved sequence into a trigger
@@ -139,13 +140,13 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.3.0] - 2026-08-05
 
 ### Added
-- **`lynqu-sales-playbook`** — turns a written playbook (decision makers, an
+- **`lynqu-sales-playbook`**: turns a written playbook (decision makers, an
   outreach sequence, meeting prep, a send order) into a live pipeline: leads and
   buying committees, the sequence as dated tasks, the playbook attached to each
   lead, and **stage rules that deliver the prep when the deal gets there**. The
-  last part is what makes it a process rather than a one-time import — a rule
+  last part is what makes it a process rather than a one-time import. A rule
   hangs off the stage, so it also fires for leads created months later.
-- **A worked doc set** in [`examples/playbooks/`](examples/playbooks) — fully
+- **A worked doc set** in [`examples/playbooks/`](examples/playbooks): fully
   fictional, showing the input shape the skill reads.
 - Two new automation actions in the catalog, `add_note` and
   `add_contact_point`, with their shapes and the three behaviours that decide
@@ -166,7 +167,7 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.2.0] - 2026-08-04
 
 ### Added
-- **`lynqu` — one command instead of fifteen.** Describe the situation ("we got
+- **`lynqu`: one command instead of fifteen.** Describe the situation ("we got
   back from SaaStr with 200 badges") and it composes a plan across whichever
   skills the situation needs, grounded in what the account already contains,
   confirming before every write and asking explicitly before any email.
@@ -179,7 +180,7 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 - **Every skill rewritten to the same depth**: numbered steps, explicit output
   format, rules and constraints, error handling, and cross-skill routing.
-- **Every skill now ends by writing to Lynqu** — a scored lead, a dated task, a
+- **Every skill now ends by writing to Lynqu**: a scored lead, a dated task, a
   note the next rep inherits. Analysis that stays in the chat window changes
   nothing; that is the difference between this and a generic sales assistant.
 - Skill names may now be the bare `lynqu` (the orchestrator) as well as
@@ -193,9 +194,9 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 - v1.1.1 claimed claude.ai enforces a 200-character `description` limit and that
   this was why uploads failed. Anthropic documents a 1024-character maximum, so
-  that cause was wrong — the real gap was a README that only ever explained the
+  that cause was wrong. The real gap was a README that only ever explained the
   Claude Code install. 200 remains as a house limit, on its own merits.
-- README said Claude Desktop reads `~/.claude/skills`. It doesn't — that path is
+- README said Claude Desktop reads `~/.claude/skills`. It doesn't. That path is
   Claude Code only; the desktop app is claude.ai and takes ZIP uploads.
 
 [1.2.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.2.0
@@ -206,7 +207,7 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 - **The README only ever explained the Claude Code install.** Anyone using
-  claude.ai — web, the desktop app, or mobile — followed a `cp -r` into a folder
+  claude.ai (web, the desktop app, or mobile) followed a `cp -r` into a folder
   that doesn't exist there, with no hint that skills are uploaded as ZIPs and
   that code execution has to be on first. The `~/.claude/skills` line also named
   Claude Desktop, which does not read that folder.
@@ -237,7 +238,7 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `scripts/validate_skills.py` catches this class of drift and now passes.
 
 ### Added
-- `lynqu-deal-desk` skill — browse the price book, put priced lines on a deal,
+- `lynqu-deal-desk` skill: browse the price book, put priced lines on a deal,
   and draft the quote. Documents the two things that trip people up: deal value
   is the sum of its lines (never set directly), and a price-book item may only
   be used on a deal in the same currency.
@@ -251,7 +252,7 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 - **Tool catalog regenerated from the live server: 55 → 129 organization tools,
   8 → 9 personal.** v1.0.0 documented roughly 40% of the surface. Whole
-  categories were absent — booking, companies, deals and quotes, the price
+  categories were absent: booking, companies, deals and quotes, the price
   book, team performance, automation, lead scoring, enrichment, dashboards,
   file library, access domains, contact points, lead documents and saved views.
 
@@ -265,13 +266,13 @@ based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   tool catalog (55 organization tools + 8 personal tools), and troubleshooting.
 - Copy-paste client configs for Claude, Cursor, and VS Code.
 - Seven Agent Skills:
-  - `lynqu-lead-research` — find & qualify target accounts.
-  - `lynqu-lead-capture` — capture, enrich, dedupe, and route leads.
-  - `lynqu-lead-management` — pipeline hygiene, stage moves, assignment, bulk ops.
-  - `lynqu-sales-followup` — draft & send follow-ups via templates.
-  - `lynqu-event-blitz` — end-to-end event capture → tag → campaign → follow-up.
-  - `lynqu-pipeline-report` — weekly pipeline & dashboard insights.
-  - `lynqu-card-studio` — create & update digital business cards conversationally.
+  - `lynqu-lead-research`: find & qualify target accounts.
+  - `lynqu-lead-capture`: capture, enrich, dedupe, and route leads.
+  - `lynqu-lead-management`: pipeline hygiene, stage moves, assignment, bulk ops.
+  - `lynqu-sales-followup`: draft & send follow-ups via templates.
+  - `lynqu-event-blitz`: end-to-end event capture → tag → campaign → follow-up.
+  - `lynqu-pipeline-report`: weekly pipeline & dashboard insights.
+  - `lynqu-card-studio`: create & update digital business cards conversationally.
 - Prompt library in `examples/prompts.md`.
 
 [1.0.0]: https://github.com/Gravisun/lynqu-ai-toolkit/releases/tag/v1.0.0

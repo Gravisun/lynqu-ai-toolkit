@@ -12,7 +12,7 @@ Thumbs.db
 node_modules/
 npm-debug.log*
 
-# Local env / secrets — never commit
+# Local env / secrets, never commit
 .env
 .env.*
 *.local
