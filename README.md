@@ -1,16 +1,16 @@
 <div align="center">
 
-![Lynqu — Scan leads. Build networks. Share cards.](assets/header.png)
+![Lynqu. Scan leads. Build networks. Share cards.](assets/header.png)
 
 # Lynqu AI Toolkit
 
-**Operate your entire lead motion — research → capture → manage → follow up → measure — straight from Claude, ChatGPT, or Cursor.**
+**Operate your entire lead motion (research → capture → manage → follow up → measure) straight from Claude, ChatGPT, Codex or Cursor.**
 
-Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + [MCP](https://modelcontextprotocol.io) for AI lead capture, lead research, sales follow-up, and pipeline management — powered by [Lynqu](https://lynqu.com).
+Open-source [Claude Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) + [MCP](https://modelcontextprotocol.io) for AI lead capture, lead research, sales follow-up, and pipeline management. Powered by [Lynqu](https://lynqu.com).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-17-7C3AED.svg)](skills)
-[![MCP tools](https://img.shields.io/badge/MCP%20tools-163%2B10-7C3AED.svg)](docs/mcp/tool-catalog.md)
+[![MCP tools](https://img.shields.io/badge/MCP%20tools-171%2B10-7C3AED.svg)](docs/mcp/tool-catalog.md)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-ready-1f1147.svg)](https://modelcontextprotocol.io)
 
 <br/>
@@ -36,26 +36,33 @@ Lynqu AI ▸ Working through it…
    🔎  Checked 30 contacts → 22 new, 8 already in your pipeline (skipped)
    ➕  Created 22 leads in "Events" at the New stage
    🏷️  Tagged SaaStr-2026 · attached to the SaaStr campaign
-   🔥  6 flagged hot (asked for a demo) — drafts ready below for your review
+   🔥  6 flagged hot (asked for a demo). Drafts ready below for your review
    ✅  Done. Want me to send the 6 follow-ups, or tweak them first?
 ```
 
-That whole flow is one sentence to you — and a chain of audited Lynqu actions under the hood. **The skill is the recipe; the MCP is the hands.**
+That whole flow is one sentence to you, and a chain of audited Lynqu actions under the hood. **The skill is the recipe; the MCP is the hands.**
 
 ---
 
 ## ⚡ Quick start
 
-**1. Connect the Lynqu MCP server** (OAuth — no API key to copy):
+**1. Connect the Lynqu MCP server** (OAuth, no API key to copy):
 
 | Server | URL | Scope |
 | --- | --- | --- |
 | **Organization (B2B)** | `https://api.lynqu.com/mcp/v2` | Cards, contacts, leads, campaigns, events, pipeline, team, follow-ups, AI employees, analytics |
 | **Personal** | `https://api.lynqu.com/mcp/me` | Your own cards, card analytics, profile |
 
-Paste the URL into your client's connector settings, sign in, approve. Full per-client steps → [`docs/mcp/connect.md`](docs/mcp/connect.md). There's also a one-click setup in the Lynqu app under **Settings → AI / MCP**.
+Then, in your client:
 
-**2. Install the skills** — the method depends on where you use Claude:
+- **Claude** (claude.ai, Desktop): **Settings → Connectors → Add custom connector**, paste the URL, sign in. **Claude Code:** `claude mcp add --transport http lynqu https://api.lynqu.com/mcp/v2`
+- **ChatGPT** (Plus, Pro, Business, Enterprise, Edu): turn on **Developer mode**, open [chatgpt.com/plugins](https://chatgpt.com/plugins) → **+** → **Add custom MCP server**, paste the URL, keep **OAuth**, sign in on the Lynqu page. Then call it with `@Lynqu` in a chat.
+- **Codex** (app or CLI): **Settings → MCP servers → Add**, Streamable HTTP, paste the URL, then **Authenticate**. CLI: `codex mcp add lynqu --url https://api.lynqu.com/mcp/v2` and `codex mcp login lynqu`.
+- **Cursor, VS Code and any other MCP client:** add a remote HTTP server with the URL and approve on the Lynqu page.
+
+Full per-client steps, with the gotchas, are in [`docs/mcp/connect.md`](docs/mcp/connect.md). There is also a one-click setup in the Lynqu app under **Settings → AI / MCP**.
+
+**2. Install the skills.** The method depends on where you use Claude:
 
 <details open>
 <summary><b>Claude Code</b> (copy the folders)</summary>
@@ -67,12 +74,12 @@ cp -r lynqu-ai-toolkit/skills/lynqu* ~/.claude/skills/
 </details>
 
 <details>
-<summary><b>claude.ai — web, desktop app &amp; mobile</b> (upload one ZIP per skill)</summary>
+<summary><b>claude.ai (web, desktop app &amp; mobile)</b> (upload one ZIP per skill)</summary>
 
-`~/.claude/skills` is Claude Code only; everywhere else — including the Claude desktop app — each skill is uploaded as its own ZIP. Needs a Pro, Max, Team or Enterprise plan.
+`~/.claude/skills` is Claude Code only; everywhere else (including the Claude desktop app) each skill is uploaded as its own ZIP. Needs a Pro, Max, Team or Enterprise plan.
 
 1. Turn on **Settings → Capabilities → Code execution and file creation** (without it the Skills section does nothing).
-2. Grab the ready-made ZIPs from the [latest release](https://github.com/Gravisun/lynqu-ai-toolkit/releases/latest) — or build them yourself. The skill folder must be the root of the archive, not the loose files and not a wrapper directory:
+2. Grab the ready-made ZIPs from the [latest release](https://github.com/Gravisun/lynqu-ai-toolkit/releases/latest), or build them yourself. The skill folder must be the root of the archive, not the loose files and not a wrapper directory:
 
    ```bash
    git clone https://github.com/Gravisun/lynqu-ai-toolkit.git
@@ -82,7 +89,7 @@ cp -r lynqu-ai-toolkit/skills/lynqu* ~/.claude/skills/
 3. **Settings → Customize → Skills → Add** and upload the ZIPs one at a time.
 </details>
 
-> ⚠️ Writing your own skill? Keep `description` under **200 characters**. Anthropic's documented ceiling is 1024, but the description sits in context permanently and is the text Claude matches your request against — short and specific triggers better, and uploads cleanly on every surface. `python3 scripts/validate_skills.py` enforces it.
+> ⚠️ Writing your own skill? Keep `description` under **200 characters**. Anthropic's documented ceiling is 1024, but the description sits in context permanently and is the text Claude matches your request against. Short and specific triggers better, and uploads cleanly on every surface. `python3 scripts/validate_skills.py` enforces it.
 
 **3. Just ask:**
 
@@ -127,7 +134,7 @@ Or drive them directly:
 | `/lynqu report` | 📊 [`lynqu-pipeline-report`](skills/lynqu-pipeline-report) | Weekly briefing: movement, risk, ROI, which emails get replies. **Read-only** |
 | `/lynqu card` | 🪪 [`lynqu-card-studio`](skills/lynqu-card-studio) | Cards created, updated, and read for engagement |
 
-Every skill ends by **writing to Lynqu** — a scored lead, a dated task, a note
+Every skill ends by **writing to Lynqu**: a scored lead, a dated task, a note
 the next rep inherits. A brief nobody acts on is a document; a lead in the right
 stage with a next step is a pipeline.
 
@@ -184,6 +191,13 @@ Lynqu closes the engagement loop, and the MCP reaches every part of it:
 - **Replies.** With reply tracking on, a human reply stops the lead's automated
   follow-ups, lands on its timeline and in the outbox, and is forwarded to
   whoever the email went out as.
+- **Sequences.** Set up a follow-up sequence from the assistant: fire on a
+  stage, a score or a predicate, up to five timed steps, a cooldown, scoped to
+  an event or a segment. Team or personal, and nothing sends until the org's
+  postal address is on file.
+- **Segments.** A named lead filter (market, source, campaign, tags, UTM,
+  custom fields) that works as a list filter, a sequence audience and a report
+  row. The segment report says which market converts, and the rows add up.
 - **AI employees.** Read what an agent did and why, see the work it handed back,
   and approve or reject its parked actions one at a time. Agents write from the
   org's confirmed sales brief.
@@ -198,8 +212,8 @@ How these fit together: [`docs/concepts.md`](docs/concepts.md).
 > *"Build a list of 10 mid-market SaaS companies in DACH attending SaaStr Europe, find a VP Sales or RevOps lead at each, score them for Lynqu, and create leads for anything 7+."*
 ```text
 🔎 Researched 14 → shortlisted 10 · scored on ICP fit + buying signal
-   ⭐ 9/10  Northwind Cloud — hiring 4 AEs, VP Sales identified
-   ⭐ 8/10  Veridian Pay — Series B last month, RevOps lead identified
+   ⭐ 9/10  Northwind Cloud: hiring 4 AEs, VP Sales identified
+   ⭐ 8/10  Veridian Pay: Series B last month, RevOps lead identified
    …
 ➕ Created 7 leads (score ≥ 7) · 3 held for your review (4–6)
 ```
@@ -207,8 +221,8 @@ How these fit together: [`docs/concepts.md`](docs/concepts.md).
 **Post-event follow-up**
 > *"Draft post-event follow-ups for everyone tagged SaaStr-2026 in the Warm stage using the 'Event recap' template, personalize from each lead's notes, show me the drafts, then send after I approve."*
 ```text
-✉️ 12 drafts ready — personalized from each lead's timeline
-   (no "we met yesterday" phrasing — stale by send time)
+✉️ 12 drafts ready: personalized from each lead's timeline
+   (no "we met yesterday" phrasing, it goes stale by send time)
 ⏸️ Awaiting your approval before anything sends
 ```
 
@@ -218,7 +232,7 @@ How these fit together: [`docs/concepts.md`](docs/concepts.md).
 📊 Net pipeline +18% WoW · 6 leads advanced · 2 won
 🔥 4 deals stalled 14+ days in Demo → flagged for follow-up
 🎯 Q2 campaign: 62% to goal, pacing ahead
-✅ Top 5 actions listed — want me to action #1–3 now?
+✅ Top 5 actions listed. Want me to action #1–3 now?
 ```
 
 More in [`examples/prompts.md`](examples/prompts.md).
@@ -227,7 +241,7 @@ More in [`examples/prompts.md`](examples/prompts.md).
 
 ## 📈 What it does for your sales team
 
-Lynqu runs the full arc — **capture → engage → manage → measure** — and this toolkit makes every step conversational. Less admin, faster follow-up, cleaner data, real attribution.
+Lynqu runs the full arc (**capture → engage → manage → measure**) and this toolkit makes every step conversational. Less admin, faster follow-up, cleaner data, real attribution.
 
 <table>
 <tr>
@@ -236,7 +250,7 @@ Lynqu runs the full arc — **capture → engage → manage → measure** — an
 ### 🧑‍💼 Field rep
 *"Summarize every card I scanned today and draft intros."*
 
-Walk out of an event with leads already captured, deduped, tagged, and follow-ups drafted — before you reach the parking lot.
+Walk out of an event with leads already captured, deduped, tagged, and follow-ups drafted. Before you reach the parking lot.
 
 </td>
 <td width="33%" valign="top">
@@ -244,7 +258,7 @@ Walk out of an event with leads already captured, deduped, tagged, and follow-up
 ### 📊 Sales ops
 *"How's the pipeline, and what's stalling?"*
 
-Natural-language pipeline queries, bulk hygiene, owner routing, and weekly reports — without building a single custom dashboard.
+Natural-language pipeline queries, bulk hygiene, owner routing, and weekly reports, without building a single custom dashboard.
 
 </td>
 <td width="33%" valign="top">
@@ -267,9 +281,9 @@ lynqu-ai-toolkit/
 ├── docs/
 │   ├── concepts.md              # The Lynqu model: cards, leads, pipeline, follow-ups, AI employees
 │   ├── mcp/
-│   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Cursor · VS Code)
+│   │   ├── connect.md           # Connect each client (Claude · ChatGPT · Codex · Cursor · VS Code)
 │   │   ├── authentication.md    # OAuth 2.1 flow + plan tiers, explained
-│   │   ├── tool-catalog.md      # All 163 org tools + 10 personal tools, by category
+│   │   ├── tool-catalog.md      # All 171 org tools + 10 personal tools, by category
 │   │   └── troubleshooting.md   # Common connection errors and fixes
 │   └── client-configs/          # Copy-paste config snippets per client
 ├── skills/                      # The 17 Lynqu Agent Skills
@@ -283,14 +297,14 @@ lynqu-ai-toolkit/
 ## ✅ Requirements
 
 - A [Lynqu](https://lynqu.com) account (free to connect; AI-tier plan to run tools).
-- An MCP client that supports remote (streamable HTTP) servers with OAuth — **Claude** (Desktop, Code, claude.ai), **ChatGPT**, **Cursor**, **VS Code (Copilot)**, and others.
+- An MCP client that supports remote (streamable HTTP) servers with OAuth: **Claude** (Desktop, Code, claude.ai), **ChatGPT**, **Codex**, **Cursor**, **VS Code (Copilot)**, and others.
 - The skills are most fully featured in Claude; the MCP works with any compliant client.
 
 ---
 
 ## 🔎 Looking for…
 
-- **I don't want to learn commands** → [`lynqu`](skills/lynqu) — describe the situation, it composes the rest
+- **I don't want to learn commands** → [`lynqu`](skills/lynqu). Describe the situation, it composes the rest
 - **A Claude skill for lead capture** → [`lynqu-lead-capture`](skills/lynqu-lead-capture)
 - **AI lead research / lead generation with Claude** → [`lynqu-lead-research`](skills/lynqu-lead-research)
 - **Prospect research / account audit with Claude** → [`lynqu-prospect`](skills/lynqu-prospect)
@@ -304,7 +318,7 @@ lynqu-ai-toolkit/
 - **Turning a sales playbook into a working pipeline** → [`lynqu-sales-playbook`](skills/lynqu-sales-playbook)
 - **Quotes & price-book proposals** → [`lynqu-deal-desk`](skills/lynqu-deal-desk)
 - **Event / trade-show lead capture** → [`lynqu-event-blitz`](skills/lynqu-event-blitz)
-- **Connect Lynqu MCP to ChatGPT / Cursor / Claude** → [`docs/mcp/connect.md`](docs/mcp/connect.md)
+- **Connect Lynqu MCP to ChatGPT / Codex / Cursor / Claude** → [`docs/mcp/connect.md`](docs/mcp/connect.md)
 - **Which follow-up template gets replies** → [`lynqu-pipeline-report`](skills/lynqu-pipeline-report)
 - **The full Lynqu MCP tool reference** → [`docs/mcp/tool-catalog.md`](docs/mcp/tool-catalog.md)
 
@@ -312,7 +326,7 @@ lynqu-ai-toolkit/
 
 ## 🤝 Contributing
 
-Issues and PRs welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md). New skills must call only documented MCP tools and ship with a prompt example. CI validates skill frontmatter and tool references on every PR.
+Issues and PRs welcome. See [`CONTRIBUTING.md`](CONTRIBUTING.md). New skills must call only documented MCP tools and ship with a prompt example. CI validates skill frontmatter and tool references on every PR.
 
 ## 📄 License
 
@@ -321,5 +335,5 @@ Issues and PRs welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md). New skills 
 ---
 
 <div align="center">
-<sub>Built for <a href="https://lynqu.com">Lynqu</a> — Networking Evolved. &nbsp;·&nbsp; <a href="https://lynqu.com/contact-sales">Book a Demo</a> &nbsp;·&nbsp; Get the app on <a href="https://lynqu.com">iOS &amp; Android</a></sub>
+<sub>Built for <a href="https://lynqu.com">Lynqu</a>. Networking Evolved. &nbsp;·&nbsp; <a href="https://lynqu.com/contact-sales">Book a Demo</a> &nbsp;·&nbsp; Get the app on <a href="https://lynqu.com">iOS &amp; Android</a></sub>
 </div>

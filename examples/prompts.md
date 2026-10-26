@@ -1,7 +1,7 @@
 # Prompt library
 
 Copy, tweak, and paste. Each prompt assumes the Lynqu MCP server is connected
-and the relevant skill is installed. Plain language works — these are just
+and the relevant skill is installed. Plain language works. These are just
 good starting points.
 
 ## Getting oriented
@@ -35,7 +35,7 @@ good starting points.
 > active SDRs, flag deals stuck in Qualified 14+ days, and bulk-set cold for
 > anything untouched in 30 days. Confirm with me before bulk changes."
 
-> "Move all my Demo-stage leads tagged `webinar` into the Won stage — wait, show
+> "Move all my Demo-stage leads tagged `webinar` into the Won stage. Wait, show
 > me the list first."
 
 > "Delete the three test leads I created yesterday. Show me exactly which ones
@@ -60,13 +60,39 @@ good starting points.
 > "Acme's CFO asked us to hold off until January. Pause the automated follow-ups
 > on that lead and set me a task for the 6th."
 
+## Segments and sequences → `lynqu-lead-management`, `lynqu-sales-followup`
+
+> "Make a segment for leads from German-speaking countries captured at events,
+> then tell me how it converts against everyone else."
+
+> "When a lead reaches Demo booked, send the 'Demo recap' template the next day
+> and 'Pricing walkthrough' three days later. Leave it switched off for now, we
+> add the postal address on Friday."
+
+> "The SaaStr sequence should only go to leads in the SaaStr segment. Fix the
+> trigger."
+
+> "These 14 scans were made without the event picked. Attach them to SaaStr
+> Europe, and tell me first whether that fires the event sequence."
+
+A segment is a shared filter, so defining one is a write that a manager
+confirms. A sequence sends mail nobody reviews one by one, so the assistant
+shows the whole thing and waits for a yes.
+
+## Voice
+
+> "Write it the way I would: short, plain, one ask. No corporate filler."
+
+Every skill already writes like that. Drafts are 40 to 90 words, notes are
+three lines, and nothing a template would say gets through.
+
 ## Event blitz → `lynqu-event-blitz`
 
 > "We have a booth at SaaStr next week. Set up the campaign and event in Lynqu,
 > point them at the Events pipeline, and prep the 'Event recap' template. I'll
 > paste scans each evening for you to process and attribute."
 
-> "The conference is over — give me the event's results against goal and
+> "The conference is over, give me the event's results against goal and
 > recommend who to follow up with first."
 
 ## Pipeline report → `lynqu-pipeline-report`
@@ -96,7 +122,7 @@ good starting points.
 > "Acme wants 25 Business seats plus the onboarding package, 10% off
 > onboarding. Put that on their deal and tell me the new total."
 
-> "What's actually in the Northwind quote — line by line — and what's it worth?"
+> "What's actually in the Northwind quote (line by line) and what's it worth?"
 
 > "Draft a quote on the Contoso deal, valid 30 days, with our standard terms.
 > I'll send it myself."
@@ -104,12 +130,11 @@ good starting points.
 > "Add 'Premium Support' to the price book at €99/month, then show me
 > everything we sell in euros."
 
-Note the assistant will draft a quote but never send, accept or decline one —
-those stay with you, and it will hand off rather than pretend otherwise.
+Note the assistant will draft a quote but never send, accept or decline one. Those stay with you, and it will hand off rather than pretend otherwise.
 
 ## Sales playbook → `lynqu-sales-playbook`
 
-> "Here's our playbook folder — decision makers, the outreach sequence, meeting
+> "Here's our playbook folder: decision makers, the outreach sequence, meeting
 > prep and the send order. Set it up in the Partnerships pipeline."
 
 > "Take these 13 people, work them as three tracks, and put the six-touch

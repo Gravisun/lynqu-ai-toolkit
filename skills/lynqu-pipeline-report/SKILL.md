@@ -1,6 +1,6 @@
 ---
 name: lynqu-pipeline-report
-description: Weekly Lynqu pipeline and sales report — what moved, what's stalling, campaign and event ROI, card engagement, who needs attention. Read-only. Requires the Lynqu MCP server connected.
+description: Weekly Lynqu pipeline and sales report. What moved, what's stalling, campaign and event ROI, card engagement, who needs attention. Read-only. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Pipeline Report
@@ -32,24 +32,25 @@ Pull broad first, then drill only where something looks wrong.
 |--------|-------------------|
 | `get-org-summary` | The shape: counts by stage, activity, campaigns |
 | `get-dashboard-summary` | Headline numbers, pre-aggregated |
-| `list-leads` (by stage, updated window) | Movement and staleness — the raw material |
+| `list-leads` (by stage, updated window) | Movement and staleness. The raw material |
 | `get-forecast` | Weighted pipeline by forecast category (manager+) |
 | `list-campaigns` + `get-campaign` | Spend against return |
 | `get-event-portfolio` | Cross-event roll-up: leads, pipeline, won, cost |
 | `list-events` | What's live and what's closing |
 | `get-team-performance` / `get-employee-performance` | Per-rep (add-on gated) |
-| `get-card-stats` / `list-org-cards` | Card engagement — the top of the funnel |
+| `get-card-stats` / `list-org-cards` | Card engagement: the top of the funnel |
 | `list-dashboards` + `get-dashboard-data` | The org's own saved widgets (analytics add-on) |
 | `list-lead-duplicates` | Data quality that's distorting every number above |
 | `get-followup-performance` | Which templates, sequences, steps and reps get replies, meetings and wins |
 | `list-outbox` | What actually went out: bounces, server cancellations, and the replies that came back |
 | `list-handoffs` | Work AI employees handed back that nobody has picked up (only if the org has them) |
+| `list-segments` + `get-segment-performance` | Which market, source or cohort converts: win rate, hours to first response, reply rate, meetings, per segment, rows adding up (analytics add-on) |
 
 Skip cleanly on `ADDON_REQUIRED`. Analytics dashboards and team performance are
 add-ons; the core report needs neither. Mention the omission once, at the end,
 without turning it into an upsell.
 
-## Step 2: Analyse — differences, not totals
+## Step 2: Analyse differences, not totals
 
 A total is a fact. A difference is information.
 
@@ -73,6 +74,12 @@ A total is a fact. A difference is information.
    `replies_tracked` is false, replies are not being collected: say reply rates
    are unmeasured rather than reporting 0%, and lean on clicks and meetings
    booked. Open rate is empty when the org does not track opens.
+10. **Segment quality.** `get-segment-performance` over the same window. Each
+    lead sits in the first segment it matches, so the rows add up to the org;
+    a segment is ranked by win rate only past 20 decided deals, and the
+    `segment:former` row is email to a deleted segment, not a market. Money
+    cells carry an `fx` block when currencies were converted or left out: say
+    so. Skip cleanly on `ADDON_REQUIRED`.
 9. **Hygiene.** Duplicates, orphaned leads, open leads with no next step. These
    are the caveats every other number in the report needs.
 
@@ -82,7 +89,7 @@ Every finding needs a **so what**. Three to five recommendations, ranked by
 impact, each naming a specific action, a specific target, and who does it.
 
 Bad: "Follow-up could be improved."
-Good: "9 hot leads from SaaStr have had no touch in 6 days — the 48-hour window
+Good: "9 hot leads from SaaStr have had no touch in 6 days. The 48-hour window
 is gone. Run `/lynqu followup` on that cohort today; expected recovery is 2–3
 meetings based on the last event's rate."
 
@@ -94,7 +101,7 @@ Every report states its own limits. This is not a disclaimer, it's the part that
 makes the rest trustworthy:
 
 - Which surfaces were unavailable (add-ons, role scope)
-- Data quality problems that distort the numbers — duplicates double-count value,
+- Data quality problems that distort the numbers. Duplicates double-count value,
   leads with no value set are invisible in the forecast
 - Where the sample is too small for the percentage to mean anything. "3 of 4 = 75%
   win rate" is not a win rate
@@ -107,7 +114,7 @@ report after it.
 ## Output format
 
 ```markdown
-# Pipeline Report — {period}
+# Pipeline Report · {period}
 
 **{One-sentence verdict.}**
 
@@ -127,6 +134,9 @@ report after it.
 ## By source
 | Source | Leads | Won | Win rate | Note |
 
+## By segment
+| Segment | Leads | Won | Win rate | First response | Reply rate | Note |
+
 ## By rep
 | Rep | Open | Advanced | Won | Stalled |
 
@@ -137,7 +147,7 @@ report after it.
 | Template or step | Delivered | Reply rate | Booked | Won | Note |
 
 ## Do this week
-1. {Action} — {who} — {expected impact}
+1. {Action} ({who}): {expected impact}
 
 ## Caveats
 {Unavailable surfaces · data quality · small samples.}
@@ -147,11 +157,19 @@ Keep the top of the report to what fits on a phone screen. Depth goes below.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Read-only. Always.** No stage moves, no sends, no tags, no "while I was in
   there". If the report surfaces work, hand it to the skill that owns it.
 - **Never state a number you didn't read.** No extrapolation presented as fact.
 - **Always compare to a baseline.** A number with no comparison isn't a finding.
 - **Flag small samples.** Percentages on fewer than ~10 records get labelled.
+- **Never rank a segment under 20 decided deals.** Report its numbers without a
+  verdict, the way the tool does.
 - **Respect role scope.** An employee's report covers their own leads; a manager's
   covers their departments. Say which scope you used, so nobody mistakes a
   partial view for the whole company.
@@ -200,6 +218,6 @@ headline is that pipeline value is up 12% · then finds that 62% of it is one
 static deal, that 9 hot SaaStr leads have gone 6 days untouched, that the Events
 campaign produces a 41% win rate against outbound's 9% while receiving a fifth of
 the spend, and that 6 duplicate pairs are double-counting €80k · verdict: *"The
-pipeline is up on paper and down in reality — one deal is carrying it, and the
+pipeline is up on paper and down in reality. One deal is carrying it, and the
 channel that actually converts is the one you're underfunding."* Three ranked
 actions, each handed to the skill that owns it. Nothing written.

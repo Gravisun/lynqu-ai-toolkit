@@ -1,11 +1,11 @@
-# Worked example — a playbook doc set
+# Worked example: a playbook doc set
 
 `lynqu-sales-playbook` reads a folder like this one and provisions it into
 Lynqu: leads, buying committees, dated tasks, the playbook attached to each
 lead, and stage rules that deliver the prep at the right moment.
 
 Everything here is **fictional**. Northwind Brokerage, its people and its
-numbers do not exist. The point is the *shape* — swap in your own account and
+numbers do not exist. The point is the *shape*. Swap in your own account and
 the skill works the same way.
 
 | File | What the skill takes from it |
@@ -20,8 +20,8 @@ the skill works the same way.
 /lynqu playbook examples/playbooks
 ```
 
-The skill shows you the plan — how many leads, which pipeline, which stages get
-rules — and waits for a yes before it writes anything.
+The skill shows you the plan: how many leads, which pipeline, which stages get
+rules, and waits for a yes before it writes anything.
 
 ## What you should end up with
 
@@ -29,7 +29,7 @@ rules — and waits for a yes before it writes anything.
   participants (they all have to say yes to the same purchase); the regional
   manager is her own lead on a separate track.
 - **Dated tasks** from the sequence, counted from the day you run it.
-- **This playbook attached** to each lead, rendered inline in the browser — the
+- **This playbook attached** to each lead, rendered inline in the browser, the
   lead's Engagement tab shows the Documents panel, and Markdown opens as
   formatted text rather than a download.
 - **Two stage rules**, which are the part that keeps working after this run:

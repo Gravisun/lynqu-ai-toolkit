@@ -7,7 +7,7 @@ description: Draft and send on-brand sales follow-up emails to Lynqu leads from 
 
 You handle everything **after** the first conversation: the post-meeting recap,
 the deal that went quiet, the proposal nobody has opened, the long nurture until
-timing arrives. This is not cold outreach — there is history, and using it is the
+timing arrives. This is not cold outreach. There is history, and using it is the
 entire job.
 
 Rule that governs the skill: **every follow-up must add something new**. A message
@@ -24,20 +24,20 @@ safe to ignore, and that lesson is permanent.
 
 Never ask the user for what Lynqu already knows.
 
-- **`get-lead`** — stage, score, temperature, value, owner, and the activity
+- **`get-lead`**: stage, score, temperature, value, owner, and the activity
   timeline. **The timeline is your material**: opens, clicks, document views,
   stage history
-- The lead's **notes**, returned with `get-lead` — what was actually said, in
+- The lead's **notes**, returned with `get-lead`: what was actually said, in
   the rep's own words
-- **`list-lead-contact-points`** — what was promised and by whom. An open task
+- **`list-lead-contact-points`**: what was promised and by whom. An open task
   saying *"send the pricing breakdown"* from three weeks ago **is** the follow-up;
   don't write a nurture email around a promise you're still not keeping
-- **`list-lead-documents`** — what was shared, and **whether it was opened**. A
+- **`list-lead-documents`**: what was shared, and **whether it was opened**. A
   proposal opened five times by two different people is a completely different
   email from one never opened at all
-- **`list-quotes`** / **`list-opportunities`** — a live quote changes the message
+- **`list-quotes`** / **`list-opportunities`**: a live quote changes the message
   and its urgency
-- **`get-booking`** / **`list-card-bookings`** — was there a meeting? When?
+- **`get-booking`** / **`list-card-bookings`**: was there a meeting? When?
   Did they show?
 - **`list-outbox`** with the `lead_id`: every email that actually went to this
   person, from anyone on the team or an AI employee, with delivery status,
@@ -45,6 +45,9 @@ Never ask the user for what Lynqu already knows.
   changes the job: they answered, so the next message is an answer, not a
   follow-up. The reply itself was forwarded to the person the email went out
   as; ask them what it said rather than guessing
+- **`list-segments`** when the ask names a market or a cohort ("our DACH
+  leads", "everyone from the Berlin show"): a saved segment is the filter, and
+  `list-leads` with its `segment_id` is the cohort
 
 ## Step 2: Classify the situation
 
@@ -62,20 +65,21 @@ downstream is off.
 | **Replied** | A reply in `list-outbox` since the last send | Answer in their thread | Respond to what they said; no template on top of it |
 
 Two behaviours worth naming: a document opened repeatedly by **someone new** means
-the deal moved to a wider audience — write to that, it's the best signal you'll
+the deal moved to a wider audience. Write to that, it's the best signal you'll
 get. And zero opens on a proposal usually means the wrong person received it, not
 that they said no.
 
 ## Step 3: Write it
 
 Reference something **specific and true** from the history in the first two lines.
-Not "following up on our conversation" — the actual thing: the constraint they
+Not "following up on our conversation". The actual thing: the constraint they
 named, the number they quoted, the deadline they mentioned.
 
 Then: one new piece of value, one clear next step, and a length that respects
-them. Post-meeting recaps run 80–120 words; a nurture touch runs 40–60.
+them. Post-meeting recaps run 60 to 90 words; a nurture touch runs 30 to 50.
+Shorter wins. The test is in the Voice section below.
 
-The exit email matters more than people think. *"I'll stop here — if the badge
+The exit email matters more than people think. *"I'll stop here, if the badge
 backlog comes up again after the spring shows, I'm easy to find"* preserves the
 relationship, and it converts surprisingly often precisely because it isn't asking.
 
@@ -132,7 +136,25 @@ email to their own leads, unless an admin locked the team template. That
 changes future mail nobody reviews one by one, so show the version and get a yes
 first.
 
-## Step 5: Segments
+**Make it a sequence.** When the same cadence should run for every lead that
+reaches a stage, crosses a score or matches a condition ("everyone who books a
+demo gets the recap next day and pricing three days later"), that is a
+follow-up trigger, not a stack of tasks. **`create-followup-trigger`**:
+`condition_type` is `stage` (with `stage_to_id`), `score` (`score_threshold`,
+`score_direction`) or `predicate` (`predicate_text`, e.g. `has_tag('vip')`);
+`template_id` + `delay_minutes` is the first email and `steps` (up to 5
+`{template_id, delay_minutes}`) the rest; `cooldown_days` re-arms it per lead;
+`event_id` or `segment_id` narrows the audience. `scope: team` needs
+`follow_ups.manage`; `scope: mine` is the user's own sequence on their own
+leads, and `overrides_trigger_id` makes it their version of a team one. An
+enabled trigger needs the org's postal address on file, so create it with
+`enabled: false` when that is missing and say who adds the address.
+**`update-followup-trigger`** edits one field at a time; pausing, resuming and
+deleting stay in the app. A sequence sends mail nobody reviews one by one, so
+show the whole thing (condition, every step with its template and delay, the
+audience) and get a yes before creating or enabling it.
+
+## Step 5: Cohorts and segments
 
 For "everyone who went quiet after a demo", the work is the same but the
 discipline is stricter:
@@ -140,32 +162,58 @@ discipline is stricter:
 - Group by scenario, then by what actually happened. One template with a merge
   field is not personalization
 - Cap the batch. Confirm per chunk (`bulk-update-leads` is ≤ 100 anyway)
-- Show three representative drafts, not thirty — the user is approving the
+- Show three representative drafts, not thirty. The user is approving the
   *pattern*
 - Exclude anyone touched in the last 5 days, anyone on another rep's open deal,
   anyone with a live quote in negotiation, and anyone whose reply is sitting in
   `list-outbox`: they already answered
 
+A cohort worth repeating is a segment. If the user keeps asking for the same
+slice (a market, a capture source, an event), propose **`create-segment`**
+(`leads.manage`, managers by default; at most 20 per org) so it becomes a list
+filter, an audience and a report row at once, then scope the sequence to it
+with `segment_id`. Propose; a shared filter is a write.
+
+## Voice
+
+Every draft and every note has to pass one test: would a busy person read it
+as something a colleague typed, not something a tool produced?
+
+- **Short.** A first touch is 40 to 70 words. A recap is 60 to 90. A nurture
+  touch is 30 to 50. A note is three lines. Cut until it hurts, then send.
+- **Plain.** "You mentioned", not "as per our conversation". "Can you", not
+  "would you be open to exploring".
+- **Specific.** One true detail from the record in the first line, or do not
+  send.
+- **One ask**, one line, usually a question. Never "let me know if you have any
+  questions".
+- **Nothing a template would say.** No "I hope this finds you well", "just
+  circling back", "touching base", "leverage", "synergy", "delve",
+  "streamline". No em dashes, no exclamation marks, no bullet lists inside an
+  email.
+- **Subject lines under 40 characters**, said the way you would say it out
+  loud.
+- **Notes read like the rep's shorthand**: what they said, what we owe, what is
+  next, dated. Task titles are the action ("Send the 3-seat pricing by Thu").
+
 ## Output format
 
 ```markdown
-# Follow-Up — {Lead} at {Company}
+# Follow-up: {Lead}, {Company}
 
-**Scenario:** {post-meeting | post-proposal | quiet | no-show | nurture | re-engage | replied}
-**History:** last touch {when, what} · doc opened {n}× by {who} · {n} open promises
-**Template:** {name} ({team | yours}) · reply rate {x}% on {n} delivered | not ranked yet | replies not tracked
+{scenario} · last touch {when} · doc opened {n}x by {who} · {n} open promises
+Template: {name} ({team | yours}) · {x}% replies on {n} delivered | unranked | replies not tracked
 
-## Draft — send {when}
-**Subject:** {under 50 chars}
-{Body.}
+## Draft, send {when}
+Subject: {under 40 chars}
+{Body, 60 to 90 words.}
 
 ## Then
 | # | Day | Angle | Ask |
 
-## Written to Lynqu
-- Sent to {n} leads (approved {timestamp}) · {n} confirmed in the outbox · {n} cancelled by the server
-- {n} promises closed · {n} next steps scheduled
-- {n} stages moved · {n} closed as lost with reasons
+## In Lynqu
+- Sent to {n} (your yes at {time}) · {n} in the outbox · {n} cancelled by the server
+- {n} promises closed · {n} next steps dated · {n} stages moved
 ```
 
 ## Rules and constraints
@@ -212,6 +260,14 @@ discipline is stricter:
   found, and never retry through another route.
 - **Lead already won** → this may be an expansion conversation, which is a
   different message and possibly a different owner. Confirm before writing.
+- **Trigger refused on enable: postal address** → the org has no address on
+  file for the CAN-SPAM footer. Create it with `enabled: false`, and name the
+  admin who adds the address in the app.
+- **Personal sequence refused: cap** → each member may hold only so many of
+  their own; the answer is a team trigger, or retiring one of theirs in the app.
+- **`delete-segment` refused** → a live sequence, rule or variant still targets
+  it; the refusal names them. Re-scope those first, never widen an audience by
+  deleting its filter.
 
 ## Cross-skill integration
 
@@ -223,6 +279,7 @@ discipline is stricter:
 - The whole quiet cohort → `lynqu-lead-management` for the sweep, then follow up
   only the revivable ones
 - Which templates and sequences get replies, team-wide → `lynqu-pipeline-report`
+- Defining or fixing the segments a sequence targets → `lynqu-lead-management`
 
 ## Example
 
@@ -230,7 +287,7 @@ discipline is stricter:
 
 The run: finds 14 · excludes 2 touched by another rep this week and 1 with a quote
 in active negotiation · groups the rest: 6 never opened the follow-up document
-(likely wrong recipient — the draft asks who else should see it), 4 opened it
+(likely wrong recipient, the draft asks who else should see it), 4 opened it
 repeatedly including one by a new address (the draft speaks to a wider audience
 and offers a short session), 1 has an open promise from the rep 19 days old (the
 draft delivers it and apologises once, briefly) · shows three representative

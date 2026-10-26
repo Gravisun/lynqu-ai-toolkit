@@ -1,6 +1,6 @@
 ---
 name: lynqu-outreach
-description: Write and run first-touch outreach to Lynqu leads — sequences, multi-threaded to the committee — sent through your templates on your approval. Requires the Lynqu MCP server.
+description: Write and run first-touch outreach to Lynqu leads (sequences, multi-threaded to the committee) sent through your templates on your approval. Requires the Lynqu MCP server.
 ---
 
 # Lynqu Cold Outreach
@@ -23,19 +23,19 @@ paragraphs of value proposition every time.
 ## Step 1: Earn the right to write
 
 Read the lead first. An email that ignores what Lynqu already knows is worse than
-no email — it proves nobody looked.
+no email. It proves nobody looked.
 
-- **`get-lead`** — role, company, source, score, notes, activity. **How they were
+- **`get-lead`**: role, company, source, score, notes, activity. **How they were
   captured is the single most important input**: someone who scanned your badge
   at a booth is not a cold contact, and treating them like one throws away the
   only warm thing you have
-- The lead's **notes**, returned with `get-lead` — the rep's own words about
+- The lead's **notes**, returned with `get-lead`: the rep's own words about
   the encounter, if there was one
-- **`list-lead-contact-points`** — has anyone already reached out? Two reps
+- **`list-lead-contact-points`**: has anyone already reached out? Two reps
   cold-emailing the same person in one week is a real and embarrassing failure
-- **`get-company`** and **`list-opportunities`** — an existing deal on the account
+- **`get-company`** and **`list-opportunities`**: an existing deal on the account
   changes this from cold outreach to multi-threading, which is a different message
-- **`search-contacts`** — is this person already known to someone here?
+- **`search-contacts`**: is this person already known to someone here?
 - **`list-outbox`** with the `lead_id`: has anyone on the team, or an AI
   employee, already emailed them, and did they reply? A reply means this is no
   longer cold
@@ -60,10 +60,10 @@ One angle per sequence. Not four.
 | Angle | Use when | Opening move |
 |-------|----------|--------------|
 | **Trigger event** | Hiring, funding, expansion, a launch | Name the event, then the consequence you'd expect |
-| **Shared context** | Same event, same community, mutual connection | Lead with the shared thing — it's the reason you're not a stranger |
+| **Shared context** | Same event, same community, mutual connection | Lead with the shared thing. It's the reason you're not a stranger |
 | **Observed symptom** | Something public shows the pain | Describe what you noticed, not what you sell |
 | **Referral** | A named person suggested them | Name them in the first line or it reads as a trick |
-| **Post-capture** | They scanned your badge or filled a form | Reference the conversation. You have permission — use it |
+| **Post-capture** | They scanned your badge or filled a form | Reference the conversation. You have permission. Use it |
 
 The angle must be **verifiable by them**. "I saw you're hiring three field reps"
 survives scrutiny. "I imagine you're struggling with lead capture" does not, and
@@ -71,23 +71,23 @@ it tells them you're guessing.
 
 ## Step 4: Build the sequence
 
-Four to five touches over 2–3 weeks. Every touch must carry something new — a
+Four to five touches over 2–3 weeks. Every touch must carry something new, a
 sequence where step 3 is "just bumping this" teaches people to ignore you.
 
 | # | Day | Job | Length |
 |---|-----|-----|--------|
-| 1 | 0 | The observation and one specific question | 50–90 words |
-| 2 | +3 | New angle, not a bump: a proof point or a peer example | 40–70 |
-| 3 | +7 | Something useful with no ask — a relevant number, a short teardown | 60–100 |
-| 4 | +12 | Direct: name the ask, make it easy to say no | 30–50 |
-| 5 | +20 | Close the loop. "I'll stop here — worth revisiting when {trigger}?" | 25–40 |
+| 1 | 0 | The observation and one specific question | 40 to 70 words |
+| 2 | +3 | New angle, not a bump: a proof point or a peer example | 30 to 60 |
+| 3 | +7 | Something useful with no ask: a relevant number, a short teardown | 50 to 80 |
+| 4 | +12 | Direct: name the ask, make it easy to say no | 25 to 40 |
+| 5 | +20 | Close the loop. "I'll stop here. Worth a look when {trigger}?" | 20 to 35 |
 
-Rules that hold across all of them: subject lines under 50 characters and never
+Rules that hold across all of them: subject lines under 40 characters and never
 clickbait; one CTA per message; no attachments on a first touch; plain text, no
 images; and every message must read as though a person wrote it to *this* person.
 
 **Multi-threading.** If `lynqu-contacts` mapped a committee, the champion and the
-economic buyer get **different messages** — different pain, different length,
+economic buyer get **different messages**: different pain, different length,
 different ask. Sending the champion's email to the VP is how you lose the
 champion. Never send identical copy to two people at the same company.
 
@@ -112,43 +112,68 @@ Show the full sequence, get approval, then:
    the user's own personal one. It answers "queued", and the server can still
    cancel it at dispatch (an opt-out, a reply, a booked meeting), so confirm in
    **`list-outbox`** before reporting it sent
-4. **`add-lead-contact-point`** for every remaining step, dated: *"Touch 2 —
-   peer example — due {date}"*. This is what makes a sequence survive the rep
+4. **`add-lead-contact-point`** for every remaining step, dated: *"Touch 2 (peer example) due {date}"*. This is what makes a sequence survive the rep
    getting busy
 5. **`add-lead-note`** with the angle and the reasoning, so touch 4 doesn't
    contradict touch 1
 6. **`bulk-update-leads`** (≤ 100) to tag the cohort, so the response rate of this
    sequence is measurable later. The template's own reply rate shows up in
    `get-followup-performance` once enough of it has been delivered
+7. **`create-followup-trigger`** when the approved sequence should run on its
+   own for every lead that fits, not just this cohort: the first template plus
+   up to five `steps`, scoped with `segment_id` (a saved segment from
+   `list-segments`) or `event_id` for a post-capture sequence. `scope: team`
+   needs `follow_ups.manage`; `scope: mine` runs on the user's own leads only.
+   Pass `enabled: false` if the org's postal address is not on file yet. This
+   is mail nobody reviews one by one: show every step and get a yes first
 
-Compliance — opt-outs, the 30-day cap, sender identity, physical address — is
+Compliance (opt-outs, the 30-day cap, sender identity, physical address) is
 enforced server-side by Lynqu. Do not try to route around it, and do not promise
 the user a send that the platform will suppress.
+
+## Voice
+
+Every draft and every note has to pass one test: would a busy person read it
+as something a colleague typed, not something a tool produced?
+
+- **Short.** A first touch is 40 to 70 words. A recap is 60 to 90. A nurture
+  touch is 30 to 50. A note is three lines. Cut until it hurts, then send.
+- **Plain.** "You mentioned", not "as per our conversation". "Can you", not
+  "would you be open to exploring".
+- **Specific.** One true detail from the record in the first line, or do not
+  send.
+- **One ask**, one line, usually a question. Never "let me know if you have any
+  questions".
+- **Nothing a template would say.** No "I hope this finds you well", "just
+  circling back", "touching base", "leverage", "synergy", "delve",
+  "streamline". No em dashes, no exclamation marks, no bullet lists inside an
+  email.
+- **Subject lines under 40 characters**, said the way you would say it out
+  loud.
+- **Notes read like the rep's shorthand**: what they said, what we owe, what is
+  next, dated. Task titles are the action ("Send the 3-seat pricing by Thu").
 
 ## Output format
 
 ```markdown
-# Outreach Sequence — {Lead} at {Company}
+# Outreach: {Lead}, {Company}
 
-**Angle:** {trigger | shared context | symptom | referral | post-capture}
-**Why now:** {the verifiable observation}
-**Recommendation:** {send | qualify first | don't send, because …}
+{angle} · why now: {the verifiable observation}
+Recommendation: {send | qualify first | do not send, because ...}
 
-## Touch 1 — day 0
-**Subject:** {under 50 chars}
-{Body. 50–90 words.}
+## Touch 1, day 0
+Subject: {under 40 chars}
+{Body, 40 to 70 words.}
 
-## Touches 2–5
+## Touches 2 to 5
 | # | Day | Angle | Subject | Draft |
 
 ## Multi-thread
-| Person | Role | Their version of the message |
+| Person | Role | Their version |
 
-## Written to Lynqu
-- Template {name} {reused | created} ({team | personal})
-- Touch 1 sent to {n} leads (approved {timestamp})
-- {n} tasks scheduled for touches 2–5
-- Cohort tagged {tag}
+## In Lynqu
+- Template {name} {reused | created} ({team | personal}) · sequence {created | not needed}
+- Touch 1 sent to {n} (your yes at {time}) · {n} tasks for touches 2 to 5 · tagged {tag}
 ```
 
 ## Rules and constraints
@@ -161,7 +186,7 @@ the user a send that the platform will suppress.
   that never happened.
 - **One CTA per message.**
 - **Don't cold-email an existing customer or another rep's open deal.** Check first.
-- **Respect the 5-day rule** — if anyone touched this lead recently, stop.
+- **Respect the 5-day rule**: if anyone touched this lead recently, stop.
 - **Different people get different copy.** Identical emails to two colleagues get
   forwarded to each other, and that's the end of it.
 - **Bulk cap is 100** per `bulk-update-leads` call.
@@ -171,7 +196,7 @@ the user a send that the platform will suppress.
 - **Lead has no email** → say so plainly; don't guess a pattern address. Offer
   LinkedIn/phone as the channel, or route to `lynqu-contacts` to find a real one.
 - **Already contacted recently** → stop and report when and by whom. Suggest
-  `lynqu-sales-followup` instead — this is no longer cold.
+  `lynqu-sales-followup` instead. This is no longer cold.
 - **Send fails or is suppressed** → the recipient may have opted out or hit the
   cap. Report it as a compliance outcome, never as a bug, and never retry.
 - **Team template write denied** → save it as the user's personal template
@@ -180,7 +205,7 @@ the user a send that the platform will suppress.
   workspace; then the paste route is the only one.
 - **Segment larger than 100** → chunk, confirm each chunk, and report progress.
   Never fire 400 sends off one approval.
-- **Thin lead — no notes, no source, no company** → that's not a cold outreach
+- **Thin lead: no notes, no source, no company** → that's not a cold outreach
   problem, it's a data problem. Say so, and offer to enrich or research first.
 
 ## Cross-skill integration
@@ -202,7 +227,7 @@ the user a send that the platform will suppress.
 The run: pulls 14 leads · finds 3 already touched by another rep this week and
 excludes them · notes all 14 were badge-scanned at the booth, so the angle is
 post-capture, not cold · drafts a 5-touch sequence opening *"You mentioned your
-team scans badges into a spreadsheet and re-types them on the flight home —"* ·
+team scans badges into a spreadsheet and re-types them on the flight home..."* ·
 reuses the org's existing "Event follow-up" template · asks for an explicit yes,
 sends touch 1 to the 11 eligible leads, schedules touches 2–5 as dated tasks, and
 tags the cohort `saastr-outreach-w1` so the response rate is measurable.

@@ -1,13 +1,13 @@
 # The Lynqu model
 
 A quick mental model of the objects the MCP tools and skills work with. If you
-understand these seven nouns, every skill in this repo will make sense.
+understand these nouns, every skill in this repo will make sense.
 
 Lynqu runs the full arc: **capture → engage → manage → measure.**
 
 ## Cards
 
-Digital business cards — the entry point. A card holds contact info, social
+Digital business cards, the entry point. A card holds contact info, social
 links, services, a template, and a color palette. Both individuals and teams
 have them. Sharing a card (QR, NFC, link) is how a relationship starts.
 
@@ -17,7 +17,7 @@ have them. Sharing a card (QR, NFC, link) is how a relationship starts.
 ## Contacts
 
 The organization-level shared address book (OrgContacts). When someone shares
-their details back with you — or you scan their card/badge — they land here as a
+their details back with you (or you scan their card/badge) they land here as a
 contact the whole team can search.
 
 ## Leads
@@ -28,6 +28,17 @@ a **temperature** (hot/warm/cold), an owner, tags, and a full **activity
 timeline** (notes, stage changes, follow-ups sent).
 
 Capture turns contacts into leads; management moves them through stages.
+
+## Segments
+
+A **segment** is a named lead filter the whole team shares: market (country,
+locale, industry, size band), capture source, campaign or event, pipeline
+stage, tags, UTM, or a custom field. One definition does four jobs: a
+leads-list filter, the audience of a sequence or automation rule, the audience
+of an A/B test, and a row in the segment report. Segments are ordered, and a
+report counts each lead in the first one it matches, so the rows add up to the
+org. At most 20 per org. Writing one is a **manager+** action by default;
+deleting one is refused while anything live still targets it.
 
 ## Lead Pipelines
 
@@ -56,16 +67,17 @@ lifecycle**: `draft → active → archived → permanently_deleted`. Open-ended
 events close on demand. An event can link to a campaign so captures at the event
 attribute correctly. Every lifecycle change is audit-logged. Creating and
 managing events is an **admin** action by default; managers can compare events
-side by side.
+side by side. A lead scanned without the event picked can be attached to it
+afterwards (`attach-leads-to-event`), which also runs the event's sequences.
 
 ## Supporting objects
 
-- **Departments** — org-chart structure (nestable via `parent_id`), with an
+- **Departments**: org-chart structure (nestable via `parent_id`), with an
   optional manager and contact info.
-- **Employees** — organization members with a role (`admin` / `manager` /
+- **Employees**: organization members with a role (`admin` / `manager` /
   `employee`). Invite, update, remove, or bulk-import from a spreadsheet.
   Membership changes are **admin** actions.
-- **Capture Forms** — public submission forms attached to a campaign at
+- **Capture Forms**: public submission forms attached to a campaign at
   `/c/{token}`.
 - **NFC devices**: physical cards, tags and fobs. Each one points at a digital
   card and can be handed to a teammate without rewriting the tag.
@@ -75,7 +87,12 @@ side by side.
 Emails to leads go out from **follow-up templates**: HTML-purified, with
 mustache tokens, and sent through one CAN-SPAM-compliant pipeline (opt-out,
 unsubscribe header, the org's sender identity). A **sequence** is a follow-up
-trigger with up to five timed steps, one running per lead.
+trigger with up to five timed steps, one running per lead. It fires when a lead
+reaches a stage, crosses a score or matches a predicate, can be scoped to an
+event or a segment, and re-arms after a cooldown. The assistant can create and
+edit sequences (`create-followup-trigger`, `update-followup-trigger`); pausing,
+resuming and deleting one stay in the app, and an enabled sequence needs the
+org's postal address on file.
 
 - **Team and personal.** Team templates and sequences belong to the org; saving
   one needs the follow-ups permission (admins by default). Every member can also
@@ -142,7 +159,7 @@ OAuth flow.
 
 ## Two identifiers to know
 
-Some tools take `organization_user_id` (the membership join-row id — used for
+Some tools take `organization_user_id` (the membership join-row id: used for
 campaign membership and department assignment); others take the underlying
 `user_id` (used for lead assignment). The **`list-team-members`** tool returns
 both, so you never have to guess which one a tool wants.

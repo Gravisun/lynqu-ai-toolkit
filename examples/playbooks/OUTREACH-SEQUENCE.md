@@ -1,4 +1,4 @@
-# Outreach Sequence — Northwind Brokerage
+# Outreach Sequence · Northwind Brokerage
 
 > Fictional example. See [README.md](README.md).
 
@@ -11,7 +11,7 @@ Agents meet people constantly and almost none of it reaches the CRM. We capture
 at the moment of the handshake and carry it through to closed. The card is the
 doorway; the platform is the product.
 
-## Track A — Corporate pilot (Dana, then the committee)
+## Track A · Corporate pilot (Dana, then the committee)
 
 | Touch | Day | Channel | Kind | Purpose |
 | --- | --- | --- | --- | --- |
@@ -20,12 +20,12 @@ doorway; the platform is the product.
 | 3 | 7 | Email | `follow_up` | The 90-day pilot offer, scoped to one region |
 | 4 | 11 | LinkedIn | `other` | Share the capture-rate benchmark |
 | 5 | 14 | Email | `demo` | Offer a 20-minute walkthrough, two time options |
-| 6 | 18 | Email | `follow_up` | Breakup — leave the door open, no guilt |
+| 6 | 18 | Email | `follow_up` | Breakup: leave the door open, no guilt |
 
 LinkedIn touches are `other` tasks, not emails. Lynqu doesn't send LinkedIn; the
 task is the reminder.
 
-## Track B — Regional (Elena)
+## Track B · Regional (Elena)
 
 Shorter. She can buy without anyone's approval, so the sequence gets to the
 trial faster.
@@ -41,4 +41,4 @@ trial faster.
 ## What to A/B test
 
 - Capture-rate benchmark in touch 1 vs. held back to touch 4
-- "Pilot" vs. "trial" for the corporate track — pilot implies procurement
+- "Pilot" vs. "trial" for the corporate track: pilot implies procurement

@@ -1,7 +1,7 @@
 # Contributing to the Lynqu AI Toolkit
 
 Thanks for helping make Lynqu work better with AI assistants. This repo is the
-**client-side** toolkit — Agent Skills and MCP documentation. It contains no
+**client-side** toolkit: Agent Skills and MCP documentation. It contains no
 server code and no secrets.
 
 ## Ground rules
@@ -11,7 +11,7 @@ server code and no secrets.
   need a tool that doesn't exist yet, open an issue rather than referencing a
   tool that will error at call time.
 - **No secrets, ever.** No API keys, tokens, internal URLs, or customer data in
-  commits, examples, or screenshots. The MCP uses OAuth — there is never a
+  commits, examples, or screenshots. The MCP uses OAuth. There is never a
   static token to paste.
 - **Respect the auth model.** Don't document ways to bypass the plan gate, role
   gate, or org policy. Those are product decisions enforced server-side.
@@ -53,5 +53,5 @@ are added, renamed, or removed on the server, update:
 ## Reporting issues
 
 Use the issue templates. For connection problems, include your client, the
-server URL you used, and the exact error — see
+server URL you used, and the exact error: see
 [`docs/mcp/troubleshooting.md`](docs/mcp/troubleshooting.md) first.

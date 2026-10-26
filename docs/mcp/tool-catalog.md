@@ -6,7 +6,7 @@ server's registered tools. When in doubt, ask the server itself: the
 calls to run, and **`explain-feature`** says what any Lynqu feature is and
 whether you can use it.
 
-- **Organization server** (`/mcp/v2`): all categories below, **163 tools**.
+- **Organization server** (`/mcp/v2`): all categories below, **171 tools**.
 - **Personal server** (`/mcp/me`): 10 user-scoped tools, no role gate:
   `how-can-you-help-me`, `explain-feature`, `list-cards`, `get-card`, `create-card`, `update-card`, `get-card-stats`, `get-dashboard-summary`, `get-profile`, `who-am-i`.
 
@@ -89,9 +89,28 @@ Add-on-gated tools are labelled; calling one without the add-on returns an
 | `update-lead-stage` ✍️ | employee | Move a lead to another stage, or mark it won, lost or archived. |
 | `bulk-update-leads` ✍️ | employee | Apply one change to up to 100 leads: stage, temperature, status, tags or owner. Reassigning needs `leads.manage`. |
 | `attach-leads-to-campaign` ✍️ | employee | Attach up to 100 leads to a campaign, or detach them with `campaign_id: null`. Without `campaigns.manage` you may attach only leads you own, to an active or paused campaign you are a member of; the rest are skipped and reported. |
+| `attach-leads-to-event` ✍️ | employee | Attach up to 100 leads to an event (a scan made without the event picked is the usual case), or detach them with `event_id: null`. Only leads you may edit; the rest come back in `unauthorized_skipped`. Attaching runs the event's follow-up triggers, so it can send that event's automated follow-up. The campaign is untouched: that is `attach-leads-to-campaign`. |
 | `list-lead-duplicates` | manager · `leads.manage` | Open duplicate lead pairs awaiting review, with child-record counts so you can pick the survivor. |
 | `merge-leads` ✍️ | employee | Merge a duplicate pair (the winner takes the loser's notes, documents, tasks and activity; the loser is soft-deleted) or dismiss it. Needs edit rights on both leads. Cannot be undone. |
 | `list-lead-views` | employee | Saved lead views visible to you: your own plus the team's shared ones, with their filter config. |
+
+## Segments
+
+A segment is a named, ordered lead filter (market, capture source, campaign,
+event, pipeline, tags, UTM, custom fields) the whole team reuses: as a
+leads-list filter (`list-leads` with `segment_id`), as the audience of a
+sequence or an automation rule, as an A/B test audience and as a report row.
+Targeting matches every segment a lead fits; reports count each lead in the
+FIRST segment it matches, in the org's order, so the rows add up. At most 20
+per org.
+
+| Tool | Role | What it does |
+| --- | --- | --- |
+| `list-segments` | employee | The org's segments with their `definition`, how many live leads match right now (`lead_count`) and what uses each one (`used_by`: sequences, automation rules, template variants). |
+| `create-segment` ✍️ | manager · `leads.manage` | Create a segment from a `definition` (keys are AND-ed, lists OR-ed): capture method, source, origin, status, temperature, campaign, event, stage, tags, country, locale, industry, size band, UTM, capture dates, pipeline, stage rule, placement, score range and up to 5 custom-field tests. |
+| `update-segment` ✍️ | manager · `leads.manage` | Rename, recolor or redefine a segment. A new `definition` REPLACES the old one; sequences, rules and variants scoped to it follow from their next evaluation, and sends already made keep the segment they were counted in. |
+| `delete-segment` ✍️ | manager · `leads.manage` | Delete a segment for good. Refused while a live sequence, automation rule or template variant is scoped to it (the refusal names them), so no audience is silently widened to every lead. |
+| `get-segment-performance` | manager · `analytics.view` | Segments side by side over 30, 90 or 365 days: leads captured, deals won, win rate, won and open value, median hours to first response, emails sent, reply rate, meetings booked. Ranked by win rate once a segment has 20 decided deals; emails to a since-deleted segment land on one `segment:former` row. Needs the Analytics add-on. |
 
 ## Pipelines
 
@@ -193,6 +212,8 @@ Add-on-gated tools are labelled; calling one without the add-on returns an
 | `list-followup-templates` | employee | Templates you can see: team templates, your personal ones and AI employees' proposals, with owner, lock and override fields. `scope`: all, team, mine, or `member:{id}` for a teammate you may view. |
 | `create-followup-template` ✍️ | employee | Create a template. `scope: mine` (any member, unless an admin switched personal templates off) is used only on your own leads; with `overrides_template_id` it replaces that team template on your leads unless the team one is locked. `scope: team` needs `follow_ups.manage`. |
 | `send-followup-now` ✍️ | employee | Send one template to one lead you can edit. Only team templates and your own personal ones are accepted, never an AI proposal. The server can still cancel the send at dispatch (opt-out, a recent reply, a booked meeting, a closed or paused lead). The same lead and template are refused within 10 minutes. |
+| `create-followup-trigger` ✍️ | employee | Create a sequence: a trigger that fires when a lead reaches a stage (`stage_to_id`), crosses a score (`score_threshold`, `score_direction`) or matches a sandboxed `predicate_text`, then sends `template_id` after `delay_minutes` and up to 5 more `steps`. `cooldown_days` re-arms it per lead; `event_id` and `segment_id` scope it. `enabled` needs the org's postal address on file, so pass `enabled: false` to draft one before that. `scope: team` needs `follow_ups.manage`; `scope: mine` is your own sequence for your own leads (capped per member), and `overrides_trigger_id` makes it your version of a team one. `is_locked` stops members making their own. |
+| `update-followup-trigger` ✍️ | employee | Edit a sequence: pass `trigger_id` and only the fields to change (same shape as create; `steps: null` drops the extra steps). A team trigger needs `follow_ups.manage`; a personal one belongs to its owner. Pausing, resuming and deleting stay in the app. |
 | `get-followup-performance` | employee | Sent, delivered, opened, clicked, replied, booked and won, with rates, grouped by template, sequence, step, member or AI employee. Reply rate ranks a row once it has 20 delivered; `replies_tracked: false` means replies are not being collected. `scope` is `me` by default; team and member need manager or admin. |
 | `list-outbox` | employee | Emails the org sent (follow-ups, ticket, booking and quote mail) with delivery status and engagement, plus the replies that came back (`source: reply`). `scope` is `mine` by default; member, all, agents and agent need manager or admin. No message bodies. |
 
@@ -382,8 +403,8 @@ primes the assistant with how Lynqu works.
 - **`organization_user_id` vs `user_id`**: campaign membership and department
   assignment take the membership join-row id; lead assignment takes the
   underlying user id. `list-team-members` returns both.
-- **Bulk cap**: `bulk-update-leads` and `attach-leads-to-campaign` handle up to
-  100 leads per call.
+- **Bulk cap**: `bulk-update-leads`, `attach-leads-to-campaign` and
+  `attach-leads-to-event` handle up to 100 leads per call.
 - **Validated transitions**: campaign status and event lifecycle changes are
   validated and audit-logged server-side.
 - **Destructive tools say so.** `delete-*` and `merge-*` tools cannot be undone
@@ -392,7 +413,9 @@ primes the assistant with how Lynqu works.
 - **Personal follow-ups.** A member's personal version of a team template or
   sequence replaces the team one on that member's own leads, unless an admin
   locked it. The substitution happens when an automated email is sent; a manual
-  `send-followup-now` sends exactly the template you picked.
+  `send-followup-now` sends exactly the template you picked. Sequences are
+  created and edited with `create-followup-trigger` and
+  `update-followup-trigger`; pausing, resuming or deleting one stays in the app.
 - **Replies.** When reply tracking is on, a human reply (not an auto-reply)
   stops the lead's scheduled automated follow-ups, lands on the lead's timeline
   and in `list-outbox`, and is forwarded to the person the email went out as.
@@ -400,4 +423,5 @@ primes the assistant with how Lynqu works.
   `get-followup-performance` reports which through `replies_tracked`.
 - **Things with no tool on purpose**: sending, accepting or declining a quote;
   validating a ticket at the door; running an AI Studio recipe; picking up a
-  handoff; an AI employee's guardrail settings. Those stay in the app.
+  handoff; an AI employee's guardrail settings; pausing or deleting a sequence.
+  Those stay in the app.

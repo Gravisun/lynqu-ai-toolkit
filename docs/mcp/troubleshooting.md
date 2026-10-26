@@ -6,11 +6,19 @@ Most connection problems fall into a few buckets. Work top to bottom.
 
 - **Check the URL exactly.** Organization is `https://api.lynqu.com/mcp/v2`,
   personal is `https://api.lynqu.com/mcp/me`. The MCP lives at the **domain
-  root** — not under an `/api` or `/v1` path. A URL like
+  root**, not under an `/api` or `/v1` path. A URL like
   `https://api.lynqu.com/v1/mcp/v2` will 404.
 - **Use `https://`.** The server only speaks HTTPS.
 - **Pick the right server.** Org tools (leads, campaigns, events) only exist on
   `/mcp/v2`. If you connected to `/mcp/me` you'll only see card/profile tools.
+- **Codex only, and no sign-in page ever opens.** Codex refuses an
+  authorization endpoint on a different origin from the token endpoint unless
+  the server advertises issuer-bound callbacks (RFC 9207). Lynqu does. A server
+  whose `/.well-known/oauth-authorization-server` answer lacks
+  `authorization_response_iss_parameter_supported` is an older deployment;
+  Claude connects to the same server because it does not enforce that check.
+- **ChatGPT cannot find "Add custom MCP server".** Developer mode is off, or
+  your plan does not include it (Free) or a workspace admin disabled it.
 
 ## OAuth fails / "couldn't register" / stuck on the sign-in page
 
@@ -19,8 +27,7 @@ Most connection problems fall into a few buckets. Work top to bottom.
   launches aren't blocked.
 - If sign-in succeeds but the client still says unauthorized, **remove the
   connector and re-add it** so it re-runs discovery and registration cleanly.
-- Corporate networks sometimes block the `.well-known` discovery endpoints —
-  try from an unrestricted network to isolate this.
+- Corporate networks sometimes block the `.well-known` discovery endpoints. Try from an unrestricted network to isolate this.
 
 ## Tools appear but every call returns an upgrade prompt
 
@@ -49,7 +56,7 @@ cards.
 ## Only some tools show up in my client
 
 A few clients only read the first page of a paginated tool list. The Lynqu
-server pins all tools onto a single page specifically to avoid this — if you
+server pins all tools onto a single page specifically to avoid this. If you
 still see a truncated list, update your MCP client to a recent version.
 
 ## Wrong identifier errors on assignment
@@ -57,10 +64,10 @@ still see a truncated list, update your MCP client to a recent version.
 - `assign-lead` wants a **`user_id`**.
 - `add-campaign-member` and `assign-user-to-department` want an
   **`organization_user_id`**.
-- Call `list-team-members` first — it returns both ids for every member.
+- Call `list-team-members` first. It returns both ids for every member.
 
 ## Still stuck?
 
 Open an issue with: your client + version, the exact server URL you entered, the
 tool you called, and the verbatim error. Run `who-am-i` and include its output
-(it's just your auth context — no secrets).
+(it's just your auth context, no secrets).

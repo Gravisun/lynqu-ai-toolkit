@@ -14,7 +14,7 @@ The trigger / situation.
 
 **MCP tools it would use**
 List the tools from `docs/mcp/tool-catalog.md` it would call. If you need a tool
-that doesn't exist yet, say so — that's a server-side change, not a skill.
+that doesn't exist yet, say so. That's a server-side change, not a skill.
 
 **Example prompt**
 How a user would invoke it in plain language.

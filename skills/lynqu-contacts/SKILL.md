@@ -1,6 +1,6 @@
 ---
 name: lynqu-contacts
-description: Map the buying committee on an account — economic buyer, champion, blocker — and write it into Lynqu as contacts and participants. Requires the Lynqu MCP server.
+description: Map the buying committee on an account (economic buyer, champion, blocker) and write it into Lynqu as contacts and participants. Requires the Lynqu MCP server.
 ---
 
 # Lynqu Buying Committee Mapping
@@ -10,8 +10,8 @@ are lost to org charts far more often than to product gaps: the champion loves
 it, nobody asked the person who signs, and the deal dies in a quarter-end
 review nobody told you about.
 
-The output is a mapped committee written to the account — contacts on the company
-roster, participants on the lead, one designated primary — so the next person to
+The output is a mapped committee written to the account: contacts on the company
+roster, participants on the lead, one designated primary, so the next person to
 touch this deal inherits the map instead of rediscovering it.
 
 ## Invocation
@@ -24,14 +24,14 @@ touch this deal inherits the map instead of rediscovering it.
 
 Someone on the team has probably met these people. Check before researching.
 
-- **`list-contacts`** / **`search-contacts`** — the shared org address book. Match
+- **`list-contacts`** / **`search-contacts`**: the shared org address book. Match
   on email domain *and* company name; the same person appears under both
   "Acme" and "Acme Logistics Ltd"
-- **`get-company`** + **`list-companies`** — is there a company record, and what
+- **`get-company`** + **`list-companies`**: is there a company record, and what
   hangs off it?
-- **`get-lead`** — existing participants, notes, activity. The champion is often
+- **`get-lead`**: existing participants, notes, activity. The champion is often
   already there, unlabelled
-- **`list-leads`** filtered by company — multiple leads on one account usually
+- **`list-leads`** filtered by company: multiple leads on one account usually
   means multiple threads into the same committee
 
 Report what already exists before adding anything. "Three of the five people you
@@ -62,7 +62,7 @@ team page, conference speaker lists, published posts, job postings that name the
 hiring manager, press quotes.
 
 **Never guess an email address.** Deriving `first.last@company.com` from a pattern
-is fabrication with a plausible shape — it bounces, it hurts sender reputation,
+is fabrication with a plausible shape: it bounces, it hurts sender reputation,
 and in Lynqu it creates a contact that looks verified and isn't. Leave the field
 blank and mark the source as unverified. A named person with no email is
 genuinely useful; a wrong email is worse than nothing.
@@ -71,35 +71,35 @@ genuinely useful; a wrong email is worse than nothing.
 
 Show the map, get a yes, then:
 
-1. **Company first** — `create-company` (or `update-company`) so the contacts have
+1. **Company first**: `create-company` (or `update-company`) so the contacts have
    a parent. A contact with no company is an orphan the roster can't group.
-2. **Contacts** — `create-lead` is *not* the tool here. People who are part of a
+2. **Contacts**: `create-lead` is *not* the tool here. People who are part of a
    committee but aren't the deal owner belong on the company roster; only
    promote someone to their own lead when they're genuinely a separate pursuit.
-3. **Participants on the lead** — attach each committee member to the deal, with
+3. **Participants on the lead**: attach each committee member to the deal, with
    their role. Cap is 15 per lead, which is far more than any real committee.
-4. **Designate the primary.** Exactly one — the person the deal is actually
+4. **Designate the primary.** Exactly one. The person the deal is actually
    *with*. This is the field the rest of Lynqu keys off, so an unset primary
    quietly degrades the lead detail, the roster chips and the follow-up defaults.
-5. **The map as a note** — `add-lead-note` with the committee table, the reporting
+5. **The map as a note**: `add-lead-note` with the committee table, the reporting
    lines, the anchors and the sources. This is what makes the map survive a
    handover.
-6. **Tasks for the gaps** — `add-lead-contact-point` per missing role: *"Ask the
+6. **Tasks for the gaps**: `add-lead-contact-point` per missing role: *"Ask the
    champion who signs off on tooling spend"*, due-dated. An unmapped economic
    buyer is the highest-priority task on any deal.
 
 ## Output format
 
 ```markdown
-# Buying Committee — {Company}
+# Buying Committee · {Company}
 
 **Coverage: {n}/5 roles mapped · biggest gap: {role}**
 
 | Person | Title | Role | Anchor | Status |
 |--------|-------|------|--------|--------|
 | … | … | Economic buyer | "Posted about badge scanning at trade shows" | Already in contacts |
-| … | … | Champion | … | New — added |
-| — | — | Technical evaluator | — | **Gap** |
+| … | … | Champion | … | New: added |
+| · | · | Technical evaluator | · | **Gap** |
 
 ## Reporting lines
 {What reports to whom, where visible. Say "unclear" rather than inventing it.}
@@ -116,6 +116,12 @@ Warm intro via {who} · shared event {name} · existing relationship {rep}
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Search before creating.** Duplicate contacts fragment an account's history
   across two records and nobody notices for months.
 - **Never invent an email, phone number or reporting line.** Unverified is a
@@ -124,10 +130,10 @@ Warm intro via {who} · shared event {name} · existing relationship {rep}
 - **Roles, not just names.** A list of five people without roles is Step 1 output,
   not a committee map.
 - **A gap is a finding.** "No economic buyer identified" is the most valuable line
-  this skill can produce — surface it loudly, don't bury it.
+  this skill can produce. Surface it loudly, don't bury it.
 - **Respect visibility.** You can only see leads and contacts your role allows. If
   a person appears on someone else's lead you can't read, say that a colleague
-  has the relationship — that's the useful fact, and it isn't a permission error.
+  has the relationship. That's the useful fact, and it isn't a permission error.
 
 ## Error handling
 
@@ -157,7 +163,7 @@ Warm intro via {who} · shared event {name} · existing relationship {rep}
 
 ## Example
 
-> "/lynqu contacts Acme Logistics — we've been talking to their field ops manager
+> "/lynqu contacts Acme Logistics, we've been talking to their field ops manager
 > for six weeks and nothing's moving."
 
 The run: finds the ops manager already a contact and the lead's only participant ·
@@ -165,5 +171,5 @@ identifies a VP Field Operations (economic buyer, unmapped) and a RevOps lead wh
 posted about CRM consolidation (technical evaluator, unmapped) · flags that the
 six weeks of no movement and the missing economic buyer are the same fact ·
 writes both as participants, keeps the ops manager as champion, sets primary, and
-opens *"Ask {champion} for an intro to {VP} — frame as a 15-minute validation,
+opens *"Ask {champion} for an intro to {VP}, frame as a 15-minute validation,
 not a pitch"* due in two days.

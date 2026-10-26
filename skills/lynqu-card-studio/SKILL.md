@@ -1,6 +1,6 @@
 ---
 name: lynqu-card-studio
-description: Create and update Lynqu digital business cards — contact info, social links, services, template, palette — and check card views, scans and shares. Requires the Lynqu MCP server connected.
+description: Create and update Lynqu digital business cards (contact info, social links, services, template, palette) and check card views, scans and shares. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Card Studio
@@ -12,7 +12,7 @@ Everything else in this suite operates on leads that a card created.
 
 Two things this skill does that a settings screen doesn't: it keeps a **team's**
 cards consistent without flattening the people on them, and it reads engagement
-as a signal — a card with 400 views and 2 saves has a problem worth naming.
+as a signal. A card with 400 views and 2 saves has a problem worth naming.
 
 ## Invocation
 
@@ -28,16 +28,16 @@ as a signal — a card with 400 views and 2 saves has a problem worth naming.
 | **Organization** (`/mcp/v2`) | Org-managed cards across the team | Team rollout, brand consistency, org card stats |
 
 If a user asks about "my card" and only the org server is connected, you can
-still reach their own card through the org — but say which set you're looking at.
+still reach their own card through the org, but say which set you're looking at.
 Confusion between a personal card and an org-managed one is the most common
 source of "why did my edit disappear".
 
 ## Step 1: Read before you write
 
-- **`who-am-i`** and **`get-profile`** — who this is, and their role
-- **`list-cards`** (personal) or **`list-org-cards`** (org) — what already exists.
+- **`who-am-i`** and **`get-profile`**: who this is, and their role
+- **`list-cards`** (personal) or **`list-org-cards`** (org): what already exists.
   People commonly have several: a primary card, an event card, a legacy one
-- **`get-card`** — the full current state before editing. Never patch a card you
+- **`get-card`**: the full current state before editing. Never patch a card you
   haven't read; you'll wipe a section someone else set
 
 Show the user what exists before changing anything. "You have three cards, this
@@ -56,7 +56,7 @@ What makes a card work, roughly in order of impact:
 | **One-line description** | What you do *for whom*. Not a slogan |
 | **Contact methods** | The ones you actually answer. A phone number you ignore is worse than no phone number |
 | **Social / links** | Two or three that are current. A dead link is a credibility leak |
-| **Services** | What you can help with — this is what makes a card useful weeks later |
+| **Services** | What you can help with. This is what makes a card useful weeks later |
 | **Template and palette** | Consistent with the brand, readable at arm's length on a phone in bad lighting |
 
 Confirm before overwriting anything populated. Cards carry personal information
@@ -70,7 +70,7 @@ get saved less; unconstrained cards make the company look like eight companies.
 
 - Hold **template, palette and company-level links** consistent
 - Keep **photo, title, personal line and direct contact** individual
-- **`list-org-cards`** to audit — find the missing photos, stale titles, dead
+- **`list-org-cards`** to audit: find the missing photos, stale titles, dead
   links and people who never finished setup
 - Report the audit as a list the manager can act on. Don't mass-edit people's
   personal fields without their say-so; that's a real trust boundary and it's
@@ -78,7 +78,7 @@ get saved less; unconstrained cards make the company look like eight companies.
 
 ## Step 4: Read the engagement
 
-**`get-card-stats`** — views, scans, shares, saves. And **`get-dashboard-summary`**
+**`get-card-stats`**: views, scans, shares, saves. And **`get-dashboard-summary`**
 for how card activity feeds the wider funnel.
 
 Read the *ratios*, not the totals:
@@ -91,24 +91,24 @@ Read the *ratios*, not the totals:
 | Flat everything | The card isn't in circulation | This is a distribution problem, not a card problem |
 
 The most useful sentence this skill produces is usually about the gap between
-attention and conversion — a card getting attention that produces nothing is a
+attention and conversion. A card getting attention that produces nothing is a
 plumbing problem, and naming it is the value.
 
 ## Step 5: Connect it to the pipeline
 
 A card that generates interest and captures nothing is a wasted surface.
 
-- **Booking** — a booking link on the card turns interest into a meeting while
+- **Booking**: a booking link on the card turns interest into a meeting while
   the person is still holding their phone. `list-booking-services` and
   `manage-booking-settings` set it up
-- **Capture** — `list-capture-forms` for events, so a scan becomes a lead
-- **Attribution** — cards used at an event should feed that event's campaign, or
+- **Capture**: `list-capture-forms` for events, so a scan becomes a lead
+- **Attribution**: cards used at an event should feed that event's campaign, or
   the ROI question is unanswerable later
 
 ## Output format
 
 ```markdown
-# Card — {name}
+# Card · {name}
 
 **{n} cards · primary: {name} · server: {personal | organization}**
 
@@ -120,7 +120,7 @@ A card that generates interest and captures nothing is a wasted surface.
 ## Changed
 | Field | From | To |
 
-## Engagement — {period}
+## Engagement · {period}
 | Views | Scans | Shares | Saves | Save rate |
 {One sentence on what the ratio says.}
 
@@ -133,6 +133,12 @@ A card that generates interest and captures nothing is a wasted surface.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Read the card before updating it.** Blind patches wipe sections.
 - **Confirm before overwriting populated fields**, always.
 - **Never edit someone else's personal fields** (photo, title, direct contact)
@@ -152,7 +158,7 @@ A card that generates interest and captures nothing is a wasted surface.
 - **Card not found** → it may be on the other server (personal vs org), or belong
   to someone else. Say which set you searched.
 - **Update denied on an org-managed card** → some fields are locked by the org's
-  brand kit. Report which, and who can change them — this is a policy, not a bug.
+  brand kit. Report which, and who can change them. This is a policy, not a bug.
 - **Stats empty** → the card may be new, unpublished, or never shared. Check
   published state before drawing conclusions from zeros.
 - **Personal server only, org features requested** → team rollout and org card
@@ -171,10 +177,10 @@ A card that generates interest and captures nothing is a wasted surface.
 
 ## Example
 
-> "/lynqu card — how is my card actually doing?"
+> "/lynqu card, how is my card actually doing?"
 
 The run: finds three cards, identifies the primary · pulls stats: 412 views, 380
-scans, 11 saves over 90 days · names the problem plainly — *"people are scanning
+scans, 11 saves over 90 days · names the problem plainly: *"people are scanning
 it and looking, then not keeping it. That's a content gap, not a distribution
 one"* · notes the card has no services listed and a one-line description that says
 "Sales at Gravisun", which gives nobody a reason to save it · suggests three

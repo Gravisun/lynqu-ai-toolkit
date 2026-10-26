@@ -1,6 +1,6 @@
 ---
 name: lynqu-deal-desk
-description: Price a Lynqu deal and draft the quote — browse the price book, put priced lines on a deal, then produce a draft quote for a human to send. Requires the Lynqu MCP server connected.
+description: Price a Lynqu deal and draft the quote. Browse the price book, put priced lines on a deal, then produce a draft quote for a human to send. Requires the Lynqu MCP server connected.
 ---
 
 # Lynqu Deal Desk
@@ -16,7 +16,7 @@ Two rules of the object model that trip everyone up, stated once:
    Add, remove or reprice the lines and the value follows. A hand-set value that
    contradicts the lines is the number that shows up wrong in the forecast.
 2. **A price-book item can only go on a deal in the same currency.** A EUR deal
-   takes EUR catalog items. Mismatches are refused, and correctly so — silently
+   takes EUR catalog items. Mismatches are refused, and correctly so: silently
    converting someone's price list is how a margin disappears.
 
 ## Invocation
@@ -28,17 +28,17 @@ Two rules of the object model that trip everyone up, stated once:
 
 ## Step 1: Find the deal
 
-- **`list-opportunities`** / **`get-opportunity`** — the deals on the account.
+- **`list-opportunities`** / **`get-opportunity`**: the deals on the account.
   One lead can carry several: a renewal and an expansion are separate deals with
   separate values, and merging them in your head produces a quote nobody can
   approve
-- **`get-lead`** — stage, score, the notes that say what was actually agreed
-- **`list-quotes`** / **`get-quote`** — **read this before drafting anything.** A
+- **`get-lead`**: stage, score, the notes that say what was actually agreed
+- **`list-quotes`** / **`get-quote`**: **read this before drafting anything.** A
   quote already in flight means you're revising, not creating, and a second
   independent quote for the same scope is a real problem in front of a customer
-- **`get-company`** — who's actually buying, for the quote header
+- **`get-company`**: who's actually buying, for the quote header
 
-If no opportunity exists yet, **`create-opportunity`** on the lead — but only when
+If no opportunity exists yet, **`create-opportunity`** on the lead, but only when
 scope is genuinely understood. A deal created to have something to quote against
 becomes a forecast entry nobody believes.
 
@@ -60,26 +60,26 @@ Two clean-ups belong here, before any pricing, and each needs its own yes:
 The most expensive failure in this skill is a clean quote for the wrong thing.
 
 Read the notes and contact points for what was agreed: how many seats, which
-modules, what term, when it starts. Where the record is ambiguous — **ask**. One
+modules, what term, when it starts. Where the record is ambiguous, **ask**. One
 question now beats a revision cycle and a credibility hit later.
 
 Explicitly confirm:
 
 - **Quantity** and what it's measured in (seats? locations? events?)
-- **Term** — monthly, annual, multi-year
-- **Start date** — especially if it's tied to an event or a renewal
-- **Currency** — the deal's currency, which the catalog items must match
+- **Term**: monthly, annual, multi-year
+- **Start date**: especially if it's tied to an event or a renewal
+- **Currency**: the deal's currency, which the catalog items must match
 - **Anything already promised** in a conversation. A discount mentioned verbally
   and missing from the quote is a fight in week two
 
 ## Step 3: Build the lines from the price book
 
-- **`list-catalog-items`** — the org's price book. Filter to the deal's currency
-- **`manage-deal-line-item`** — add each line: item, quantity, and any agreed
+- **`list-catalog-items`**: the org's price book. Filter to the deal's currency
+- **`manage-deal-line-item`**: add each line: item, quantity, and any agreed
   discount. Name and price are snapshotted onto the line at add time, so a later
   price-book change doesn't silently rewrite a sent quote
 - Re-read **`get-opportunity`** afterwards and confirm the rolled-up value is what
-  you expect. If it isn't, a line is wrong — don't "fix" it by overriding the value
+  you expect. If it isn't, a line is wrong. Don't "fix" it by overriding the value
 
 **Discounts.** Apply only what's been agreed and record why on the line or in a
 note. An unexplained discount is a precedent: the next deal in that segment gets
@@ -91,10 +91,10 @@ territory in most orgs) or the deal needs custom pricing that a human has to own
 
 ## Step 4: Draft the quote
 
-- **`manage-quote`** — create or revise the draft: line items, validity period,
+- **`manage-quote`**: create or revise the draft: line items, validity period,
   terms, the customer's details
 - Versioning is handled server-side. A revision supersedes its predecessor rather
-  than overwriting it, so the history of what was offered survives — don't try to
+  than overwriting it, so the history of what was offered survives. Don't try to
   edit a sent quote in place
 - Once a quote is **sent**, its contents are frozen. Changes mean a new version.
   That's a feature; treat it as one
@@ -104,24 +104,24 @@ territory in most orgs) or the deal needs custom pricing that a human has to own
 
 **Sending, accepting, declining and revising a sent quote are deliberately not
 available here.** They email customers and move deal value. Point the user at the
-Lynqu app — this is human-in-the-loop by design, not a missing feature, and
+Lynqu app: this is human-in-the-loop by design, not a missing feature, and
 saying that clearly is better than apologising for it.
 
 ## Step 5: Set up what happens next
 
-- **`add-lead-contact-point`** — a dated follow-up on the quote. Quotes go stale
+- **`add-lead-contact-point`**: a dated follow-up on the quote. Quotes go stale
   in silence; a task two days after sending is what converts one
-- **`add-lead-note`** — the pricing rationale: what was agreed, what was
+- **`add-lead-note`**: the pricing rationale: what was agreed, what was
   discounted and why, what was deliberately excluded
 - **`update-lead-stage`** if the deal genuinely moved to a proposal stage
-- **Forecast category** — set it honestly. `get-forecast` is only as good as the
+- **Forecast category**: set it honestly. `get-forecast` is only as good as the
   categories under it, and an optimistic commit is a promise someone else has to
   keep
 
 ## Output format
 
 ```markdown
-# Quote Draft — {Company}
+# Quote Draft · {Company}
 
 **Deal:** {name} · {currency} · {term} · starts {date}
 **Status:** draft v{n} {(revises v{n-1})}
@@ -131,7 +131,7 @@ saying that clearly is better than apologising for it.
 |------|-----|------|----------|------------|
 | … | 25 | €12.00 | 10% (agreed on call, 3 Aug) | €270.00 |
 
-**Deal value: {total}** — the sum of the lines, rolled up automatically.
+**Deal value: {total}**. The sum of the lines, rolled up automatically.
 
 ## Scope confirmed
 {Quantity, term, start, currency, and anything promised verbally.}
@@ -149,6 +149,12 @@ saying that clearly is better than apologising for it.
 
 ## Rules and constraints
 
+- **Write like a person.** Anything a human reads from this skill (a draft, a
+  note, a task title) is short, plain and specific: short sentences, one ask,
+  the detail that proves you looked. No warm-up lines, no "circling back", no
+  "leverage", no em dashes. A note is three lines of what happened and what is
+  next, not a report. A task title is the action ("Send the 3-seat pricing by
+  Thu"), not a category.
 - **Never send, accept, decline or revise a sent quote.** No tool here does it,
   and that's the design.
 - **Never set a deal's value directly.** Price the lines; the value follows.
@@ -198,7 +204,7 @@ saying that clearly is better than apologising for it.
 
 ## Example
 
-> "/lynqu proposal Acme — they want 25 seats plus the events module, annual, and
+> "/lynqu proposal Acme: they want 25 seats plus the events module, annual, and
 > I promised them 10% on the call."
 
 The run: finds one open opportunity in EUR · reads `list-quotes` and confirms
@@ -208,5 +214,5 @@ book to EUR, adds 25 seats and the events module with the 10% discount recorded
 against the agreed call · re-reads the deal and confirms the roll-up · drafts
 quote v1 with a 30-day validity, notes the pricing rationale, moves the deal to
 Proposal, sets the forecast category to best case rather than commit, and opens
-*"Follow up on the quote"* for two days after sending — then hands it over:
+*"Follow up on the quote"* for two days after sending, then hands it over:
 **"Draft is ready in Lynqu. Sending is yours."**

@@ -1,6 +1,6 @@
 # Connect the Lynqu MCP server
 
-The Lynqu MCP server is **hosted by Lynqu**. You don't run anything — you point
+The Lynqu MCP server is **hosted by Lynqu**. You don't run anything. You point
 your AI client at a URL and sign in with your Lynqu account over OAuth 2.1.
 There is **no API key or token to copy**.
 
@@ -45,10 +45,43 @@ Claude will open the OAuth consent page on first use.
 
 ### ChatGPT
 
-1. In ChatGPT, open **Settings → Connectors**.
-2. Choose **Add custom connector**.
-3. Paste `https://api.lynqu.com/mcp/v2` as the MCP server URL.
-4. Sign in and approve access on the Lynqu page that opens.
+Custom MCP servers in ChatGPT need **Developer mode**, which is available on
+Plus, Pro, Business, Enterprise and Edu plans (a workspace admin can switch it
+off).
+
+1. Open [chatgpt.com/plugins](https://chatgpt.com/plugins) and choose **+** →
+   **Add custom MCP server**. On older builds the same screen is
+   **Settings → Connectors → Advanced → Developer mode → Create**.
+2. Name it `Lynqu`, paste `https://api.lynqu.com/mcp/v2` (or `/mcp/me`) as the
+   endpoint URL, and keep authentication on **OAuth**.
+3. Tick the acknowledgement and create it. ChatGPT registers itself with Lynqu
+   and opens the Lynqu sign-in page; approve access there.
+4. In a chat, type `@Lynqu` (or pick it from the **+** menu) and ask.
+
+ChatGPT does not load Agent Skills, so you get the tools without the recipes in
+this repo. The server's `how-can-you-help-me` tool does the routing a skill
+would, so start a vague request there.
+
+### Codex (OpenAI)
+
+**Codex app:** **Settings → MCP servers → Add server**, transport **Streamable
+HTTP**, URL `https://api.lynqu.com/mcp/v2`, no bearer token. Restart the server
+from its row, then press **Authenticate**. Codex opens the Lynqu sign-in page
+and listens on a loopback port for the callback.
+
+**Codex CLI:**
+
+```bash
+codex mcp add lynqu --url https://api.lynqu.com/mcp/v2
+codex mcp login lynqu
+```
+
+Codex checks the authorization-server metadata more strictly than most
+clients. Lynqu's consent page is on `lynqu.com` while its token endpoint is on
+`api.lynqu.com`, so the server advertises issuer-bound callbacks (RFC 9207)
+for exactly this case. If Codex says "Couldn't connect to MCP server" before
+any sign-in page opens, the server you reached predates that change; see
+[`troubleshooting.md`](troubleshooting.md).
 
 ### Cursor
 
@@ -71,11 +104,11 @@ Or use [`../client-configs/vscode.json`](../client-configs/vscode.json) as your
 ### Any other MCP client
 
 1. Add a new **remote (HTTP / streamable)** MCP server.
-2. Use the Lynqu URL — your client handles the OAuth sign-in.
+2. Use the Lynqu URL. Your client handles the OAuth sign-in.
 3. Approve access on the Lynqu page when prompted.
 
 For clients that only speak **stdio**, bridge with
-[`mcp-remote`](https://www.npmjs.com/package/mcp-remote) — see
+[`mcp-remote`](https://www.npmjs.com/package/mcp-remote), see
 [`../client-configs/claude-desktop.json`](../client-configs/claude-desktop.json).
 
 ## After connecting
